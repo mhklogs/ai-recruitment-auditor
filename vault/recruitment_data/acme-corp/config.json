@@ -1,0 +1,15 @@
+{
+  "company_name": "Acme Corp",
+  "industry": "Enterprise SaaS",
+  "assessment_protocol": "PROCTORED_V3",
+  "fraud_threshold": {
+    "max_tab_switches": 1,
+    "max_bulk_pastes": 0,
+    "min_typing_authenticity_pct": 70
+  },
+  "exam_config": {
+    "time_limit_minutes": 45,
+    "question_count": 6,
+    "types": ["mcq", "visual", "audio"]
+  }
+}

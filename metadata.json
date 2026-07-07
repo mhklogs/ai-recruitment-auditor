@@ -1,0 +1,6 @@
+{
+  "name": "AI Recruitment Auditor",
+  "description": "Enterprise-grade recruiting assessment and behavioural telemetry auditor that evaluates candidate authentic capability and integrity risks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
