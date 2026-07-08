@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, Plus, Trash2, CheckCircle2, XCircle, Clock, TrendingUp, FileText, Users, AlertTriangle, ChevronDown } from "lucide-react";
+import { ShieldCheck, Plus, Trash2, CheckCircle2, XCircle, Clock, TrendingUp, FileText, Users, AlertTriangle, ChevronDown, X } from "lucide-react";
 
 interface Request {
   id: string;
@@ -50,6 +50,32 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
   const [hireForm, setHireForm] = useState({ candidateName: "", role: "", status: "Pending" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  // Custom plan proposal states
+  const [showCustomPlanForm, setShowCustomPlanForm] = useState(false);
+  const [customResumes, setCustomResumes] = useState(500);
+  const [customTracks, setCustomTracks] = useState(10);
+
+  const proposeCustomPlan = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const detailsStr = `Proposed Custom Plan: ${customResumes} Resumes Limit, ${customTracks} Candidate tracks. Estimated Cost: $${Math.round((customResumes * 0.8) + (customTracks * 35))}/mo.`;
+      const res = await fetch("/api/client/requests", { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ 
+          clientId, 
+          type: "Custom Plan Proposal", 
+          details: JSON.stringify({ maxResumes: customResumes, maxTracks: customTracks, description: detailsStr })
+        }) 
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setSuccess("Custom plan proposal submitted to administrator.");
+      setShowCustomPlanForm(false);
+      loadDashboard();
+    } catch (err: any) { setError(err.message); }
+  };
 
   const loadDashboard = async () => {
     setLoading(true);
@@ -188,6 +214,14 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
                 <div className="flex justify-between text-xs"><span className="text-[var(--text-secondary)]">Category</span><span className="font-bold text-[var(--text-primary)]">{stats.subscription.category}</span></div>
                 <div className="flex justify-between text-xs"><span className="text-[var(--text-secondary)]">Expires</span><span className="font-bold text-[var(--text-primary)]">{new Date(stats.subscription.expires_at).toLocaleDateString()}</span></div>
                 <div className="flex justify-between text-xs"><span className="text-[var(--text-secondary)]">Days Left</span><span className={`font-bold ${stats.daysLeft <= 7 ? "text-red-400" : "text-green-400"}`}>{stats.daysLeft} days</span></div>
+                
+                <button 
+                  type="button"
+                  onClick={() => setShowCustomPlanForm(true)}
+                  className="mt-3 w-full bg-red-600/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-[10px] font-bold font-mono py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                >
+                  Propose Custom Plan
+                </button>
               </div>
             ) : (
               <p className="text-xs text-[var(--text-secondary)]">No active subscription.</p>
@@ -297,6 +331,75 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
           </div>
         </div>
       </main>
+
+      {showCustomPlanForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-600 to-blue-905" />
+            
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-primary)] font-mono">Propose Custom Plan</h4>
+                <p className="text-[10px] text-[var(--text-secondary)] font-mono">Select custom parsing limit and active proctoring tracks.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCustomPlanForm(false)}
+                className="text-gray-400 hover:text-white cursor-pointer"
+              >
+                <X className="w-4.5 h-4.5" />
+              </button>
+            </div>
+
+            <form onSubmit={proposeCustomPlan} className="space-y-6">
+              <div>
+                <div className="flex justify-between text-xs text-[var(--text-primary)] mb-1">
+                  <span>Monthly Resumes</span>
+                  <span className="font-bold text-red-500">{customResumes} Resumes</span>
+                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="1000"
+                  step="10"
+                  value={customResumes}
+                  onChange={(e) => setCustomResumes(Number(e.target.value))}
+                  className="w-full cursor-pointer h-1.5 bg-[var(--border-color)] rounded-lg appearance-none"
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs text-[var(--text-primary)] mb-1">
+                  <span>Candidate Tracks</span>
+                  <span className="font-bold text-red-500">{customTracks} Tracks</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="30"
+                  step="1"
+                  value={customTracks}
+                  onChange={(e) => setCustomTracks(Number(e.target.value))}
+                  className="w-full cursor-pointer h-1.5 bg-[var(--border-color)] rounded-lg appearance-none"
+                />
+              </div>
+
+              <div className="text-[10px] font-mono text-[var(--text-secondary)] bg-[var(--bg-card)] border border-[var(--border-color)] p-3 rounded-lg flex justify-between">
+                <span>Estimated Monthly Cost:</span>
+                <span className="font-bold text-[var(--text-primary)]">${Math.round((customResumes * 0.8) + (customTracks * 35))}/mo</span>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer hover:opacity-95"
+              >
+                Submit Proposal to Admin
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

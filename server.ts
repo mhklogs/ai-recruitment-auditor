@@ -319,6 +319,226 @@ async function sendNotificationEmail(to: string, subject: string, body: string) 
   }
 }
 
+async function appendLead(leadData: any) {
+  // 1. Save locally
+  const filePath = path.join(process.cwd(), "vault", "leads_data.json");
+  const vaultDir = path.dirname(filePath);
+  if (!fs.existsSync(vaultDir)) {
+    fs.mkdirSync(vaultDir, { recursive: true });
+  }
+  let list: any[] = [];
+  if (fs.existsSync(filePath)) {
+    try {
+      list = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    } catch (e) {}
+  }
+  const timestamp = new Date().toISOString();
+  list.push({
+    timestamp,
+    ...leadData
+  });
+  writeJsonAtomic(filePath, list);
+
+  // 2. Save to Supabase
+  if (supabase) {
+    try {
+      let dbType = "B2B Contact Inquiry";
+      if (leadData.type === "newsletter") dbType = "Newsletter Subscription";
+      if (leadData.type === "download") dbType = "Whitepaper Download";
+
+      await supabase.from("requests").insert([{
+        client_id: null,
+        type: dbType,
+        details: JSON.stringify(leadData),
+        status: "Lead",
+        created_at: timestamp
+      }]);
+    } catch (err) {
+      console.error("[Supabase Save Lead Error]", err);
+    }
+  }
+}
+
+// Application Endpoint
+app.post("/api/apply", async (req, res) => {
+  try {
+    const { name, email, role, github, portfolio, bio } = req.body;
+    if (!name || !email || !role) {
+      return res.status(400).json({ error: "Missing required fields: name, email, or role" });
+    }
+
+    const cleanName = name.replace(/[^a-zA-Z0-9]/g, "").toUpperCase().slice(0, 10);
+    const rand = Math.floor(100 + Math.random() * 900);
+    const rollNo = `ROLL-${rand}-${cleanName}`;
+    const candidateId = rollNo;
+
+    const metadata = {
+      candidateId,
+      candidate_name: name,
+      roll_no: rollNo,
+      email,
+      applied_role: role,
+      test_status: "PENDING",
+      registered_at: new Date().toISOString(),
+      previous_attempts: 0,
+      github: github || "",
+      portfolio: portfolio || "",
+      bio: bio || ""
+    };
+
+    const candDir = path.join(VAULT_PATH, "acme-corp", "candidates", rollNo);
+    if (!fs.existsSync(candDir)) {
+      fs.mkdirSync(candDir, { recursive: true });
+    }
+
+    writeJsonAtomic(path.join(candDir, "metadata.json"), metadata);
+
+    // Send confirmation email
+    await sendNotificationEmail(
+      email,
+      `Application Received: ${role} - RecruitAI Engine`,
+      `Hi ${name},\n\nWe have successfully received your application for the ${role} position.\nYour candidate registration code is: ${rollNo}.\n\nOur engineering team will review your credentials shortly.\n\nBest,\nRecruitAI Engine Team`
+    );
+
+    res.json({ success: true, rollNo, message: "Application registered, email confirmation sent, and saved to vault." });
+  } catch (error: any) {
+    console.error("Apply API Error:", error);
+    res.status(500).json({ error: error.message || "Failed to process application." });
+  }
+});
+
+// B2B Contact Request Endpoint
+app.post("/api/contact", async (req, res) => {
+  try {
+    const { name, email, company, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Missing required fields: name, email, or message" });
+    }
+
+    // Save to admin leads ledger
+    await appendLead({ type: "contact", name, email, company, message });
+
+    // Send confirmation email to B2B inquirer
+    await sendNotificationEmail(
+      email,
+      "RecruitAI Demo Request - Inbound Logged",
+      `Dear ${name},\n\nThank you for reaching out to RecruitAI. Your request for B2B demo credentials has been registered for ${company || "your company"}.\n\nAn operations specialist will coordinate with you shortly to set up your proctoring sandbox client workspace.\n\nBest regards,\nRecruitAI Systems Team`
+    );
+
+    res.json({ success: true, message: "Inquiry logged and confirmation email dispatched." });
+  } catch (error: any) {
+    console.error("Contact API Error:", error);
+    res.status(500).json({ error: error.message || "Failed to log contact request." });
+  }
+});
+
+// Newsletter Subscription Endpoint
+app.post("/api/newsletter", async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    // Save to admin leads ledger
+    await appendLead({ type: "newsletter", email });
+
+    await sendNotificationEmail(
+      email,
+      "Welcome to RecruitAI Security & Virtualization Updates",
+      `Hello,\n\nThank you for subscribing to the RecruitAI Audit Newsletter.\nYou will receive periodic technical whitepapers on browser sandboxing, keystroke telemetry dynamics, and adversarial proctoring updates.\n\nBest,\nRecruitAI Systems Team`
+    );
+
+    res.json({ success: true, message: "Newsletter subscription registered and email dispatched." });
+  } catch (error: any) {
+    console.error("Newsletter API Error:", error);
+    res.status(500).json({ error: error.message || "Failed to subscribe to newsletter." });
+  }
+});
+
+// Resource Hub Download Endpoint
+app.post("/api/hub-download", async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    // Save to admin leads ledger
+    await appendLead({ type: "download", email });
+
+    await sendNotificationEmail(
+      email,
+      "Your Whitepaper Download: The Complete AI Hiring & Telemetry Guide",
+      `Hello,\n\nThank you for registering. You can download the RecruitAI whitepaper using the link below:\n\nhttp://localhost:3000/AI_Hiring_Guide_v2.4.pdf\n\nBest,\nRecruitAI Systems Team`
+    );
+
+    res.json({ success: true, message: "Download registered and guide email dispatched." });
+  } catch (error: any) {
+    console.error("Hub Download API Error:", error);
+    res.status(500).json({ error: error.message || "Failed to register resource download." });
+  }
+});
+
+// Admin: Inbound Leads Endpoint
+app.get("/api/admin/leads", async (req, res) => {
+  try {
+    let data: any[] = [];
+
+    // 1. Load from local file
+    const filePath = path.join(process.cwd(), "vault", "leads_data.json");
+    if (fs.existsSync(filePath)) {
+      try {
+        data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      } catch (e) {}
+    }
+
+    // 2. Load from Supabase and merge
+    if (supabase) {
+      try {
+        const { data: dbLeads, error } = await supabase
+          .from("requests")
+          .select("*")
+          .in("type", ["B2B Contact Inquiry", "Newsletter Subscription", "Whitepaper Download"])
+          .eq("status", "Lead");
+
+        if (!error && dbLeads) {
+          for (const d of dbLeads) {
+            let parsedDetails: any = {};
+            try {
+              parsedDetails = JSON.parse(d.details);
+            } catch (e) {
+              parsedDetails = { email: d.details };
+            }
+            // Check if we already have this lead locally to avoid duplicates
+            const isDup = data.some(
+              (l: any) =>
+                l.timestamp === d.created_at ||
+                (l.email === parsedDetails.email && l.type === parsedDetails.type)
+            );
+            if (!isDup) {
+              data.push({
+                timestamp: d.created_at,
+                ...parsedDetails
+              });
+            }
+          }
+        }
+      } catch (err) {
+        console.error("[Supabase Load Leads Error]", err);
+      }
+    }
+
+    // Sort by timestamp descending
+    data.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    res.json(data);
+  } catch (error: any) {
+    console.error("Admin Leads API Error:", error);
+    res.status(500).json({ error: error.message || "Failed to load leads." });
+  }
+});
+
 // Scheduler that checks for evaluations due for notification (4-hour release)
 const NOTIFICATION_CHECK_INTERVAL = 60_000; // every minute
 async function runNotificationScheduler() {
@@ -1097,129 +1317,7 @@ function generateTestToken(): string {
   return token;
 }
 
-// Admin: Create test session and send invitation email
-app.post("/api/admin/create-test", async (req, res) => {
-  try {
-    const { candidateEmail, candidateName, jobDescription, testDurationMin, companyId } = req.body;
-    if (!candidateEmail || !candidateName || !jobDescription) {
-      return res.status(400).json({ error: "Missing required fields: candidateEmail, candidateName, jobDescription" });
-    }
 
-    const token = generateTestToken();
-    const testSession = {
-      token,
-      candidateEmail,
-      candidateName,
-      jobDescription,
-      testDurationMin: testDurationMin || 60,
-      companyId: companyId || "default",
-      status: "CREATED",
-      createdAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
-    };
-
-    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
-    const testsDir = path.join(VAULT_PATH, "test_sessions");
-    if (!fs.existsSync(testsDir)) fs.mkdirSync(testsDir, { recursive: true });
-
-    const testFile = path.join(testsDir, `${token}.json`);
-    writeJsonAtomic(testFile, testSession);
-
-    const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
-    const testLink = `${appUrl}/test?token=${token}`;
-
-    const emailSubject = `Secure Assessment Invitation: ${candidateName}`;
-    const emailBody = `Dear ${candidateName},
-
-You have been invited to take a secure technical assessment.
-
-Test Link: ${testLink}
-
-This link is unique to you and expires in 7 days. Please ensure you have:
-- A stable internet connection
-- Camera and microphone enabled
-- A quiet, well-lit environment
-
-The assessment will monitor your screen activity, camera feed, and microphone to ensure integrity.
-
-Good luck!
-
-RecruitAI Team`;
-
-    const emailResult = await sendNotificationEmail(candidateEmail, emailSubject, emailBody);
-
-    res.json({
-      success: true,
-      testLink,
-      token,
-      emailSent: emailResult.ok,
-      testSession
-    });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to create test." });
-  }
-});
-
-// Get test session by token
-app.get("/api/test-session/:token", async (req, res) => {
-  try {
-    const { token } = req.params;
-    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
-    const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
-
-    if (!fs.existsSync(testFile)) {
-      return res.status(404).json({ error: "Invalid or expired test link." });
-    }
-
-    const testSession = readJsonSafely(testFile);
-    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
-      return res.status(403).json({ error: "This test link has been locked or already completed." });
-    }
-
-    if (new Date(testSession.expiresAt) < new Date()) {
-      return res.status(403).json({ error: "This test link has expired." });
-    }
-
-    res.json({ success: true, testSession });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to load test session." });
-  }
-});
-
-// Submit test session results
-app.post("/api/test-session/:token/submit", async (req, res) => {
-  try {
-    const { token } = req.params;
-    const { examData, telemetry, status } = req.body;
-
-    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
-    const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
-
-    if (!fs.existsSync(testFile)) {
-      return res.status(404).json({ error: "Test session not found." });
-    }
-
-    const testSession = readJsonSafely(testFile);
-    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
-      return res.status(403).json({ error: "This test link has been locked or already completed." });
-    }
-
-    testSession.status = status || "TEST_SUBMITTED";
-    testSession.submittedAt = new Date().toISOString();
-    testSession.examData = examData;
-    testSession.telemetry = telemetry;
-    testSession.evaluationTriggeredAt = new Date().toISOString();
-
-    writeJsonAtomic(testFile, testSession);
-
-    // Trigger background evaluation
-    runVaultWatcher();
-
-    res.json({ success: true, testSession });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to submit test." });
-  }
-});
 
 // Admin: Register new client
 app.post("/api/admin/register-client", async (req, res) => {
@@ -1349,12 +1447,119 @@ app.delete("/api/admin/clients/:id", async (req, res) => {
   }
 });
 
+// Admin: List all client requests
+app.get("/api/admin/requests", async (req, res) => {
+  try {
+    if (!supabase) {
+      const filePath = path.join(process.cwd(), "vault", "requests.json");
+      if (!fs.existsSync(filePath)) return res.json([]);
+      const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      return res.json(data);
+    }
+    const { data, error } = await supabase
+      .from("requests")
+      .select("*, clients (name, company)")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    res.json(data || []);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load requests." });
+  }
+});
+
+// Admin: Approve custom plan or B2B requests
+app.post("/api/admin/approve-request/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!supabase) {
+      const filePath = path.join(process.cwd(), "vault", "requests.json");
+      if (fs.existsSync(filePath)) {
+        let list = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        const reqIdx = list.findIndex((r: any) => r.id === id);
+        if (reqIdx !== -1) {
+          list[reqIdx].status = "Approved";
+          writeJsonAtomic(filePath, list);
+          return res.json({ success: true });
+        }
+      }
+      return res.status(404).json({ error: "Request not found." });
+    }
+
+    // Get the request details
+    const { data: request, error: reqErr } = await supabase
+      .from("requests")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (reqErr || !request) throw new Error("Request not found.");
+
+    // Update request status
+    await supabase.from("requests").update({ status: "Approved" }).eq("id", id);
+
+    // If custom plan proposal, update client & subscription records!
+    if (request.type === "Custom Plan Proposal" && request.details) {
+      let detailsObj: any = {};
+      try {
+        detailsObj = JSON.parse(request.details);
+      } catch (e) {
+        detailsObj = { maxResumes: 500, maxTracks: 10 };
+      }
+      
+      const customPlanName = `Custom Plan (${detailsObj.maxResumes} Res / ${detailsObj.maxTracks} Tracks)`;
+      
+      // Update client plan text
+      await supabase.from("clients").update({ plan: customPlanName }).eq("id", request.client_id);
+      
+      // Upsert subscription
+      await supabase.from("subscriptions").upsert({
+        client_id: request.client_id,
+        plan: customPlanName,
+        category: "Business",
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 year
+      });
+    }
+
+    res.json({ success: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to approve request." });
+  }
+});
+
 // Client: Dashboard stats
 app.get("/api/client/dashboard", async (req, res) => {
   try {
-    if (!supabase) return res.json({ requests: [], hirings: [], stats: {} });
     const { clientId } = req.query;
     if (!clientId) return res.status(400).json({ error: "clientId required." });
+
+    if (!supabase) {
+      const reqFile = path.join(process.cwd(), "vault", "requests.json");
+      let requests: any[] = [];
+      if (fs.existsSync(reqFile)) {
+        try {
+          requests = JSON.parse(fs.readFileSync(reqFile, "utf8")).filter((r: any) => r.client_id === clientId);
+        } catch (e) {}
+      }
+      
+      return res.json({
+        requests,
+        hirings: [],
+        stats: {
+          totalRequests: requests.length,
+          pendingRequests: requests.filter((r: any) => r.status === "Pending").length,
+          totalHirings: 0,
+          successfulHirings: 0,
+          successRatio: 0,
+          daysLeft: 30,
+          subscription: {
+            plan: "Starter",
+            category: "Business",
+            expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+          }
+        }
+      });
+    }
 
     const { data: requests } = await supabase.from("requests").select("*").eq("client_id", clientId).order("created_at", { ascending: false });
     const { data: hirings } = await supabase.from("hirings").select("*").eq("client_id", clientId).order("created_at", { ascending: false });
@@ -1393,8 +1598,27 @@ app.get("/api/client/dashboard", async (req, res) => {
 // Client: Add request
 app.post("/api/client/requests", async (req, res) => {
   try {
-    if (!supabase) return res.status(500).json({ error: "Database not configured." });
     const { clientId, type, details } = req.body;
+    if (!supabase) {
+      const filePath = path.join(process.cwd(), "vault", "requests.json");
+      let list: any[] = [];
+      if (fs.existsSync(filePath)) {
+        try {
+          list = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        } catch (e) {}
+      }
+      const newReq = {
+        id: `REQ-${Math.floor(1000 + Math.random() * 9000)}`,
+        client_id: clientId,
+        type,
+        details,
+        status: "Pending",
+        created_at: new Date().toISOString()
+      };
+      list.push(newReq);
+      writeJsonAtomic(filePath, list);
+      return res.json({ success: true, request: newReq });
+    }
     const { data, error } = await supabase.from("requests").insert([{ client_id: clientId, type, details, status: "Pending" }]).select().single();
     if (error) throw error;
     res.json({ success: true, request: data });

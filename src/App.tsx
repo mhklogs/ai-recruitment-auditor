@@ -9,6 +9,7 @@ import ProctoringPortal from "./components/ProctoringPortal";
 import UnifiedLogin from "./components/UnifiedLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import ClientDashboard from "./components/ClientDashboard";
+import CareersLanding from "./components/CareersLanding";
 
 export default function App() {
   const [auth, setAuth] = useState<{ role: "admin" | "client" | null; id: string | null; name?: string | null }>(() => {
@@ -65,6 +66,7 @@ export default function App() {
           )
         }
       />
+      <Route path="/careers" element={<CareersLanding />} />
       <Route path="*" element={<CorporateLanding onLoginRequested={() => window.location.href = "/login"} />} />
     </Routes>
   );

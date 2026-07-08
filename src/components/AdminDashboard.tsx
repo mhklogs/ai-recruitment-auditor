@@ -45,7 +45,7 @@ interface TestResult {
   answers: any;
 }
 
-type Tab = "clients" | "create-test" | "tests" | "results";
+type Tab = "clients" | "create-test" | "tests" | "results" | "leads";
 
 export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<Tab>("clients");
@@ -60,6 +60,8 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [clientForm, setClientForm] = useState({ name: "", email: "", company: "", plan: "Starter", category: "Business", password: "", expiresAt: "" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [leads, setLeads] = useState<any[]>([]);
+  const [b2bRequests, setB2bRequests] = useState<any[]>([]);
 
   // Create test form state
   const [testTitle, setTestTitle] = useState("");
@@ -116,8 +118,52 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     }
   };
 
-  useEffect(() => { loadClients(); }, []);
-  useEffect(() => { if (activeTab === "tests") loadTests(); }, [activeTab]);
+  const loadLeads = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/leads");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setLeads(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadRequests = async () => {
+    try {
+      const res = await fetch("/api/admin/requests");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setB2bRequests(data);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleApproveRequest = async (requestId: string) => {
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch(`/api/admin/approve-request/${requestId}`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setSuccess("B2B Request approved successfully. Client plan updated.");
+      loadRequests();
+      loadClients();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => { loadClients(); loadRequests(); }, []);
+  useEffect(() => { 
+    if (activeTab === "tests") loadTests();
+    if (activeTab === "leads") loadLeads();
+    if (activeTab === "clients") { loadClients(); loadRequests(); }
+  }, [activeTab]);
 
   const handleClientSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,7 +305,8 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             { id: "clients", label: "Clients", icon: Users },
             { id: "create-test", label: "Create Test", icon: Cpu },
             { id: "tests", label: "Tests", icon: FileText },
-            { id: "results", label: "Results", icon: BarChart3 }
+            { id: "results", label: "Results", icon: BarChart3 },
+            { id: "leads", label: "Inbound Leads", icon: Send }
           ].map((tab) => (
             <button
               key={tab.id}
@@ -298,6 +345,67 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 <Plus className="w-4 h-4" /> New Client
               </button>
             </div>
+
+            {/* B2B Client Requests & Proposals */}
+            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 space-y-4 mb-6">
+              <div>
+                <h3 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider font-mono">B2B Client Requests & Custom Plan Proposals</h3>
+                <p className="text-[10px] text-[var(--text-secondary)]">Manage incoming configuration requests and plan updates from registered accounts.</p>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-[10px]">
+                  <thead>
+                    <tr className="border-b border-[var(--border-color)] text-gray-500 font-mono">
+                      <th className="py-2 px-3">Client ID</th>
+                      <th className="py-2 px-3">Type</th>
+                      <th className="py-2 px-3">Details</th>
+                      <th className="py-2 px-3">Status</th>
+                      <th className="py-2 px-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border-color)]">
+                    {b2bRequests.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="py-4 text-center text-gray-500 italic">No client requests found.</td>
+                      </tr>
+                    ) : (
+                      b2bRequests.map((req) => (
+                        <tr key={req.id} className="hover:bg-[var(--bg-card-hover)] transition-colors">
+                          <td className="py-2 px-3 font-semibold font-mono text-[var(--text-primary)]">
+                            {req.client_id}
+                            {req.clients && (
+                              <span className="block text-[8px] font-sans font-normal text-[var(--text-secondary)]">
+                                {req.clients.name} ({req.clients.company})
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-2 px-3 font-mono">{req.type}</td>
+                          <td className="py-2 px-3 max-w-sm truncate" title={req.details}>{req.details}</td>
+                          <td className="py-2 px-3">
+                            <span className={`text-[8px] font-bold font-mono px-2 py-0.5 rounded ${
+                              req.status === "Approved" ? "bg-green-500/10 text-green-400" : "bg-yellow-500/10 text-yellow-400"
+                            }`}>
+                              {req.status}
+                            </span>
+                          </td>
+                          <td className="py-2 px-3">
+                            {req.status === "Pending" && (
+                              <button
+                                onClick={() => handleApproveRequest(req.id)}
+                                className="bg-green-600 hover:bg-green-500 text-white text-[9px] font-bold font-mono py-1 px-2 rounded cursor-pointer transition-colors"
+                              >
+                                Approve
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
             {showClientForm && (
               <div className="mb-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-2xl">
                 <div className="flex justify-between items-center mb-4">
@@ -310,11 +418,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Company</label><input value={clientForm.company} onChange={(e) => setClientForm({ ...clientForm, company: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
                   <div>
                     <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Plan</label>
-                    <select value={clientForm.plan} onChange={(e) => setClientForm({ ...clientForm, plan: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500">
-                      <option value="Starter">Starter</option>
-                      <option value="Growth">Growth</option>
-                      <option value="Enterprise">Enterprise</option>
-                    </select>
+                    <input required value={clientForm.plan} onChange={(e) => setClientForm({ ...clientForm, plan: e.target.value })} placeholder="e.g. Starter, Growth, Enterprise, or Custom Plan" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                   </div>
                   <div>
                     <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Category</label>
@@ -594,6 +698,126 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             ) : (
               <div className="text-center text-xs text-[var(--text-secondary)] font-mono py-12">Select a test from the Tests tab to view results.</div>
             )}
+          </div>
+        )}
+
+        {/* Leads Tab */}
+        {activeTab === "leads" && (
+          <div className="space-y-8">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-bold flex items-center gap-2"><Send className="w-5 h-5 text-red-500" /> Inbound Leads</h2>
+              <button 
+                type="button"
+                onClick={loadLeads}
+                className="text-xs text-red-500 hover:text-red-400 font-semibold flex items-center gap-1 bg-red-500/5 px-2.5 py-1.5 rounded-lg border border-red-500/10 cursor-pointer"
+              >
+                Refresh Data
+              </button>
+            </div>
+
+            {/* Contacts Table */}
+            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl overflow-hidden p-6 space-y-4">
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-primary)]">Contact Requests</h4>
+                <p className="text-[10px] text-[var(--text-secondary)]">B2B demo inquiries submitted via the homepage contact form.</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-[11px]">
+                  <thead>
+                    <tr className="border-b border-[var(--border-color)] text-gray-500 font-mono">
+                      <th className="py-2.5 px-3">Name</th>
+                      <th className="py-2.5 px-3">Email</th>
+                      <th className="py-2.5 px-3">Company</th>
+                      <th className="py-2.5 px-3">Message</th>
+                      <th className="py-2.5 px-3">Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border-color)]">
+                    {leads.filter(l => l.type === "contact").length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="py-4 text-center text-gray-500 italic">No contact requests found.</td>
+                      </tr>
+                    ) : (
+                      leads.filter(l => l.type === "contact").map((l, idx) => (
+                        <tr key={idx} className="hover:bg-[var(--bg-card-hover)] transition-colors">
+                          <td className="py-2.5 px-3 font-semibold text-[var(--text-primary)]">{l.name}</td>
+                          <td className="py-2.5 px-3 font-mono">{l.email}</td>
+                          <td className="py-2.5 px-3">{l.company}</td>
+                          <td className="py-2.5 px-3 max-w-xs truncate text-[var(--text-secondary)]" title={l.message}>{l.message}</td>
+                          <td className="py-2.5 px-3 font-mono text-gray-500">{new Date(l.timestamp).toLocaleString()}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Newsletter Subscriptions */}
+              <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl overflow-hidden p-6 space-y-4">
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]">Newsletter Subscribers</h4>
+                  <p className="text-[10px] text-[var(--text-secondary)]">Users subscribed to product updates.</p>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-[11px]">
+                    <thead>
+                      <tr className="border-b border-[var(--border-color)] text-gray-500 font-mono">
+                        <th className="py-2.5 px-3">Email</th>
+                        <th className="py-2.5 px-3">Subscribed At</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border-color)]">
+                      {leads.filter(l => l.type === "newsletter").length === 0 ? (
+                        <tr>
+                          <td colSpan={2} className="py-4 text-center text-gray-500 italic">No subscribers found.</td>
+                        </tr>
+                      ) : (
+                        leads.filter(l => l.type === "newsletter").map((l, idx) => (
+                          <tr key={idx} className="hover:bg-[var(--bg-card-hover)] transition-colors">
+                            <td className="py-2.5 px-3 font-mono text-[var(--text-primary)]">{l.email}</td>
+                            <td className="py-2.5 px-3 font-mono text-gray-500">{new Date(l.timestamp).toLocaleString()}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Guide Downloads */}
+              <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl overflow-hidden p-6 space-y-4">
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]">Whitepaper Downloads</h4>
+                  <p className="text-[10px] text-[var(--text-secondary)]">Users who downloaded the AI Hiring Guide.</p>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-[11px]">
+                    <thead>
+                      <tr className="border-b border-[var(--border-color)] text-gray-500 font-mono">
+                        <th className="py-2.5 px-3">Email</th>
+                        <th className="py-2.5 px-3">Downloaded At</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border-color)]">
+                      {leads.filter(l => l.type === "download").length === 0 ? (
+                        <tr>
+                          <td colSpan={2} className="py-4 text-center text-gray-500 italic">No downloads found.</td>
+                        </tr>
+                      ) : (
+                        leads.filter(l => l.type === "download").map((l, idx) => (
+                          <tr key={idx} className="hover:bg-[var(--bg-card-hover)] transition-colors">
+                            <td className="py-2.5 px-3 font-mono text-[var(--text-primary)]">{l.email}</td>
+                            <td className="py-2.5 px-3 font-mono text-gray-500">{new Date(l.timestamp).toLocaleString()}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </main>

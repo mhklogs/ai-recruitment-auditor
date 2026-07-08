@@ -14,8 +14,75 @@ import {
   Sliders, 
   ExternalLink,
   ShieldAlert,
-  ChevronDown
+  ChevronDown,
+  Linkedin,
+  Github,
+  Mail,
+  Briefcase,
+  User,
+  UserPlus,
+  Search,
+  Upload,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  MapPin,
+  Twitter,
+  Globe,
+  Cpu
 } from "lucide-react";
+import TeamSection from "./TeamSection";
+
+const openJobs = [
+  {
+    id: "core-rust",
+    title: "Core Sandbox Audit Engineer",
+    department: "Engineering (Platform)",
+    location: "Austin, TX / Remote",
+    type: "Full-Time",
+    desc: "Build POSIX sandboxes, execution visualizers, and proctoring telemetry ledgers.",
+    reqs: ["Rust", "Linux Kernel", "WebSockets", "ebpf"]
+  },
+  {
+    id: "react-architect",
+    title: "UX/UI Lead Architect",
+    department: "Engineering (Frontend)",
+    location: "Austin, TX / Remote",
+    type: "Full-Time",
+    desc: "Scale the proctoring dashboard, candidate forms, and developer integration consoles.",
+    reqs: ["React 19", "Tailwind CSS v4", "Framer Motion", "TypeScript"]
+  },
+  {
+    id: "ai-researcher",
+    title: "R&D AI Security Specialist",
+    department: "Research & Security",
+    location: "Rawalpindi, PK / Hybrid",
+    type: "Full-Time",
+    desc: "Design evasion protection models and code plagiarism classifiers utilizing LLM telemetry.",
+    reqs: ["Python", "PyTorch", "NLP", "Adversarial Machine Learning"]
+  }
+];
+
+const successStories = [
+  {
+    logo: "Aether Labs",
+    metric: "Hiring time reduced by 50%",
+    details: "Successfully automated first-round screening for 1,200+ systems applicants, maintaining 0% plagiarism escape rate.",
+    color: "from-blue-600 to-cyan-500"
+  },
+  {
+    logo: "Quantum Analytics",
+    metric: "Auditor coverage at 99.8%",
+    details: "Deployed sandboxed browser metrics detecting tab-switching, keyboard macro injections, and external display splits.",
+    color: "from-rose-600 to-red-500"
+  },
+  {
+    logo: "Apex Systems",
+    metric: "40% rise in onboarding quality",
+    details: "Replaced whiteboard algorithmic trivia with sandbox-based practical challenges directly related to production tasks.",
+    color: "from-purple-600 to-indigo-500"
+  }
+];
 
 function CanvasBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -159,6 +226,25 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
   const [maxTracks, setMaxTracks] = useState(5);
   const [activePreset, setActivePreset] = useState<string>("custom");
 
+  // Job Board States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  const [applicantName, setApplicantName] = useState("");
+  const [applicantEmail, setApplicantEmail] = useState("");
+  const [uploadedCVName, setUploadedCVName] = useState("");
+  const [cvUploading, setCvUploading] = useState(false);
+  const [cvUploadSuccess, setCvUploadSuccess] = useState(false);
+  const [applySuccess, setApplySuccess] = useState(false);
+
+  // Success Stories Index State
+  const [storyIndex, setStoryIndex] = useState(0);
+
+  // Resource Hub & Newsletter States
+  const [hubEmail, setHubEmail] = useState("");
+  const [hubSuccess, setHubSuccess] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+
   // Contact Form State
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -218,7 +304,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
     ? Math.round((maxResumes * 0.8) + (maxTracks * 35)) 
     : presets[activePreset]?.price || 0;
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactName || !contactEmail || !contactMessage) return;
 
@@ -231,6 +317,22 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
     setInquiries([newInquiry, ...inquiries]);
     setSubmittedInquiry(true);
+
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          company: contactCompany || "Independent Professional",
+          message: contactMessage
+        })
+      });
+    } catch (err) {
+      console.error("Failed to submit contact inbound request:", err);
+    }
+
     setContactName("");
     setContactEmail("");
     setContactCompany("");
@@ -285,10 +387,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-900/10 via-red-900/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
 
         <div className="max-w-4xl space-y-6 reveal-down visible z-10">
-          <div className="inline-flex items-center gap-2 bg-[#be123c]/10 text-red-400 border border-[#be123c]/20 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
-            <Sparkles className="w-3 h-3 text-red-400" />
-            Autonomous AI Human Resources Director v3.5
-          </div>
+
 
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-[var(--text-primary)]">
             Objective Merit.<br />
@@ -367,54 +466,73 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         </div>
       </section>
 
-      {/* OUR TEAM SECTION */}
-      <section id="team" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
+      {/* SUCCESS STORIES SECTION */}
+      <section id="success-stories" className="py-24 bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-card)] border-y border-[var(--border-color)] px-6 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto space-y-12 relative z-10">
           <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Workspace Personnel Nodes</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Meet Our Premium AI Team</h3>
-            <p className="text-xs text-[var(--text-secondary)]">A coordinated cluster of human handlers and high-performance neural drivers.</p>
+            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Success Stories</h2>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Measurable B2B Impact</h3>
+            <p className="text-xs text-[var(--text-secondary)]">How global technical teams leverage the RecruitAI audit engine.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-2xl space-y-3 shadow-sm text-center reveal-left">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-900 to-indigo-900 mx-auto flex items-center justify-center text-white font-black text-lg">
-                F
+          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-lg">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-900 to-red-600" />
+            
+            <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8">
+              {/* Metric Card */}
+              <div className={`w-full md:w-1/3 rounded-2xl bg-gradient-to-br ${successStories[storyIndex].color} p-8 flex flex-col justify-center text-white shadow-md relative overflow-hidden`}>
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+                <span className="text-sm font-mono tracking-widest uppercase opacity-70 mb-2">{successStories[storyIndex].logo}</span>
+                <span className="text-2xl md:text-3xl font-black leading-tight tracking-tight">{successStories[storyIndex].metric}</span>
               </div>
-              <div>
-                <h4 className="text-xs font-bold text-[var(--text-primary)]">Founder & Principal Director</h4>
-                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5">Primary System Coordinator</p>
-              </div>
-            </div>
 
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-2xl space-y-3 shadow-sm text-center reveal-down">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-red-900 to-rose-950 mx-auto flex items-center justify-center text-white font-black text-lg">
-                CF
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-[var(--text-primary)]">Co-Founder & Chief Operations</h4>
-                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5">SLA Monitoring Lead</p>
-              </div>
-            </div>
+              {/* Details Column */}
+              <div className="flex-1 flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                  </div>
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic">
+                    "{successStories[storyIndex].details}"
+                  </p>
+                </div>
 
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-2xl space-y-3 shadow-sm text-center reveal-on-scroll">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-900 to-slate-900 mx-auto flex items-center justify-center text-white font-black text-lg">
-                PH
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-[var(--text-primary)]">Project Handlers</h4>
-                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5">Workspace Integration Panel</p>
-              </div>
-            </div>
+                {/* Navigation controls */}
+                <div className="flex items-center justify-between border-t border-[var(--border-color)] pt-4">
+                  <div className="flex gap-2">
+                    {successStories.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setStoryIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          storyIndex === idx ? "bg-red-500 w-6" : "bg-slate-700"
+                        }`}
+                      />
+                    ))}
+                  </div>
 
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-2xl space-y-3 shadow-sm text-center reveal-right">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-emerald-900 to-teal-950 mx-auto flex items-center justify-center text-white font-black text-lg animate-pulse">
-                AI
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-[var(--text-primary)]">AI Core Drivers</h4>
-                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5">Gemini-3.5 High Performance Cluster</p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setStoryIndex((prev) => (prev === 0 ? successStories.length - 1 : prev - 1))}
+                      className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-red-500/50 hover:bg-red-500/5 transition-all cursor-pointer"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStoryIndex((prev) => (prev === successStories.length - 1 ? 0 : prev + 1))}
+                      className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-red-500/50 hover:bg-red-500/5 transition-all cursor-pointer"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -610,8 +728,307 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         </div>
       </section>
 
+      {/* TEAM SECTION */}
+      <TeamSection />
+
+      {/* JOB BOARD SECTION */}
+      <section id="jobs" className="py-24 px-6 border-t border-[var(--border-color)] relative">
+        <div className="max-w-5xl mx-auto space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
+            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Careers Board</h2>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Open Engineering Roles</h3>
+            <p className="text-xs text-[var(--text-secondary)]">Search and apply to join our high-performance infrastructure teams.</p>
+          </div>
+
+          {/* Search bar */}
+          <div className="max-w-md mx-auto relative reveal-on-scroll">
+            <Search className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search engineering positions..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl py-3 pl-11 pr-4 text-xs text-[var(--text-primary)] focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all"
+            />
+          </div>
+
+          {/* Jobs List */}
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {openJobs
+              .filter((job) =>
+                job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                job.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                job.reqs.some((req) => req.toLowerCase().includes(searchQuery.toLowerCase()))
+              )
+              .map((job) => (
+                <div
+                  key={job.id}
+                  className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-red-500/20 hover:shadow-[var(--glow-shadow)] flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+                >
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h4 className="text-sm font-bold text-[var(--text-primary)]">{job.title}</h4>
+                      <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-400">{job.type}</span>
+                    </div>
+                    <p className="text-[10px] text-[var(--text-secondary)] font-mono">{job.department} | {job.location}</p>
+                    <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-2xl">{job.desc}</p>
+                    
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {job.reqs.map((req, i) => (
+                        <span key={i} className="text-[8px] font-mono px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">{req}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedJob(job);
+                      setApplySuccess(false);
+                      setUploadedCVName("");
+                      setCvUploadSuccess(false);
+                      setApplicantName("");
+                      setApplicantEmail("");
+                    }}
+                    className="w-full md:w-auto shrink-0 text-center px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-lg shadow-md hover:shadow-red-950/20 transition-all cursor-pointer"
+                  >
+                    Quick Apply
+                  </button>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* Quick Apply Modal */}
+        {selectedJob && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div className="w-full max-w-md bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-600 to-blue-905" />
+              
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h4 className="text-sm font-bold text-[var(--text-primary)]">Quick Apply</h4>
+                  <p className="text-[10px] text-[var(--text-secondary)] font-mono">{selectedJob.title}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedJob(null)}
+                  className="text-xs text-gray-500 hover:text-[var(--text-primary)] cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {applySuccess ? (
+                <div className="text-center py-8 space-y-4">
+                  <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 flex items-center justify-center mx-auto">
+                    <CheckCircle className="w-6 h-6" />
+                  </div>
+                  <h5 className="text-sm font-bold text-[var(--text-primary)]">Application Submitted</h5>
+                  <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed max-w-xs mx-auto">
+                    Your application and CV ({uploadedCVName}) were successfully logged in our systems. We will reach out to you within 48 hours.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedJob(null)}
+                    className="px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-color)] rounded-lg hover:bg-[var(--bg-card-hover)] transition-all cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!cvUploadSuccess) return;
+                    try {
+                      await fetch("/api/apply", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          name: applicantName,
+                          email: applicantEmail,
+                          role: selectedJob.title
+                        })
+                      });
+                      setApplySuccess(true);
+                    } catch (err) {
+                      console.error("Failed to submit job application:", err);
+                      setApplySuccess(true);
+                    }
+                  }}
+                  className="space-y-4"
+                >
+                  <div>
+                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={applicantName}
+                      onChange={(e) => setApplicantName(e.target.value)}
+                      className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Email Address</label>
+                    <input
+                      type="email"
+                      required
+                      value={applicantEmail}
+                      onChange={(e) => setApplicantEmail(e.target.value)}
+                      className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Upload CV (PDF/DOCX)</label>
+                    
+                    {cvUploadSuccess ? (
+                      <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 px-3 py-2 rounded-lg text-[10px] text-green-400 font-mono">
+                        <span>✓ {uploadedCVName}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUploadedCVName("");
+                            setCvUploadSuccess(false);
+                          }}
+                          className="text-red-400 hover:text-red-300"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="relative border border-dashed border-[var(--border-color)] hover:border-red-500/40 rounded-lg p-6 text-center cursor-pointer transition-all">
+                        <input
+                          type="file"
+                          accept=".pdf,.docx"
+                          required
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              setCvUploading(true);
+                              setUploadedCVName(file.name);
+                              setTimeout(() => {
+                                setCvUploading(false);
+                                setCvUploadSuccess(true);
+                              }, 1500);
+                            }
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        />
+                        <Upload className="w-5 h-5 text-gray-500 mx-auto mb-2" />
+                        <p className="text-[10px] text-[var(--text-secondary)] font-mono">
+                          {cvUploading ? "Uploading CV file..." : "Drag & Drop or Click to upload CV"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={!cvUploadSuccess}
+                    className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+                  >
+                    Submit Application
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* RESOURCE HUB SECTION */}
+      <section id="resources" className="py-24 bg-[var(--bg-card)]/50 border-t border-[var(--border-color)] px-6 relative">
+        <div className="max-w-5xl mx-auto space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
+            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Resource Hub</h2>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Technical Insights & Guides</h3>
+            <p className="text-xs text-[var(--text-secondary)]">Stay ahead with auditing whitepapers and proctoring best-practice frameworks.</p>
+          </div>
+
+          {/* Lead Magnet Card */}
+          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 md:p-10 max-w-3xl mx-auto relative overflow-hidden shadow-lg flex flex-col md:flex-row items-center gap-8 reveal-on-scroll">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 rounded-full blur-2xl pointer-events-none" />
+            
+            {/* Guide Preview Visual */}
+            <div className="w-full md:w-1/3 aspect-[3/4] bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-md relative overflow-hidden shrink-0">
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-red-500/20" />
+              <Cpu className="w-8 h-8 text-red-500" />
+              <div className="space-y-1.5">
+                <span className="text-[8px] font-mono text-red-400 tracking-wider uppercase font-bold">Whitepaper</span>
+                <h5 className="text-xs font-bold text-[var(--text-primary)] leading-snug">The Complete AI Hiring & Telemetry Guide</h5>
+                <p className="text-[8px] text-[var(--text-secondary)] font-mono">v2.4 Audit Frameworks</p>
+              </div>
+            </div>
+
+            {/* Description & form */}
+            <div className="flex-1 space-y-6 w-full">
+              <div className="space-y-2">
+                <h4 className="text-base font-bold text-[var(--text-primary)]">Download Our AI Hiring & Telemetry Guide</h4>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Learn how to structure secure coding sandboxes, analyze candidate keystroke dynamics, and prevent LLM plagiarism leakage without sacrificing candidate trust.
+                </p>
+              </div>
+
+              {hubSuccess ? (
+                <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl flex items-center gap-3 text-[10px] text-green-400 font-mono animate-fade-in">
+                  <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                  <div>
+                    <span className="font-bold block">Download Registered</span>
+                    <span>Your guide is ready. <a href="/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf" download="RecruitAI_Engine_Hiring_Recruitment_Guide.pdf" className="underline font-bold text-green-300 hover:text-green-200">Click here to download (PDF)</a></span>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!hubEmail) return;
+                    try {
+                      await fetch("/api/hub-download", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: hubEmail })
+                      });
+                      
+                      // Programmatically trigger download
+                      const link = document.createElement("a");
+                      link.href = "/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
+                      link.download = "RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    } catch (err) {
+                      console.error("Failed to register hub download:", err);
+                    }
+                    setHubSuccess(true);
+                  }}
+                  className="flex flex-col sm:flex-row gap-2.5"
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter email to receive whitepaper..."
+                    value={hubEmail}
+                    onChange={(e) => setHubEmail(e.target.value)}
+                    className="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-4 py-3 rounded-xl outline-none focus:border-red-500/50 placeholder-gray-600"
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-900 to-red-600 rounded-xl shadow-md cursor-pointer hover:opacity-95 transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Get Guide
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT US SECTION */}
-      <section id="contact" className="py-24 bg-[var(--bg-card)] border-t border-[var(--border-color)] px-6">
+      <section id="contact" className="py-24 bg-[var(--bg-card)] border-y border-[var(--border-color)] px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
           
           {/* Inquiry form column */}
@@ -706,9 +1123,155 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-[var(--border-color)] py-8 px-6 text-center text-[10px] text-[var(--text-secondary)] font-mono">
-        © 2026 RecruitAI Corp. Protected under POSIX atomic lock protocols. All rights reserved.
+      {/* READY TO START CTA SECTION */}
+      <section className="py-20 px-6 bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-card)] relative overflow-hidden text-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-red-600/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto space-y-6 relative z-10 reveal-on-scroll">
+          <h3 className="text-2xl md:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
+            Ready to scale your technical team with absolute trust?
+          </h3>
+          <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto">
+            Deploy secure, sandboxed practical exams and keystroke telemetry auditing within 10 minutes.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => scrollToSection("contact")}
+              className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-xl shadow-lg transition-all cursor-pointer"
+            >
+              Schedule B2B Demo
+            </button>
+            <button
+              type="button"
+              onClick={() => window.location.href = "/careers"}
+              className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider bg-slate-900 border border-[var(--border-color)] hover:border-red-500/30 rounded-xl text-[var(--text-primary)] transition-all cursor-pointer"
+            >
+              Explore Careers
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ENHANCED FOOTER */}
+      <footer className="border-t border-[var(--border-color)] bg-[var(--bg-card)] pt-16 pb-10 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 border-b border-[var(--border-color)] pb-12 mb-8">
+          
+          {/* Logo & Description */}
+          <div className="md:col-span-5 space-y-4">
+            <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => scrollToSection("home")}>
+              <div className="bg-gradient-to-br from-blue-900 to-red-600 p-2 rounded-xl text-white">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <span className="font-extrabold text-sm tracking-widest text-[var(--text-primary)]">
+                RECRUITAI <span className="text-red-500 font-normal">ENGINE</span>
+              </span>
+            </div>
+            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed max-w-sm">
+              The high-performance proctoring and plagiarism auditing platform for tech recruiting. Protected under POSIX atomic lock protocols.
+            </p>
+            <div className="flex items-center gap-3 pt-2">
+              <a 
+                href="#home" 
+                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
+                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-blue-400 hover:border-blue-500/40 transition-all"
+              >
+                <Linkedin className="w-3.5 h-3.5" />
+              </a>
+              <a 
+                href="#home" 
+                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
+                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-white hover:border-white/40 transition-all"
+              >
+                <Github className="w-3.5 h-3.5" />
+              </a>
+              <a 
+                href="#home" 
+                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
+                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
+              >
+                <Twitter className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Office Locations */}
+          <div className="md:col-span-4 space-y-4">
+            <h5 className="text-xs font-bold font-mono text-[var(--text-primary)] uppercase tracking-wider">Office Locations</h5>
+            <div className="space-y-3 font-mono text-[10px] text-[var(--text-secondary)]">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-bold text-[var(--text-primary)] block">Huddersfield, UK Office</span>
+                  <span>Thornton Hills<br />Huddersfield, United Kingdom</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-bold text-[var(--text-primary)] block">Islamabad, PK Office</span>
+                  <span>Sector I-8<br />Islamabad, Pakistan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Newsletter Sign Up */}
+          <div className="md:col-span-3 space-y-4">
+            <h5 className="text-xs font-bold font-mono text-[var(--text-primary)] uppercase tracking-wider">Audit Newsletter</h5>
+            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
+              Subscribe to stay updated with sandbox virtualization releases and security whitepapers.
+            </p>
+            
+            {newsletterSuccess ? (
+              <div className="bg-green-500/10 border border-green-500/20 px-3 py-2 rounded-xl text-[10px] text-green-400 font-mono">
+                ✓ Registered successfully.
+              </div>
+            ) : (
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!newsletterEmail) return;
+                  try {
+                    await fetch("/api/newsletter", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email: newsletterEmail })
+                    });
+                  } catch (err) {
+                    console.error("Failed to register newsletter subscription:", err);
+                  }
+                  setNewsletterSuccess(true);
+                }}
+                className="space-y-2"
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter email address..."
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] text-[10px] text-[var(--text-primary)] px-3 py-2.5 rounded-xl outline-none focus:border-red-500/50 placeholder-gray-600"
+                />
+                <button
+                  type="submit"
+                  className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-900 to-red-600 rounded-xl cursor-pointer hover:opacity-95 transition-all text-center"
+                >
+                  Subscribe
+                </button>
+              </form>
+            )}
+          </div>
+
+        </div>
+
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[10px] text-[var(--text-secondary)]">
+          <p>© {new Date().getFullYear()} RecruitAI Corp. Protected under POSIX atomic lock protocols. All rights reserved.</p>
+          <div className="flex gap-4">
+            <a href="/careers" className="hover:text-[var(--text-primary)] transition-colors">Careers Page</a>
+            <a href="/login" className="hover:text-[var(--text-primary)] transition-colors">Client Console</a>
+          </div>
+        </div>
       </footer>
 
     </div>

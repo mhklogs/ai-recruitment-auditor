@@ -89,6 +89,7 @@ export default function ProctoringPortal() {
 
   useEffect(() => {
     if (!isExamActive || isTerminated || isSubmitted || isNetworkReset) return;
+
     const handleWindowBlur = () => {
       setTabSwitches(prev => {
         const next = prev + 1;
@@ -96,6 +97,7 @@ export default function ProctoringPortal() {
         return next;
       });
     };
+
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setTabSwitches(prev => {
@@ -105,11 +107,31 @@ export default function ProctoringPortal() {
         });
       }
     };
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "Warning: Leaving this page will terminate your active test session.";
+      return e.returnValue;
+    };
+
+    const handlePopState = () => {
+      window.history.pushState(null, "", window.location.href);
+      triggerFraudTermination("PopState Alert - Candidate attempted to navigate backward.");
+    };
+
+    // Prevent back/forward buttons
+    window.history.pushState(null, "", window.location.href);
+
     window.addEventListener("blur", handleWindowBlur);
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
     return () => {
       window.removeEventListener("blur", handleWindowBlur);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, [isExamActive, isTerminated, isSubmitted, isNetworkReset]);
 
