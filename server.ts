@@ -1870,9 +1870,6 @@ async function startServer() {
   });
 }
 
-// Vercel serverless support
-if (process.env.VERCEL) {
-  export { app };
-} else {
+if (!process.env.VERCEL) {
   startServer();
 }
