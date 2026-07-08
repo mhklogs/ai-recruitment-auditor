@@ -36,15 +36,22 @@ app.get("/api/system-config", (req, res) => {
   res.json({ mode: APP_MODE });
 });
 
-// Initialize Gemini Client
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
+// Initialize Gemini Client (lazy/optional to avoid Vercel cold-start crashes)
+let ai: any = null;
+try {
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== "MY_GEMINI_API_KEY") {
+    ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
   }
-});
+} catch (e) {
+  console.warn("[Gemini] Client init failed:", e);
+}
 
 // Helper function to execute the primary candidate code & telemetry audit
 async function executeCandidateAudit(jobContext: any, examData: any, behavioralTelemetry: any): Promise<any> {
