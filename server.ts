@@ -1854,7 +1854,7 @@ app.post("/api/admin/create-test", async (req, res) => {
       const testsDir = path.join(VAULT_PATH, "test_sessions");
       if (!fs.existsSync(testsDir)) fs.mkdirSync(testsDir, { recursive: true });
       writeJsonAtomic(path.join(testsDir, `${token}.json`), testSession);
-      const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
+      const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") || `http://localhost:${PORT}`;
       const testLink = `${appUrl}/test?token=${token}`;
       await sendNotificationEmail(candidateEmail, `Assessment Invitation: ${title || "Technical Test"}`, `Dear ${candidateName},\n\nYou have been invited to take a technical assessment.\n\nTest Link: ${testLink}\n\nThis link expires in 7 days. Please ensure you have camera and microphone enabled.\n\nGood luck!`);
       return res.json({ success: true, testLink, token, testSession, emailSent: true });
@@ -1890,7 +1890,7 @@ app.post("/api/admin/create-test", async (req, res) => {
     const { error: qError } = await supabase.from("questions").insert(questionsWithOrder);
     if (qError) throw qError;
 
-    const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
+    const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") || `http://localhost:${PORT}`;
     const testLink = `${appUrl}/test?token=${token}`;
     await sendNotificationEmail(candidateEmail, `Assessment Invitation: ${title || "Technical Test"}`, `Dear ${candidateName},\n\nYou have been invited to take a technical assessment.\n\nTest Link: ${testLink}\n\nThis link expires in 7 days. Please ensure you have camera and microphone enabled.\n\nGood luck!`);
 
