@@ -14,7 +14,7 @@ if (!globalThis.WebSocket && WebSocket) {
   (globalThis as any).WebSocket = WebSocket;
 }
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const APP_MODE = process.env.APP_MODE || (PORT === 3001 ? "testing" : "recruiter");
 
@@ -293,6 +293,8 @@ function readJsonSafely(filePath: string): any {
 // Email notification service (logs to console; uses Resend if RESEND_API_KEY is set)
 async function sendNotificationEmail(to: string, subject: string, body: string) {
   const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.EMAIL_FROM || "recruitai@yourplatform.com";
+  const fromName = process.env.EMAIL_FROM_NAME || "RecruitAI";
   if (!apiKey) {
     console.log(`[Email] TO: ${to} | SUBJECT: ${subject}`);
     return { ok: true, mock: true };
@@ -301,7 +303,7 @@ async function sendNotificationEmail(to: string, subject: string, body: string) 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'recruitai@yourplatform.com', to, subject, text: body }),
+      body: JSON.stringify({ from: `${fromName} <${fromEmail}>`, to, subject, text: body }),
     });
     return { ok: res.ok, id: res.ok ? (await res.json()).id : undefined };
   } catch (err: any) {
@@ -1078,6 +1080,140 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
+// Helper: generate secure random token
+function generateTestToken(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  for (let i = 0; i < 32; i++) {
+    token += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return token;
+}
+
+// Admin: Create test session and send invitation email
+app.post("/api/admin/create-test", async (req, res) => {
+  try {
+    const { candidateEmail, candidateName, jobDescription, testDurationMin, companyId } = req.body;
+    if (!candidateEmail || !candidateName || !jobDescription) {
+      return res.status(400).json({ error: "Missing required fields: candidateEmail, candidateName, jobDescription" });
+    }
+
+    const token = generateTestToken();
+    const testSession = {
+      token,
+      candidateEmail,
+      candidateName,
+      jobDescription,
+      testDurationMin: testDurationMin || 60,
+      companyId: companyId || "default",
+      status: "CREATED",
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+    };
+
+    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+    const testsDir = path.join(VAULT_PATH, "test_sessions");
+    if (!fs.existsSync(testsDir)) fs.mkdirSync(testsDir, { recursive: true });
+
+    const testFile = path.join(testsDir, `${token}.json`);
+    writeJsonAtomic(testFile, testSession);
+
+    const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
+    const testLink = `${appUrl}/test?token=${token}`;
+
+    const emailSubject = `Secure Assessment Invitation: ${candidateName}`;
+    const emailBody = `Dear ${candidateName},
+
+You have been invited to take a secure technical assessment.
+
+Test Link: ${testLink}
+
+This link is unique to you and expires in 7 days. Please ensure you have:
+- A stable internet connection
+- Camera and microphone enabled
+- A quiet, well-lit environment
+
+The assessment will monitor your screen activity, camera feed, and microphone to ensure integrity.
+
+Good luck!
+
+RecruitAI Team`;
+
+    const emailResult = await sendNotificationEmail(candidateEmail, emailSubject, emailBody);
+
+    res.json({
+      success: true,
+      testLink,
+      token,
+      emailSent: emailResult.ok,
+      testSession
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to create test." });
+  }
+});
+
+// Get test session by token
+app.get("/api/test-session/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+    const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
+
+    if (!fs.existsSync(testFile)) {
+      return res.status(404).json({ error: "Invalid or expired test link." });
+    }
+
+    const testSession = readJsonSafely(testFile);
+    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
+      return res.status(403).json({ error: "This test link has been locked or already completed." });
+    }
+
+    if (new Date(testSession.expiresAt) < new Date()) {
+      return res.status(403).json({ error: "This test link has expired." });
+    }
+
+    res.json({ success: true, testSession });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load test session." });
+  }
+});
+
+// Submit test session results
+app.post("/api/test-session/:token/submit", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { examData, telemetry, status } = req.body;
+
+    const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+    const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
+
+    if (!fs.existsSync(testFile)) {
+      return res.status(404).json({ error: "Test session not found." });
+    }
+
+    const testSession = readJsonSafely(testFile);
+    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
+      return res.status(403).json({ error: "This test link has been locked or already completed." });
+    }
+
+    testSession.status = status || "TEST_SUBMITTED";
+    testSession.submittedAt = new Date().toISOString();
+    testSession.examData = examData;
+    testSession.telemetry = telemetry;
+    testSession.evaluationTriggeredAt = new Date().toISOString();
+
+    writeJsonAtomic(testFile, testSession);
+
+    // Trigger background evaluation
+    runVaultWatcher();
+
+    res.json({ success: true, testSession });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to submit test." });
+  }
+});
+
 // Admin: Register new client
 app.post("/api/admin/register-client", async (req, res) => {
   try {
@@ -1470,6 +1606,220 @@ app.get("/api/admin/database-ledger", async (req, res) => {
   }
 });
 
+// Admin: Create test with questions
+app.post("/api/admin/create-test", async (req, res) => {
+  try {
+    const { title, description, candidateEmail, candidateName, durationMin, companyId, questions } = req.body;
+    if (!candidateEmail || !candidateName || !questions || !Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({ error: "Missing required fields." });
+    }
+
+    const token = generateTestToken();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    if (!supabase) {
+      const testSession = { token, title, description, candidateEmail, candidateName, durationMin: durationMin || 60, companyId: companyId || "default", questions, status: "CREATED", createdAt: new Date().toISOString(), expiresAt };
+      const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+      const testsDir = path.join(VAULT_PATH, "test_sessions");
+      if (!fs.existsSync(testsDir)) fs.mkdirSync(testsDir, { recursive: true });
+      writeJsonAtomic(path.join(testsDir, `${token}.json`), testSession);
+      const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
+      const testLink = `${appUrl}/test?token=${token}`;
+      await sendNotificationEmail(candidateEmail, `Assessment Invitation: ${title || "Technical Test"}`, `Dear ${candidateName},\n\nYou have been invited to take a technical assessment.\n\nTest Link: ${testLink}\n\nThis link expires in 7 days. Please ensure you have camera and microphone enabled.\n\nGood luck!`);
+      return res.json({ success: true, testLink, token, testSession, emailSent: true });
+    }
+
+    const { data: test, error: testError } = await supabase
+      .from("tests")
+      .insert([{
+        title: title || "Technical Assessment",
+        description: description || "",
+        candidate_email: candidateEmail,
+        candidate_name: candidateName,
+        duration_min: durationMin || 60,
+        company_id: companyId || "default",
+        token,
+        expires_at: expiresAt
+      }])
+      .select()
+      .single();
+
+    if (testError) throw testError;
+
+    const questionsWithOrder = questions.map((q: any, idx: number) => ({
+      test_id: test.id,
+      type: q.type || "text",
+      question_text: q.question_text,
+      options: q.options || null,
+      correct_answer: q.correct_answer || null,
+      points: q.points || 1,
+      order_index: idx
+    }));
+
+    const { error: qError } = await supabase.from("questions").insert(questionsWithOrder);
+    if (qError) throw qError;
+
+    const appUrl = process.env.TEST_PORTAL_URL || process.env.APP_URL || `http://localhost:${PORT}`;
+    const testLink = `${appUrl}/test?token=${token}`;
+    await sendNotificationEmail(candidateEmail, `Assessment Invitation: ${title || "Technical Test"}`, `Dear ${candidateName},\n\nYou have been invited to take a technical assessment.\n\nTest Link: ${testLink}\n\nThis link expires in 7 days. Please ensure you have camera and microphone enabled.\n\nGood luck!`);
+
+    res.json({ success: true, testLink, token, test, emailSent: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to create test." });
+  }
+});
+
+// Admin: List all tests
+app.get("/api/admin/tests", async (req, res) => {
+  try {
+    if (!supabase) return res.json([]);
+    const { data, error } = await supabase.from("tests").select("*").order("created_at", { ascending: false });
+    if (error) throw error;
+    res.json(data || []);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load tests." });
+  }
+});
+
+// Admin: Get test with questions
+app.get("/api/admin/tests/:id", async (req, res) => {
+  try {
+    if (!supabase) return res.status(500).json({ error: "Database not configured." });
+    const { id } = req.params;
+    const { data: test, error } = await supabase.from("tests").select("*").eq("id", id).single();
+    if (error || !test) return res.status(404).json({ error: "Test not found." });
+    const { data: questions } = await supabase.from("questions").select("*").eq("test_id", id).order("order_index");
+    res.json({ ...test, questions: questions || [] });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load test." });
+  }
+});
+
+// Admin: Get test results
+app.get("/api/admin/tests/:id/results", async (req, res) => {
+  try {
+    if (!supabase) return res.json([]);
+    const { id } = req.params;
+    const { data, error } = await supabase.from("test_results").select("*").eq("test_id", id).order("created_at", { ascending: false });
+    if (error) throw error;
+    res.json(data || []);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load results." });
+  }
+});
+
+// Get test session by token
+app.get("/api/test-session/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    let testSession: any = null;
+
+    if (supabase) {
+      const { data } = await supabase.from("tests").select("*").eq("token", token).single();
+      if (data) {
+        testSession = data;
+        const { data: questions } = await supabase.from("questions").select("*").eq("test_id", data.id).order("order_index");
+        testSession.questions = questions || [];
+      }
+    }
+
+    if (!testSession) {
+      const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+      const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
+      if (!fs.existsSync(testFile)) {
+        return res.status(404).json({ error: "Invalid or expired test link." });
+      }
+      testSession = readJsonSafely(testFile);
+    }
+
+    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
+      return res.status(403).json({ error: "This test link has been locked or already completed." });
+    }
+
+    if (new Date(testSession.expires_at || testSession.expiresAt) < new Date()) {
+      return res.status(403).json({ error: "This test link has expired." });
+    }
+
+    res.json({ success: true, testSession });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to load test session." });
+  }
+});
+
+// Submit test session results
+app.post("/api/test-session/:token/submit", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { examData, telemetry, status, answers } = req.body;
+
+    let testSession: any = null;
+    let testId: string | null = null;
+
+    if (supabase) {
+      const { data: test } = await supabase.from("tests").select("*").eq("token", token).single();
+      if (test) {
+        testId = test.id;
+        testSession = test;
+      }
+    }
+
+    if (!testSession) {
+      const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+      const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
+      if (!fs.existsSync(testFile)) {
+        return res.status(404).json({ error: "Test session not found." });
+      }
+      testSession = readJsonSafely(testFile);
+    }
+
+    if (testSession.status === "TERMINATED_FRAUD" || testSession.status === "TEST_SUBMITTED") {
+      return res.status(403).json({ error: "This test link has been locked or already completed." });
+    }
+
+    testSession.status = status || "TEST_SUBMITTED";
+    testSession.submittedAt = new Date().toISOString();
+    if (examData) testSession.examData = examData;
+    if (telemetry) testSession.telemetry = telemetry;
+    testSession.answers = answers || null;
+
+    if (supabase && testId) {
+      const score = calculateScore(answers, testSession.questions || []);
+      const totalPoints = (testSession.questions || []).reduce((sum: number, q: any) => sum + (q.points || 1), 0);
+      await supabase.from("test_results").insert([{
+        test_id: testId,
+        candidate_name: testSession.candidate_name,
+        candidate_email: testSession.candidate_email,
+        answers: answers || {},
+        score,
+        total_points: totalPoints,
+        status: "SUBMITTED",
+        submitted_at: new Date().toISOString()
+      }]);
+      await supabase.from("tests").update({ status: "TEST_SUBMITTED" }).eq("id", testId);
+    } else {
+      const VAULT_PATH = path.resolve(process.cwd(), "vault", "recruitment_data");
+      const testFile = path.join(VAULT_PATH, "test_sessions", `${token}.json`);
+      writeJsonAtomic(testFile, testSession);
+    }
+
+    res.json({ success: true, testSession });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to submit test." });
+  }
+});
+
+function calculateScore(answers: any, questions: any[]): number {
+  if (!answers || !questions) return 0;
+  let score = 0;
+  for (const q of questions) {
+    const answer = answers[q.id];
+    if (answer && q.correct_answer && String(answer).toLowerCase() === String(q.correct_answer).toLowerCase()) {
+      score += q.points || 1;
+    }
+  }
+  return score;
+}
+
 // Vite middleware setup and server boot
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
@@ -1520,4 +1870,9 @@ async function startServer() {
   });
 }
 
-startServer();
+// Vercel serverless support
+if (process.env.VERCEL) {
+  export { app };
+} else {
+  startServer();
+}

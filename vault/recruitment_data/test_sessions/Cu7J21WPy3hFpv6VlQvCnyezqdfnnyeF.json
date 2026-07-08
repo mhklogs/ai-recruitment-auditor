@@ -1,0 +1,11 @@
+{
+  "token": "Cu7J21WPy3hFpv6VlQvCnyezqdfnnyeF",
+  "candidateEmail": "candidate@example.com",
+  "candidateName": "Demo Candidate",
+  "jobDescription": "Build a REST API in Node.js with JWT authentication and rate limiting.",
+  "testDurationMin": 45,
+  "companyId": "acme-corp",
+  "status": "CREATED",
+  "createdAt": "2026-07-07T23:44:32.723Z",
+  "expiresAt": "2026-07-14T23:44:32.723Z"
+}

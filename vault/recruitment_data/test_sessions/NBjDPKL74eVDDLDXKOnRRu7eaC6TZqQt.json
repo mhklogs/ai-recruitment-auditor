@@ -1,0 +1,11 @@
+{
+  "token": "NBjDPKL74eVDDLDXKOnRRu7eaC6TZqQt",
+  "candidateEmail": "test@example.com",
+  "candidateName": "Test Candidate",
+  "jobDescription": "Implement a thread-safe rate limiter in TypeScript with sliding window algorithm.",
+  "testDurationMin": 60,
+  "companyId": "default",
+  "status": "CREATED",
+  "createdAt": "2026-07-07T23:42:13.474Z",
+  "expiresAt": "2026-07-14T23:42:13.474Z"
+}

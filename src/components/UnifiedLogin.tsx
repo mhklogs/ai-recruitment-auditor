@@ -42,6 +42,11 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
         throw new Error(data.error || "Login failed.");
       }
       onLogin(data.role, data);
+      if (data.role === "admin") {
+        window.location.href = "/admin-dashboard";
+      } else {
+        window.location.href = "/client-dashboard";
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -65,6 +70,7 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed.");
       onLogin(data.role, data);
+      window.location.href = "/client-dashboard";
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -1,0 +1,37 @@
+{
+  "token": "OtieRWcLL4GS34oBtUZDjd9KK6EdOIbL",
+  "candidateEmail": "kayanihassaan5@gmail.com",
+  "candidateName": "hassaan",
+  "jobDescription": "for junior prompty AI ngineer",
+  "testDurationMin": 5,
+  "companyId": "STA-001-RHAK",
+  "status": "TEST_SUBMITTED",
+  "createdAt": "2026-07-07T23:49:45.224Z",
+  "expiresAt": "2026-07-14T23:49:45.224Z",
+  "submittedAt": "2026-07-07T23:51:50.260Z",
+  "examData": {
+    "questionPrompt": "for junior prompty AI ngineer",
+    "candidateAnswer": "",
+    "typingDurationMin": 1
+  },
+  "telemetry": {
+    "tabSwitchesCount": 0,
+    "bulkPastesCount": 0,
+    "averageTypingSpeedWpm": 58,
+    "events": [
+      {
+        "timestamp": "00:00",
+        "event_type": "session_start",
+        "details": "Secure test session initialized for hassaan. Proctor nodes active."
+      },
+      {
+        "timestamp": "Submission",
+        "event_type": "session_close",
+        "details": "Exam completed by candidate."
+      }
+    ],
+    "cameraEnabled": true,
+    "micEnabled": true
+  },
+  "evaluationTriggeredAt": "2026-07-07T23:51:50.260Z"
+}

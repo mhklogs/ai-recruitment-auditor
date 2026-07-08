@@ -1,0 +1,9 @@
+{
+  "companyName": "TechCorp",
+  "role": "Senior React Developer",
+  "seniority": "Senior",
+  "jobContext": {
+    "roleRequirements": "Design and implement responsive distributed interface components.",
+    "coreTechStack": "React 19, TypeScript, Tailwind CSS"
+  }
+}

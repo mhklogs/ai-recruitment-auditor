@@ -30,7 +30,18 @@ export default function App() {
   return (
     <Routes>
       <Route path="/test" element={<ProctoringPortal />} />
-      <Route path="/" element={<CorporateLanding onLoginRequested={() => window.location.href = "/login"} />} />
+      <Route
+        path="/"
+        element={
+          auth.role === "admin" ? (
+            <Navigate to="/admin-dashboard" replace />
+          ) : auth.role === "client" ? (
+            <Navigate to="/client-dashboard" replace />
+          ) : (
+            <CorporateLanding onLoginRequested={() => window.location.href = "/login"} />
+          )
+        }
+      />
       <Route path="/login" element={<UnifiedLogin onLogin={login} />} />
       <Route path="/signin" element={<UnifiedLogin onLogin={login} />} />
       <Route path="/dashboard" element={<UnifiedLogin onLogin={login} />} />
