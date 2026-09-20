@@ -1,39 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Outfit", sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
-  --bg-primary: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --bg-card: #f8fafc;
-  --bg-card-hover: #f1f5f9;
-  --border-color: #e2e8f0;
-  --color-navy: #0f172a;
-  --color-navy-light: #1e3a8a;
-  --color-red: #dc2626;
-  --color-red-light: #f87171;
-  --color-accent-grad: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%);
-  --glow-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.3);
-}
+  /* RecruitAI Engine — light editorial theme (ink + burgundy + warm sand) */
+  --bg-primary: #faf7f3;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f4efe8;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e7e0d6;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #050508;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --bg-card: #0d0f17;
-    --bg-card-hover: #141724;
-    --border-color: #1e293b;
-    --color-navy: #1e3a8a;
-    --color-navy-light: #3b82f6;
-    --color-red: #be123c;
-    --color-red-light: #f43f5e;
-    --color-accent-grad: linear-gradient(135deg, #1e3a8a 0%, #be123c 100%);
-    --glow-shadow: 0 10px 30px -10px rgba(190, 18, 60, 0.4);
-  }
+  --color-ink: #1f2937;
+  --color-brand: #6b1e3a;
+  --color-brand-light: #9c3f5d;
+  --color-accent: #c77b4a;
+  --color-accent-light: #d99a6f;
+  --color-accent-grad: linear-gradient(135deg, #6b1e3a 0%, #c77b4a 100%);
+  --glow-shadow: 0 14px 34px -18px rgba(107, 30, 58, 0.35);
 }
 
 html {
@@ -44,32 +33,36 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
-/* Premium Clickable Pop-out Animation */
+h1, h2, h3, h4, .font-display {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Subtle, tasteful hover lift (no heavy glow) */
 .hover-pop {
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              box-shadow 0.25s ease, 
-              border-color 0.25s ease, 
-              background-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.1),
+              box-shadow 0.22s ease,
+              border-color 0.22s ease,
+              background-color 0.22s ease;
 }
 
 .hover-pop:hover {
-  transform: translateY(-4px) scale(1.025);
+  transform: translateY(-3px);
   box-shadow: var(--glow-shadow);
-  border-color: var(--color-red-light) !important;
+  border-color: var(--color-brand-light) !important;
 }
 
 .hover-pop:active {
-  transform: translateY(-1px) scale(0.99);
+  transform: translateY(-1px) scale(0.995);
 }
 
-/* Scroll Entrance Animation classes */
+/* Scroll entrance animations */
 .reveal-on-scroll, .reveal-left, .reveal-right, .reveal-scale, .reveal-down {
   opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -79,10 +72,10 @@ body {
 .reveal-scale { transform: scale(0.9); }
 .reveal-down { transform: translateY(-40px); }
 
-.reveal-on-scroll.visible, 
-.reveal-left.visible, 
-.reveal-right.visible, 
-.reveal-scale.visible, 
+.reveal-on-scroll.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible,
 .reveal-down.visible {
   opacity: 1;
   transform: translate(0) scale(1);
@@ -99,34 +92,40 @@ input[type="range"]::-webkit-slider-thumb {
   height: 16px;
   width: 16px;
   border-radius: 50%;
-  background: var(--color-red);
+  background: var(--color-brand);
   cursor: pointer;
-  box-shadow: 0 0 10px var(--color-red);
+  box-shadow: 0 2px 8px rgba(107, 30, 58, 0.35);
   transition: transform 0.1s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.25);
+  transform: scale(1.2);
 }
 
-/* Cohesive Theme Hover Effects for Admin Dashboard and Testing Portal */
-#candidate-list-cards button, 
-#editor-tabs-bar button, 
-#job-context-fields input, 
+/* Cohesive hover effects for admin/testing portals */
+#candidate-list-cards button,
+#editor-tabs-bar button,
+#job-context-fields input,
 #job-context-fields textarea,
 #auditor-workspace-pane button {
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              box-shadow 0.25s ease, 
-              border-color 0.25s ease, 
-              background-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.1),
+              box-shadow 0.22s ease,
+              border-color 0.22s ease,
+              background-color 0.22s ease;
 }
 
-#candidate-list-cards button:hover, 
-#editor-tabs-bar button:hover, 
-#job-context-fields input:hover, 
+#candidate-list-cards button:hover,
+#editor-tabs-bar button:hover,
+#job-context-fields input:hover,
 #job-context-fields textarea:hover,
 #auditor-workspace-pane button:hover {
-  transform: translateY(-2px) scale(1.01);
+  transform: translateY(-2px);
   box-shadow: var(--glow-shadow);
-  border-color: var(--color-red-light) !important;
+  border-color: var(--color-brand-light) !important;
 }
+
+/* thin scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f4efe8; }
+::-webkit-scrollbar-thumb { background: #d8cdbd; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #c3b5a2; }
