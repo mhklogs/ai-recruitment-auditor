@@ -55,7 +55,7 @@ export function RecruitAuditorWordmark({
     <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
       <RecruitAuditorLogo size={size} />
       <span
-        className="font-display text-sm font-bold uppercase tracking-[0.14em]"
+        className="font-display text-sm font-bold  tracking-[0.14em]"
         style={{ color: light ? "#F0F4FF" : "var(--text-primary)" }}
       >
         Recruit<span style={{ color: "#60A5FA" }}>Auditor</span>

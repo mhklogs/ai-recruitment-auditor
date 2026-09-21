@@ -30,8 +30,8 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
   };
 
   const getScoreBadge = (score: number) => {
-    if (score >= 80) return "bg-green-500 text-black";
-    if (score >= 60) return "bg-yellow-500 text-black";
+    if (score >= 80) return "bg-green-500 text-ink";
+    if (score >= 60) return "bg-yellow-500 text-ink";
     return "bg-red-500 text-[var(--text-primary)]";
   };
 
@@ -48,7 +48,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
             </div>
           </div>
           <div className="text-center space-y-2 max-w-sm">
-            <h3 className="text-xs font-semibold text-[var(--text-primary)] tracking-widest font-mono uppercase">
+            <h3 className="text-xs font-semibold text-[var(--text-primary)] tracking-widest font-mono ">
               RecruitAI Screen Engaged
             </h3>
             <p className="text-[11px] text-red-500 font-mono animate-pulse">
@@ -64,7 +64,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
           <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] p-4 rounded-xl flex items-start gap-3">
             <Sparkles className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
             <div className="text-xs space-y-1">
-              <span className="font-bold text-[var(--text-primary)] uppercase tracking-wider block font-mono">RecruitAI Screening System</span>
+              <span className="font-bold text-[var(--text-primary)]  tracking-wider block font-mono">RecruitAI Screening System</span>
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 This module strips bias-inducing parameters (names, location, age, gender) and conducts a merit-based evaluation of the candidate's career trajectory, project complexity, and growth.
               </p>
@@ -74,7 +74,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-0">
             {/* Raw Resume Preview */}
             <div className="border border-[var(--border-color)] bg-[var(--bg-card-hover)]/30 rounded-xl p-4 flex flex-col overflow-hidden">
-              <span className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono mb-2.5 block border-b border-[var(--border-color)] pb-2">
+              <span className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono mb-2.5 block border-b border-[var(--border-color)] pb-2">
                 Raw Resume Ingested
               </span>
               <pre className="flex-1 text-[11px] font-mono text-[var(--text-primary)] overflow-y-auto whitespace-pre-wrap leading-relaxed pr-1 custom-scrollbar">
@@ -95,7 +95,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
               <button
                 type="button"
                 onClick={onRunScreening}
-                className="flex items-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white hover:opacity-90 text-[var(--text-primary)] font-semibold text-xs py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-purple-500/10 cursor-pointer"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink hover:opacity-90 text-[var(--text-primary)] font-semibold text-xs py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-purple-500/10 cursor-pointer"
               >
                 <Sparkles className="w-4 h-4" />
                 Screen Candidate Resume
@@ -113,7 +113,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] p-4 rounded-xl flex items-center justify-between">
               <div>
-                <span className="text-[9px] font-mono text-[var(--text-secondary)] uppercase tracking-wider block">Merit Score</span>
+                <span className="text-[9px] font-mono text-[var(--text-secondary)]  tracking-wider block">Merit Score</span>
                 <span className={`text-xl font-mono font-bold mt-1 inline-block px-2.5 py-0.5 rounded-lg ${getScoreColor(report.payload.meritScore)}`}>
                   {report.payload.meritScore}%
                 </span>
@@ -123,8 +123,8 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
 
             <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] p-4 rounded-xl flex items-center justify-between col-span-2">
               <div>
-                <span className="text-[9px] font-mono text-[var(--text-secondary)] uppercase tracking-wider block">RecruitAI Automatic Action</span>
-                <span className={`text-xs font-mono font-bold mt-1 inline-flex items-center gap-1.5 px-3 py-1 rounded-full uppercase ${
+                <span className="text-[9px] font-mono text-[var(--text-secondary)]  tracking-wider block">RecruitAI Automatic Action</span>
+                <span className={`text-xs font-mono font-bold mt-1 inline-flex items-center gap-1.5 px-3 py-1 rounded-full  ${
                   report.action === "SHORTLIST_RANK"
                     ? "bg-green-500/15 text-green-400 border border-green-500/30"
                     : "bg-yellow-500/15 text-yellow-400 border border-yellow-500/30"
@@ -142,11 +142,11 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
             {/* Left: Anonymized Bias Mitigated Profile (5 cols) */}
             <div className="lg:col-span-5 border border-[var(--border-color)] bg-[var(--bg-card-hover)]/30 rounded-xl p-4 flex flex-col max-h-[380px]">
               <div className="flex justify-between items-center border-b border-[var(--border-color)] pb-2 mb-3">
-                <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono flex items-center gap-1.5">
+                <span className="text-[9px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono flex items-center gap-1.5">
                   <Lock className="w-3.5 h-3.5 text-green-400" />
                   Anonymized Profile
                 </span>
-                <span className="text-[8px] bg-green-500/10 text-green-400 border border-green-500/20 px-1 rounded font-mono font-bold uppercase tracking-wider">
+                <span className="text-[8px] bg-green-500/10 text-green-400 border border-green-500/20 px-1 rounded font-mono font-bold  tracking-wider">
                   Bias Mitigated
                 </span>
               </div>
@@ -160,7 +160,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
               
               {/* Merit Justification */}
               <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] rounded-xl p-4 space-y-2">
-                <span className="text-[9px] font-bold text-red-500 uppercase tracking-wider font-mono block">
+                <span className="text-[9px] font-bold text-red-500  tracking-wider font-mono block">
                   Trajectory & merit assessment
                 </span>
                 <p className="text-xs text-[var(--text-primary)] leading-relaxed whitespace-pre-line">
@@ -171,11 +171,11 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
               {/* Outreach Email Draft */}
               <div className="bg-[var(--bg-card-hover)]/50 border border-[var(--border-color)] rounded-xl p-4 space-y-3">
                 <div className="flex justify-between items-center border-b border-[var(--border-color)] pb-2">
-                  <span className="text-[9px] font-bold text-blue-400 uppercase tracking-wider font-mono flex items-center gap-1.5">
+                  <span className="text-[9px] font-bold text-blue-400  tracking-wider font-mono flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-blue-400" />
                     Automated Candidate Engagement
                   </span>
-                  <span className="text-[8px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 rounded font-mono uppercase">
+                  <span className="text-[8px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 rounded font-mono ">
                     Ready to Dispatch
                   </span>
                 </div>
@@ -199,7 +199,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
                 <div className="flex justify-end gap-2 pt-1.5">
                   <button
                     onClick={() => alert("Simulated email dispatched successfully to: " + report.payload.emailDraft.to)}
-                    className="flex items-center gap-1.5 bg-[var(--bg-primary)] hover:bg-[#2e3b4e] border border-[var(--border-color)] hover:border-gray-500 text-[var(--text-primary)] text-[10px] font-semibold py-1.5 px-3.5 rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 bg-[var(--bg-primary)] hover:bg-abyss border border-[var(--border-color)] hover:border-gray-500 text-[var(--text-primary)] text-[10px] font-semibold py-1.5 px-3.5 rounded-lg transition-colors cursor-pointer"
                   >
                     <span>Dispatch Outreach</span>
                     <ArrowRight className="w-3.5 h-3.5" />

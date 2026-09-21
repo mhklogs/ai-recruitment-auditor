@@ -244,7 +244,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="hover:text-[var(--text-primary)] transition-colors cursor-pointer font-mono uppercase tracking-[0.14em]"
+                className="hover:text-[var(--text-primary)] transition-colors cursor-pointer font-mono  tracking-[0.14em]"
               >
                 {item.label}
               </button>
@@ -254,7 +254,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
           <div className="hidden lg:flex items-center gap-3">
             <button
               onClick={goLogin}
-              className="inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-xs font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-xs font-head font-semibold text-ink transition hover:bg-white/5 cursor-pointer"
             >
               <Lock className="h-3.5 w-3.5" />
               Client dashboard
@@ -271,7 +271,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
           {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden inline-flex items-center justify-center rounded-lg glass p-2.5 text-white cursor-pointer"
+            className="lg:hidden inline-flex items-center justify-center rounded-lg glass p-2.5 text-ink cursor-pointer"
             aria-label="Toggle menu"
           >
             <Menu className="h-5 w-5" />
@@ -285,14 +285,14 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-left px-3 py-3 rounded-lg font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                className="text-left px-3 py-3 rounded-lg font-mono text-xs  tracking-[0.14em] text-[var(--text-secondary)] hover:text-ink hover:bg-white/5 transition-colors cursor-pointer"
               >
                 {item.label}
               </button>
             ))}
             <button
               onClick={goLogin}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl glass px-4 py-3 text-xs font-head font-semibold text-white cursor-pointer"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl glass px-4 py-3 text-xs font-head font-semibold text-ink cursor-pointer"
             >
               <Lock className="h-3.5 w-3.5" /> Client dashboard
             </button>
@@ -320,12 +320,12 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
           <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             {/* Left: copy */}
             <div className="reveal-down visible">
-              <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+              <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono  tracking-[0.18em] text-[var(--text-secondary)]">
                 <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
                 RecruitAuditor · AI CV screening & interview matrix
               </div>
 
-              <h1 className="mt-7 font-display text-[2rem] uppercase leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
+              <h1 className="mt-7 font-display text-[2rem]  leading-[1.05] leading-tight sm:text-5xl lg:text-[3.4rem]">
                 Every resume scored against{" "}
                 <span className="text-glow-audit text-[#60A5FA]">the job you actually posted.</span>
               </h1>
@@ -347,7 +347,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 </button>
                 <button
                   onClick={() => scrollToSection("results")}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-ink transition hover:bg-white/5 cursor-pointer"
                 >
                   See what a verdict looks like
                 </button>
@@ -372,7 +372,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 <div className="flex items-center justify-between border-b border-line pb-4">
                   <div className="flex items-center gap-2">
                     <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+                    <span className="font-mono text-[10px]  tracking-[0.18em] text-[var(--text-secondary)]">
                       Live screening · Staff Go Engineer
                     </span>
                   </div>
@@ -390,8 +390,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                         strokeDasharray="263.9" strokeDashoffset={263.9 - (263.9 * 87) / 100} strokeLinecap="round" />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="font-display text-2xl font-bold text-white">87</span>
-                      <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--muted)]">/ 100</span>
+                      <span className="font-display text-2xl font-bold text-ink">87</span>
+                      <span className="font-mono text-[9px]  tracking-widest text-[var(--muted)]">/ 100</span>
                     </div>
                   </div>
                   <div className="flex-1 space-y-2.5">
@@ -402,11 +402,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                       { k: "SQL optimizations", v: 63 }
                     ].map((row) => (
                       <div key={row.k} className="flex items-center gap-3">
-                        <span className="w-40 truncate font-mono text-[10px] uppercase tracking-wide text-[var(--text-secondary)]">{row.k}</span>
+                        <span className="w-40 truncate font-mono text-[10px]  tracking-wide text-[var(--text-secondary)]">{row.k}</span>
                         <div className="h-1.5 flex-1 rounded-full bg-white/5 overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${row.v}%`, background: row.v >= 80 ? "#60A5FA" : row.v >= 65 ? "#4DE3FF" : "#8F7BFF" }} />
                         </div>
-                        <span className="w-7 text-right font-mono text-[10px] text-white">{row.v}</span>
+                        <span className="w-7 text-right font-mono text-[10px] text-ink">{row.v}</span>
                       </div>
                     ))}
                   </div>
@@ -414,14 +414,14 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
                 {/* interview matrix + proctored note */}
                 <div className="mt-5 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-line bg-[#0A0D15] p-3">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Interview matrix</span>
+                  <div className="rounded-xl border border-line bg-paper p-3">
+                    <span className="font-mono text-[9px]  tracking-[0.16em] text-[var(--muted)]">Interview matrix</span>
                     <p className="mt-1 text-xs leading-relaxed text-[var(--text-secondary)]">
                       5 role-native questions generated from JD gaps.
                     </p>
                   </div>
-                  <div className="rounded-xl border border-line bg-[#0A0D15] p-3">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Proctored evidence</span>
+                  <div className="rounded-xl border border-line bg-paper p-3">
+                    <span className="font-mono text-[9px]  tracking-[0.16em] text-[var(--muted)]">Proctored evidence</span>
                     <p className="mt-1 text-xs leading-relaxed text-[var(--text-secondary)]">
                       SQA test matrix attached, anti-cheat telemetry intact.
                     </p>
@@ -452,7 +452,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 ].map((s) => (
                   <div key={s.l} className="text-center">
                     <p className="font-display text-xl text-glow-white md:text-2xl">{s.v}</p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">{s.l}</p>
+                    <p className="mt-1 text-[10px]  tracking-[0.18em] text-[var(--muted)]">{s.l}</p>
                   </div>
                 ))}
               </div>
@@ -466,11 +466,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       </section>
 
       {/* ================= WHY / CAPABILITIES ================= */}
-      <section id="why-us" className="border-y border-line bg-[#0A0D15] py-20">
+      <section id="why-us" className="border-y border-line bg-paper py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="max-w-2xl">
             <p className="eyebrow text-[#60A5FA]">Why RecruitAuditor</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               The screening pass that fills roles, not inboxes
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)] md:text-base">
@@ -505,7 +505,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 <span className="logo-tile flex h-12 w-12 items-center justify-center transition group-hover:scale-105">
                   {f.icon}
                 </span>
-                <h3 className="mt-5 font-head text-lg font-semibold uppercase tracking-wide">{f.title}</h3>
+                <h3 className="mt-5 font-head text-lg font-semibold  tracking-wide">{f.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{f.text}</p>
               </div>
             ))}
@@ -518,7 +518,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center">
             <p className="eyebrow text-[#4DE3FF]">Verified results</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               Measurable outcomes for talent teams
             </h2>
           </div>
@@ -527,10 +527,10 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
             <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:items-stretch">
               <div className={`rounded-2xl ${successStories[storyIndex].color} p-8 flex flex-col justify-center text-[#05060B] relative overflow-hidden`}>
                 <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-white/20 blur-2xl" />
-                <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] opacity-80">
+                <span className="font-mono text-xs font-bold  tracking-[0.2em] opacity-80">
                   {successStories[storyIndex].logo}
                 </span>
-                <span className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight">
+                <span className="mt-2 font-display text-2xl font-bold leading-tight leading-tight">
                   {successStories[storyIndex].metric}
                 </span>
               </div>
@@ -557,7 +557,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                     <button
                       type="button"
                       onClick={() => setStoryIndex((prev) => (prev === 0 ? successStories.length - 1 : prev - 1))}
-                      className="p-2.5 rounded-lg glass text-white hover:bg-white/10 transition-all cursor-pointer"
+                      className="p-2.5 rounded-lg glass text-ink hover:bg-white/10 transition-all cursor-pointer"
                       aria-label="Previous story"
                     >
                       <ChevronLeft className="h-4 w-4" />
@@ -565,7 +565,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                     <button
                       type="button"
                       onClick={() => setStoryIndex((prev) => (prev === successStories.length - 1 ? 0 : prev + 1))}
-                      className="p-2.5 rounded-lg glass text-white hover:bg-white/10 transition-all cursor-pointer"
+                      className="p-2.5 rounded-lg glass text-ink hover:bg-white/10 transition-all cursor-pointer"
                       aria-label="Next story"
                     >
                       <ChevronRight className="h-4 w-4" />
@@ -579,11 +579,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       </section>
 
       {/* ================= PLANS ================= */}
-      <section id="plans" className="border-y border-line bg-[#0A0D15] py-20">
+      <section id="plans" className="border-y border-line bg-paper py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <p className="eyebrow text-[#60A5FA]">Pricing</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               Start free on a real resume
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -659,10 +659,10 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                     className={`rounded-xl border p-3.5 text-left transition-all cursor-pointer ${
                       activePreset === p.key
                         ? "border-[#60A5FA] bg-[#60A5FA]/10 shadow-[0_0_20px_-8px_rgba(96,165,250,0.6)]"
-                        : "border-line bg-[#0D111C] hover:border-[#60A5FA]/40"
+                        : "border-line bg-paper hover:border-[#60A5FA]/40"
                     }`}
                   >
-                    <div className="font-head text-xs font-semibold uppercase tracking-wide text-[var(--text-primary)]">{p.name}</div>
+                    <div className="font-head text-xs font-semibold  tracking-wide text-[var(--text-primary)]">{p.name}</div>
                     <div className="mt-0.5 font-mono text-lg font-bold text-[#60A5FA]">{p.price}</div>
                   </button>
                 ))}
@@ -703,7 +703,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <p className="eyebrow text-[#8F7BFF]">Talent teams</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               Trust validated by hiring leads
             </h2>
           </div>
@@ -762,7 +762,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <p className="eyebrow text-[#60A5FA]">Careers board</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               We screen applicants the way we sell screening
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -793,15 +793,15 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-2.5">
                       <h4 className="font-head text-base font-semibold text-[var(--text-primary)]">{job.title}</h4>
-                      <span className="rounded-full border border-line bg-white/5 px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{job.type}</span>
+                      <span className="rounded-full border border-line bg-white/5 px-2.5 py-0.5 font-mono text-[10px] font-bold  tracking-wider text-[var(--muted)]">{job.type}</span>
                     </div>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
+                    <p className="font-mono text-[11px]  tracking-[0.14em] text-[var(--muted)]">
                       {job.department} | {job.location}
                     </p>
                     <p className="max-w-2xl text-sm leading-relaxed text-[var(--text-secondary)]">{job.desc}</p>
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {job.reqs.map((req) => (
-                        <span key={req} className="rounded border border-line bg-[#0A0D15] px-2 py-0.5 font-mono text-[10px] text-[var(--text-secondary)]">{req}</span>
+                        <span key={req} className="rounded border border-line bg-paper px-2 py-0.5 font-mono text-[10px] text-[var(--text-secondary)]">{req}</span>
                       ))}
                     </div>
                   </div>
@@ -826,7 +826,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
         {/* Quick Apply Modal */}
         {selectedJob && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/70 backdrop-blur-sm">
             <div className="w-full max-w-md panel p-6">
               <div className="mb-6 flex items-start justify-between gap-4">
                 <div>
@@ -836,7 +836,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 <button
                   type="button"
                   onClick={() => setSelectedJob(null)}
-                  className="rounded-lg p-2 text-[var(--muted)] hover:text-white hover:bg-white/5 transition cursor-pointer"
+                  className="rounded-lg p-2 text-[var(--muted)] hover:text-ink hover:bg-white/5 transition cursor-pointer"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
@@ -856,7 +856,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <button
                     type="button"
                     onClick={() => setSelectedJob(null)}
-                    className="btn-brand rounded-lg glass px-5 py-2 text-[11px] font-mono font-bold uppercase tracking-wider text-white"
+                    className="btn-brand rounded-lg glass px-5 py-2 text-[11px] font-mono font-bold  tracking-wider text-ink"
                   >
                     Close
                   </button>
@@ -885,29 +885,29 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   className="space-y-4"
                 >
                   <div>
-                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Full name</label>
+                    <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Full name</label>
                     <input
                       type="text"
                       required
                       value={applicantName}
                       onChange={(e) => setApplicantName(e.target.value)}
-                      className="w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
+                      className="w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Email address</label>
+                    <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Email address</label>
                     <input
                       type="email"
                       required
                       value={applicantEmail}
                       onChange={(e) => setApplicantEmail(e.target.value)}
-                      className="w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
+                      className="w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Upload CV (PDF/DOCX)</label>
+                    <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Upload CV (PDF/DOCX)</label>
                     {cvUploadSuccess ? (
                       <div className="flex items-center justify-between rounded-lg border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 px-3 py-2.5 font-mono text-xs text-[#4EF2BA]">
                         <span className="truncate">{uploadedCVName}</span>
@@ -965,11 +965,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       </section>
 
       {/* ================= RESOURCE HUB ================= */}
-      <section id="resources" className="border-t border-line bg-[#0A0D15] py-20">
+      <section id="resources" className="border-t border-line bg-paper py-20">
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <p className="eyebrow text-[#4DE3FF]">Resource hub</p>
-            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
               The AI hiring & telemetry guide
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -987,7 +987,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <a
                     href="/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf"
                     download="RecruitAI_Engine_Hiring_Recruitment_Guide.pdf"
-                    className="underline font-bold text-[#9BF2D8] hover:text-white"
+                    className="underline font-bold text-[#9BF2D8] hover:text-ink"
                   >
                     click here to download (PDF)
                   </a>
@@ -1053,46 +1053,46 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Full name</label>
+                    <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Full name</label>
                     <input
                       type="text"
                       required
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
-                      className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Corporate email</label>
+                    <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Corporate email</label>
                     <input
                       type="email"
                       required
                       value={contactEmail}
                       onChange={(e) => setContactEmail(e.target.value)}
-                      className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Company (optional)</label>
+                  <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Company (optional)</label>
                   <input
                     type="text"
                     value={contactCompany}
                     onChange={(e) => setContactCompany(e.target.value)}
-                    className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                    className="hover-pop w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Inquiry message</label>
+                  <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--muted)]">Inquiry message</label>
                   <textarea
                     required
                     rows={4}
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
                     placeholder="Role you hire for, monthly candidate volume, or a specific screening problem..."
-                    className="hover-pop w-full resize-none rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                    className="hover-pop w-full resize-none rounded-lg border border-line bg-paper px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
                   />
                 </div>
 
@@ -1143,7 +1143,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         </div>
         <div className="relative mx-auto max-w-4xl px-5 text-center md:px-6">
           <p className="eyebrow text-[#60A5FA]">Go operational</p>
-          <h2 className="mt-3 font-display text-3xl uppercase tracking-tight md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl  leading-tight md:text-5xl">
             Screen a real resume tonight.
             <br />
             <span className="text-glow-audit text-[#60A5FA]">Free, on us.</span>
@@ -1161,7 +1161,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
             </button>
             <button
               onClick={() => window.location.href = "/careers"}
-              className="inline-flex items-center gap-2 rounded-xl glass px-8 py-3.5 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl glass px-8 py-3.5 text-sm font-head font-semibold text-ink transition hover:bg-white/5 cursor-pointer"
             >
               Explore careers
             </button>
@@ -1170,7 +1170,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="relative border-t border-line bg-[#0A0D15] pb-10 pt-16">
+      <footer className="relative border-t border-line bg-paper pb-10 pt-16">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="grid grid-cols-1 gap-10 border-b border-line pb-12 md:grid-cols-12">
             {/* Logo & description */}
@@ -1203,7 +1203,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
             {/* Offices */}
             <div className="md:col-span-4 space-y-4">
-              <h5 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Offices</h5>
+              <h5 className="font-mono text-xs font-bold  tracking-wider text-[var(--text-primary)]">Offices</h5>
               <div className="space-y-4 font-mono text-xs text-[var(--text-secondary)]">
                 <div className="flex items-start gap-2.5">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#60A5FA]" />
@@ -1224,7 +1224,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
             {/* Newsletter */}
             <div className="md:col-span-3 space-y-4">
-              <h5 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Audit newsletter</h5>
+              <h5 className="font-mono text-xs font-bold  tracking-wider text-[var(--text-primary)]">Audit newsletter</h5>
               <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
                 Screening frameworks and proctoring updates, monthly.
               </p>
@@ -1272,8 +1272,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
           <div className="flex flex-col items-center justify-between gap-4 pt-8 font-mono text-[11px] text-[var(--muted)] sm:flex-row">
             <p>© {new Date().getFullYear()} RecruitAuditor. Bias-free screening, proctored evidence. All rights reserved.</p>
             <div className="flex gap-4">
-              <a href="/careers" className="transition-colors hover:text-white">Careers</a>
-              <a href="/login" className="transition-colors hover:text-white">Client console</a>
+              <a href="/careers" className="transition-colors hover:text-ink">Careers</a>
+              <a href="/login" className="transition-colors hover:text-ink">Client console</a>
             </div>
           </div>
         </div>

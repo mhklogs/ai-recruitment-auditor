@@ -68,7 +68,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
           text: "text-yellow-400",
           accent: "text-yellow-500",
           ring: "ring-yellow-500/20",
-          badge: "bg-yellow-500 text-black",
+          badge: "bg-yellow-500 text-ink",
           icon: <AlertTriangle className="w-8 h-8 text-yellow-500" />
         };
       case "Clear":
@@ -79,7 +79,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
           text: "text-green-400",
           accent: "text-green-500",
           ring: "ring-green-500/20",
-          badge: "bg-green-500 text-black",
+          badge: "bg-green-500 text-ink",
           icon: <CheckCircle2 className="w-8 h-8 text-green-500" />
         };
     }
@@ -154,7 +154,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
             <Fingerprint className="w-10 h-10 text-red-500" />
           </div>
           <div className="max-w-md space-y-2">
-            <h2 className="text-lg font-bold text-[var(--text-primary)] tracking-tight">
+            <h2 className="text-lg font-bold text-[var(--text-primary)] leading-tight">
               Awaiting Audit Verdict
             </h2>
             <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -175,15 +175,15 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
           {/* Guidelines info */}
           <div className="w-full max-w-md pt-6 border-t border-[var(--border-color)] grid grid-cols-3 gap-4 text-left">
             <div className="space-y-1">
-              <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">1. Integrity Check</div>
+              <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">1. Integrity Check</div>
               <p className="text-[10px] text-[var(--text-secondary)] leading-normal">Correlates tab switches with instant pastes of complex classes.</p>
             </div>
             <div className="space-y-1">
-              <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">2. Capability Map</div>
+              <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">2. Capability Map</div>
               <p className="text-[10px] text-[var(--text-secondary)] leading-normal">Evaluates the depth of 'Why' and 'How' versus basic definitions.</p>
             </div>
             <div className="space-y-1">
-              <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">3. Cognitive Load</div>
+              <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">3. Cognitive Load</div>
               <p className="text-[10px] text-[var(--text-secondary)] leading-normal">Profiles thinking pauses, error iterations, and focus times.</p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
             <div className="flex justify-between items-center pb-4 border-b border-[var(--border-color)] print:hidden">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                <span className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider font-mono">
+                <span className="text-[10px] font-semibold text-[var(--text-secondary)]  tracking-wider font-mono">
                   Official Defensible Record
                 </span>
               </div>
@@ -225,15 +225,15 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
 
             {/* Print Header (Only visible on print) */}
             <div className="hidden print:block border-b border-gray-300 pb-4 mb-6">
-              <h1 className="text-xl font-bold uppercase tracking-wider text-black font-mono">CHIEF AI RECRUITMENT AUDITOR CERTIFICATE</h1>
+              <h1 className="text-xl font-bold  tracking-wider text-ink font-mono">CHIEF AI RECRUITMENT AUDITOR CERTIFICATE</h1>
               <p className="text-xs text-gray-600 font-mono mt-1">Defensible Enterprise Hiring Committee Evidence</p>
             </div>
 
             {/* Candidate Audit Summary Banner */}
             <div className={`p-5 rounded-xl border ${theme.border} ${theme.bg} flex items-center justify-between gap-4`} id="audit-verdict-banner">
               <div className="space-y-1.5">
-                <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">Candidate Audited</div>
-                <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">{scenario.name}</h2>
+                <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">Candidate Audited</div>
+                <h2 className="text-xl font-bold text-[var(--text-primary)] leading-tight">{scenario.name}</h2>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="text-[var(--text-primary)]">{scenario.role}</span>
                   <span className="w-1 h-1 rounded-full bg-[var(--border-color)]"></span>
@@ -242,10 +242,10 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
               </div>
 
               <div className="text-right flex flex-col items-end gap-1">
-                <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">Auditor Final Verdict</div>
+                <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">Auditor Final Verdict</div>
                 <div className="flex items-center gap-2 mt-1">
                   {theme.icon}
-                  <span className={`text-base font-bold uppercase font-mono tracking-wide ${theme.text}`}>
+                  <span className={`text-base font-bold  font-mono tracking-wide ${theme.text}`}>
                     {report.audit_summary.verdict}
                   </span>
                 </div>
@@ -279,7 +279,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-semibold text-[var(--text-primary)] tracking-tight flex items-center gap-1">
+                  <h4 className="text-xs font-semibold text-[var(--text-primary)] leading-tight flex items-center gap-1">
                     Integrity Rating
                   </h4>
                   <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed mt-1">
@@ -306,7 +306,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-semibold text-[var(--text-primary)] tracking-tight flex items-center gap-1">
+                  <h4 className="text-xs font-semibold text-[var(--text-primary)] leading-tight flex items-center gap-1">
                     Technical Capability
                   </h4>
                   <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed mt-1">
@@ -318,13 +318,13 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
 
             {/* Deep Analysis & Behavioral Profile */}
             <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] rounded-xl p-5 space-y-4" id="deep-analysis-card">
-              <h3 className="text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)]  tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
                 Deep Analysis & Behavioral Profile
               </h3>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider font-mono flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-green-400  tracking-wider font-mono flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Verified Strengths
                   </span>
@@ -338,7 +338,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider font-mono flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-red-400  tracking-wider font-mono flex items-center gap-1">
                     <XCircle className="w-3.5 h-3.5" />
                     Technical Gaps / Auditing Concerns
                   </span>
@@ -353,7 +353,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
               </div>
 
               <div className="pt-3 border-t border-[var(--border-color)]">
-                <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider font-mono flex items-center gap-1 mb-2">
+                <span className="text-[10px] font-bold text-blue-400  tracking-wider font-mono flex items-center gap-1 mb-2">
                   <Brain className="w-3.5 h-3.5" />
                   Cognitive Load & Behavioral Profile Summary
                 </span>
@@ -365,20 +365,20 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
 
             {/* Defensible Recommendation Panel */}
             <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] rounded-xl p-5 space-y-3" id="recommendation-card">
-              <h3 className="text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)]  tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
                 Hiring Committee Actionable Recommendation
               </h3>
 
               <div className="flex items-center gap-3">
                 <div className="text-xs text-[var(--text-secondary)] font-mono">Recommended Path:</div>
-                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono uppercase ${decisionTheme.bg}`}>
+                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono  ${decisionTheme.bg}`}>
                   {decisionTheme.icon}
                   {report.hiring_recommendation.decision}
                 </div>
               </div>
 
               <div className="space-y-1">
-                <div className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider font-mono">Evidence-Based Justification</div>
+                <div className="text-[10px] font-bold text-[var(--text-secondary)]  tracking-wider font-mono">Evidence-Based Justification</div>
                 <p className="text-xs text-[var(--text-primary)] leading-relaxed bg-[var(--bg-card)] p-3 rounded-lg border border-[var(--border-color)] whitespace-pre-line">
                   {report.hiring_recommendation.justification}
                 </p>
@@ -387,7 +387,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
 
             {/* Visual Telemetry Event Timeline Analysis */}
             <div className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] rounded-xl p-5 space-y-4" id="timeline-card">
-              <h3 className="text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)]  tracking-wider font-mono border-b border-[var(--border-color)] pb-2">
                 Reconstructed Behavioral Telemetry Timeline
               </h3>
 
@@ -401,7 +401,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-bold text-blue-500">{evt.timestamp}</span>
-                        <span className={`text-[9px] font-bold px-1 rounded uppercase ${
+                        <span className={`text-[9px] font-bold px-1 rounded  ${
                           evt.event_type === 'tab_switch'
                             ? "bg-red-500/10 text-red-400 border border-red-500/20"
                             : evt.event_type === 'paste'

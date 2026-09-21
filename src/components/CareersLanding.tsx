@@ -113,7 +113,7 @@ export default function CareersLanding() {
           <a href="/" className="flex items-center shrink-0 cursor-pointer">
             <RecruitAuditorWordmark size={30} light />
           </a>
-          <nav className="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+          <nav className="hidden md:flex items-center gap-7 text-xs font-mono  tracking-[0.14em] text-[var(--text-secondary)]">
             {[
               { id: "culture", label: "Culture" },
               { id: "hiring", label: "Process" },
@@ -136,12 +136,12 @@ export default function CareersLanding() {
 
       {/* HERO */}
       <section className="relative px-6 py-24 md:py-32 text-center max-w-5xl mx-auto space-y-8">
-        <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+        <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono  tracking-[0.18em] text-[var(--text-secondary)]">
           <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
           Careers at RecruitAuditor
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-display uppercase tracking-tight leading-[1.08] max-w-4xl mx-auto">
+        <h1 className="text-4xl md:text-6xl font-display  leading-tight leading-[1.08] max-w-4xl mx-auto">
           Help build the integrity layer of{" "}
           <span className="text-glow-audit text-[#60A5FA]">autonomous recruiting</span>
         </h1>
@@ -161,7 +161,7 @@ export default function CareersLanding() {
           </a>
           <button
             onClick={() => scrollTo("culture")}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-ink transition hover:bg-white/5 cursor-pointer"
           >
             How we work
           </button>
@@ -181,11 +181,11 @@ export default function CareersLanding() {
       </section>
 
       {/* CULTURE & PHILOSOPHY */}
-      <section id="culture" className="py-24 px-6 border-t border-line bg-[#0A0D15]/80 relative">
+      <section id="culture" className="py-24 px-6 border-t border-line bg-paper/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <p className="eyebrow text-[#60A5FA]">Culture &amp; Philosophy</p>
-            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Our core operating values</h2>
+            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Our core operating values</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               We replace process overhead with absolute clarity and engineering autonomy.
             </p>
@@ -218,7 +218,7 @@ export default function CareersLanding() {
                 <span className="logo-tile flex h-12 w-12 items-center justify-center">
                   {value.icon}
                 </span>
-                <h3 className="mt-5 font-head text-lg font-semibold uppercase tracking-wide">{value.title}</h3>
+                <h3 className="mt-5 font-head text-lg font-semibold  tracking-wide">{value.title}</h3>
                 <p className="mt-2 text-xs text-[var(--text-secondary)] leading-relaxed">{value.text}</p>
               </div>
             ))}
@@ -231,7 +231,7 @@ export default function CareersLanding() {
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <p className="eyebrow text-[#4DE3FF]">The recruitment path</p>
-            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Built on candidate trust</h2>
+            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Built on candidate trust</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               We respect your time. The cycle is streamlined, transparent, and engineer-first.
             </p>
@@ -267,7 +267,7 @@ export default function CareersLanding() {
                   </div>
                   <div className="h-[2px] flex-1 bg-gradient-to-r from-[#60A5FA]/60 to-transparent hidden lg:block" />
                 </div>
-                <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">{step.title}</h3>
+                <h3 className="text-sm font-bold font-mono  tracking-wider text-[var(--text-primary)]">{step.title}</h3>
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{step.text}</p>
               </div>
             ))}
@@ -281,11 +281,11 @@ export default function CareersLanding() {
       </section>
 
       {/* TECHNICAL STACK */}
-      <section id="tech" className="py-24 px-6 border-t border-line bg-[#0A0D15]/80 relative">
+      <section id="tech" className="py-24 px-6 border-t border-line bg-paper/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <p className="eyebrow text-[#60A5FA]">Engineering stack</p>
-            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Our production environment</h2>
+            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Our production environment</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               Modern, fast, and secure tooling for stable software shipped rapidly.
             </p>
@@ -300,7 +300,7 @@ export default function CareersLanding() {
                 <span className="logo-tile flex h-10 w-10 items-center justify-center text-[#60A5FA]">
                   <tech.icon className="w-4 h-4" />
                 </span>
-                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">{tech.name}</h3>
+                <h3 className="text-xs font-bold font-mono  tracking-wider text-[var(--text-primary)]">{tech.name}</h3>
                 <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">{tech.desc}</p>
               </div>
             ))}
@@ -313,7 +313,7 @@ export default function CareersLanding() {
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <p className="eyebrow text-[#60A5FA]">Join the mission</p>
-            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Launch your application</h2>
+            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Launch your application</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               No formal cover letter needed. Let your work speak for itself.
             </p>
@@ -333,7 +333,7 @@ export default function CareersLanding() {
                 </p>
                 <button
                   onClick={() => setFormSubmitted(false)}
-                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg glass px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-all cursor-pointer"
+                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg glass px-5 py-2.5 text-xs font-mono font-bold  tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-all cursor-pointer"
                 >
                   Apply for another role
                 </button>
@@ -342,7 +342,7 @@ export default function CareersLanding() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Full Name</label>
+                    <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">Full Name</label>
                     <input
                       type="text"
                       name="name"
@@ -350,12 +350,12 @@ export default function CareersLanding() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Alan Turing"
-                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Email Address</label>
+                    <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">Email Address</label>
                     <input
                       type="email"
                       name="email"
@@ -363,19 +363,19 @@ export default function CareersLanding() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="alan@turing.org"
-                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Target Role</label>
+                    <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">Target Role</label>
                     <select
                       name="role"
                       value={formData.role}
                       onChange={handleInputChange}
-                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none font-mono focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none font-mono focus:border-[#60A5FA]/60"
                     >
                       <option value="software-engineer">Software Engineer (Frontend/Core)</option>
                       <option value="systems-architect">Systems Architect (Sandbox Security)</option>
@@ -385,7 +385,7 @@ export default function CareersLanding() {
                   </div>
 
                   <div>
-                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">GitHub Profile Link</label>
+                    <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">GitHub Profile Link</label>
                     <input
                       type="url"
                       name="github"
@@ -393,25 +393,25 @@ export default function CareersLanding() {
                       value={formData.github}
                       onChange={handleInputChange}
                       placeholder="https://github.com/turing"
-                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
+                      className="hover-pop w-full rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Portfolio or Project Links (Optional)</label>
+                  <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">Portfolio or Project Links (Optional)</label>
                   <input
                     type="url"
                     name="portfolio"
                     value={formData.portfolio}
                     onChange={handleInputChange}
                     placeholder="https://turing.org"
-                    className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
+                    className="hover-pop w-full rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Brief Technical Accomplishments Summary</label>
+                  <label className="mb-2 block font-mono text-[10px] font-bold  tracking-wider text-[var(--text-secondary)]">Brief Technical Accomplishments Summary</label>
                   <textarea
                     name="bio"
                     required
@@ -419,13 +419,13 @@ export default function CareersLanding() {
                     value={formData.bio}
                     onChange={handleInputChange}
                     placeholder="Briefly describe an auditing parser, sandbox virtualization, or high-performance frontend component you have deployed."
-                    className="hover-pop w-full resize-y rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
+                    className="hover-pop w-full resize-y rounded-xl border border-line bg-paper p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] py-3.5 text-xs font-head font-bold uppercase tracking-wider text-[#05060B] shadow-[0_0_30px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] active:scale-[0.99] cursor-pointer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] py-3.5 text-xs font-head font-bold  tracking-wider text-[#05060B] shadow-[0_0_30px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] active:scale-[0.99] cursor-pointer"
                 >
                   <Send className="w-4 h-4" /> Submit Engineering Application
                 </button>
@@ -436,7 +436,7 @@ export default function CareersLanding() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-line bg-[#0D111C] py-12 text-center text-xs font-mono text-[var(--text-secondary)]">
+      <footer className="border-t border-line bg-paper py-12 text-center text-xs font-mono text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p>&copy; {new Date().getFullYear()} RecruitAuditor. All rights reserved.</p>
           <div className="flex gap-6">

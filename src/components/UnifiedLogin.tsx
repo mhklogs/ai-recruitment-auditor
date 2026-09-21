@@ -96,21 +96,21 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
             <RecruitAuditorWordmark size={34} light />
           </div>
           <div>
-            <h3 className="font-display text-sm font-bold uppercase tracking-[0.18em] text-[var(--text-primary)]">Access portal</h3>
+            <h3 className="font-display text-sm font-bold  tracking-[0.18em] text-[var(--text-primary)]">Access portal</h3>
             <p className="mt-1 text-xs font-mono text-[var(--muted)]">Client ID or admin credentials</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">ID Number</label>
+            <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--text-secondary)]">ID Number</label>
             <input
               type="text"
               required
               placeholder="Enter your ID..."
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
+              className="hover-pop w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
               autoFocus
             />
             {isAdmin && (
@@ -120,14 +120,14 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
 
           {(isAdmin || needsPassword) && (
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">Admin Password</label>
+              <label className="mb-1 block font-mono text-[10px]  tracking-wider text-[var(--text-secondary)]">Admin Password</label>
               <input
                 type="password"
                 required
                 placeholder="Enter admin password..."
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
+                className="hover-pop w-full rounded-lg border border-line bg-paper px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
               />
             </div>
           )}

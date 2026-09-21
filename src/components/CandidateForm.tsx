@@ -146,7 +146,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
         {activeTab === 'context' && (
           <div className="space-y-4" id="job-context-fields">
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Candidate Name
               </label>
               <input
@@ -160,7 +160,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Candidate Email
               </label>
               <input
@@ -174,7 +174,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Assessed Role Title
               </label>
               <input
@@ -188,7 +188,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Seniority Expectation
               </label>
               <input
@@ -203,7 +203,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
 
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider font-mono">
+                <label className="text-xs font-semibold text-[var(--text-secondary)]  tracking-wider font-mono">
                   Role Requirements & Context
                 </label>
                 <span className="text-[10px] text-blue-500 font-mono">Evaluates seniority alignment</span>
@@ -219,7 +219,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Target Technology Stack
               </label>
               <input
@@ -233,7 +233,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Candidate Resume / Experience Text
               </label>
               <textarea
@@ -251,7 +251,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
         {activeTab === 'exam' && (
           <div className="space-y-4" id="exam-data-fields">
             <div>
-              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+              <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                 Exam Question Prompt
               </label>
               <textarea
@@ -266,7 +266,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
 
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider font-mono">
+                <label className="text-xs font-semibold text-[var(--text-secondary)]  tracking-wider font-mono">
                   Candidate Answer (Code & Reasoning)
                 </label>
                 <span className="text-[10px] text-red-400 font-mono">Analyzed for bulk-paste anomalies</span>
@@ -283,7 +283,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+                <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                   Total Typing Time (Minutes)
                 </label>
                 <input
@@ -296,7 +296,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 font-mono">
+                <label className="block text-xs font-semibold text-[var(--text-secondary)]  tracking-wider mb-1.5 font-mono">
                   Complexity Level
                 </label>
                 <select
@@ -320,7 +320,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
             {/* Critical Telemetry Metrics */}
             <div className="grid grid-cols-3 gap-3 bg-[var(--bg-card-hover)] p-4 rounded-xl border border-[var(--border-color)]" id="telemetry-top-metrics">
               <div>
-                <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Tab Switches</div>
+                <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Tab Switches</div>
                 <input
                   id="input-tab-switches"
                   type="number"
@@ -330,7 +330,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                 />
               </div>
               <div>
-                <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Bulk Pastes</div>
+                <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Bulk Pastes</div>
                 <input
                   id="input-bulk-pastes"
                   type="number"
@@ -340,7 +340,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                 />
               </div>
               <div>
-                <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Typing Speed (WPM)</div>
+                <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Typing Speed (WPM)</div>
                 <input
                   id="input-typing-speed"
                   type="number"
@@ -353,7 +353,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
 
             {/* Event Timeline Editor */}
             <div>
-              <h3 className="text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider mb-3 font-mono">
+              <h3 className="text-xs font-semibold text-[var(--text-primary)]  tracking-wider mb-3 font-mono">
                 Dynamic Telemetry Event Log
               </h3>
               
@@ -368,7 +368,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                           <span className="font-mono bg-[var(--border-color)] text-[var(--text-primary)] px-1.5 py-0.5 rounded text-[9px] font-semibold">
                             {evt.timestamp}
                           </span>
-                          <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${
+                          <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold  ${
                             evt.event_type === 'tab_switch'
                               ? "bg-red-500/10 text-red-400 border border-red-500/20"
                               : evt.event_type === 'paste'
@@ -402,7 +402,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
 
               {/* Add New Event Form */}
               <div className="bg-[var(--bg-card-hover)] p-4 rounded-xl border border-[var(--border-color)] space-y-3" id="add-telemetry-event-panel">
-                <h4 className="text-[11px] font-bold text-[var(--text-secondary)] uppercase font-mono tracking-wide">
+                <h4 className="text-[11px] font-bold text-[var(--text-secondary)]  font-mono tracking-wide">
                   Add New Telemetry Event
                 </h4>
                 <div className="grid grid-cols-3 gap-2">
@@ -455,7 +455,7 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                 <button
                   type="button"
                   onClick={addEvent}
-                  className="w-full flex justify-center items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[var(--text-primary)] text-xs font-semibold py-2 px-3 rounded-lg transition-colors shadow-sm cursor-pointer"
+                  className="w-full flex justify-center items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-ink text-[var(--text-primary)] text-xs font-semibold py-2 px-3 rounded-lg transition-colors shadow-sm cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   Inject Telemetry Event

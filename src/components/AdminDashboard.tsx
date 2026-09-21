@@ -289,7 +289,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         <div className="flex items-center gap-3">
           <RecruitAuditorWordmark size={34} light />
           <div>
-            <h1 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-[var(--text-primary)]">Admin Dashboard</h1>
+            <h1 className="font-display text-sm font-bold  tracking-[0.14em] text-[var(--text-primary)]">Admin Dashboard</h1>
             <p className="text-xs font-mono text-[var(--muted)]">Full system control center</p>
           </div>
         </div>
@@ -340,7 +340,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-bold flex items-center gap-2"><Users className="w-5 h-5 text-red-500" /> Registered Clients</h2>
-              <button onClick={() => { setEditingId(null); setClientForm({ name: "", email: "", company: "", plan: "Starter", category: "Business", password: "", expiresAt: "" }); setShowClientForm(true); }} className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white hover:opacity-90 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer shadow-md">
+              <button onClick={() => { setEditingId(null); setClientForm({ name: "", email: "", company: "", plan: "Starter", category: "Business", password: "", expiresAt: "" }); setShowClientForm(true); }} className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink hover:opacity-90 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer shadow-md">
                 <Plus className="w-4 h-4" /> New Client
               </button>
             </div>
@@ -348,7 +348,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             {/* B2B Client Requests & Proposals */}
             <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 space-y-4 mb-6">
               <div>
-                <h3 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider font-mono">B2B Client Requests & Custom Plan Proposals</h3>
+                <h3 className="text-xs font-bold text-[var(--text-primary)]  tracking-wider font-mono">B2B Client Requests & Custom Plan Proposals</h3>
                 <p className="text-[10px] text-[var(--text-secondary)]">Manage incoming configuration requests and plan updates from registered accounts.</p>
               </div>
               
@@ -392,7 +392,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                             {req.status === "Pending" && (
                               <button
                                 onClick={() => handleApproveRequest(req.id)}
-                                className="bg-green-600 hover:bg-green-500 text-white text-[9px] font-bold font-mono py-1 px-2 rounded cursor-pointer transition-colors"
+                                className="bg-green-600 hover:bg-green-500 text-ink text-[9px] font-bold font-mono py-1 px-2 rounded cursor-pointer transition-colors"
                               >
                                 Approve
                               </button>
@@ -409,18 +409,18 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               <div className="mb-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-2xl">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-bold">{editingId ? "Edit Client" : "Register New Client"}</h3>
-                  <button onClick={() => { setShowClientForm(false); setEditingId(null); }} className="text-gray-400 hover:text-white cursor-pointer"><X className="w-4 h-4" /></button>
+                  <button onClick={() => { setShowClientForm(false); setEditingId(null); }} className="text-gray-400 hover:text-ink cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <form onSubmit={handleClientSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Full Name</label><input required value={clientForm.name} onChange={(e) => setClientForm({ ...clientForm, name: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
-                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Email</label><input required type="email" value={clientForm.email} onChange={(e) => setClientForm({ ...clientForm, email: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
-                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Company</label><input value={clientForm.company} onChange={(e) => setClientForm({ ...clientForm, company: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
+                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Full Name</label><input required value={clientForm.name} onChange={(e) => setClientForm({ ...clientForm, name: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
+                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Email</label><input required type="email" value={clientForm.email} onChange={(e) => setClientForm({ ...clientForm, email: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
+                  <div><label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Company</label><input value={clientForm.company} onChange={(e) => setClientForm({ ...clientForm, company: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" /></div>
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Plan</label>
+                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Plan</label>
                     <input required value={clientForm.plan} onChange={(e) => setClientForm({ ...clientForm, plan: e.target.value })} placeholder="e.g. Starter, Growth, Enterprise, or Custom Plan" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                   </div>
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Category</label>
+                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Category</label>
                     <select value={clientForm.category} onChange={(e) => setClientForm({ ...clientForm, category: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500">
                       <option value="Business">Business</option>
                       <option value="Enterprise">Enterprise</option>
@@ -428,15 +428,15 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">{editingId ? "New Password (leave blank to keep)" : "Password"}</label>
+                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">{editingId ? "New Password (leave blank to keep)" : "Password"}</label>
                     <input required={!editingId} type="password" value={clientForm.password} onChange={(e) => setClientForm({ ...clientForm, password: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                   </div>
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Expires At</label>
+                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Expires At</label>
                     <input type="datetime-local" value={clientForm.expiresAt} onChange={(e) => setClientForm({ ...clientForm, expiresAt: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90">
+                    <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90">
                       {editingId ? "Update Client" : "Register Client"}
                     </button>
                   </div>
@@ -484,33 +484,33 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             <form onSubmit={handleCreateTest} className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-2xl space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Test Title</label>
+                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Test Title</label>
                   <input value={testTitle} onChange={(e) => setTestTitle(e.target.value)} placeholder="e.g. Senior Frontend Assessment" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                 </div>
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Duration (minutes)</label>
+                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Duration (minutes)</label>
                   <input type="number" min="5" max="180" value={testDuration} onChange={(e) => setTestDuration(e.target.value)} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Description / Instructions</label>
+                <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Description / Instructions</label>
                 <textarea rows={2} value={testDescription} onChange={(e) => setTestDescription(e.target.value)} placeholder="Brief description of the assessment..." className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500 resize-none" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Candidate Name</label>
+                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Candidate Name</label>
                   <input required value={testCandidateName} onChange={(e) => setTestCandidateName(e.target.value)} placeholder="John Doe" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                 </div>
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Candidate Email</label>
+                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Candidate Email</label>
                   <input required type="email" value={testCandidateEmail} onChange={(e) => setTestCandidateEmail(e.target.value)} placeholder="john@example.com" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Company / Client ID (optional)</label>
+                <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Company / Client ID (optional)</label>
                 <input value={testCompanyId} onChange={(e) => setTestCompanyId(e.target.value)} placeholder="default" className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
               </div>
 
@@ -531,23 +531,23 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Type</label>
+                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Type</label>
                         <select value={q.type} onChange={(e) => updateQuestion(qIndex, "type", e.target.value)} className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none">
                           <option value="text">Text / Essay</option>
                           <option value="multiple_choice">Multiple Choice</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Points</label>
+                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Points</label>
                         <input type="number" min="1" value={q.points} onChange={(e) => updateQuestion(qIndex, "points", parseInt(e.target.value) || 1)} className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none" />
                       </div>
                       <div>
-                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Correct Answer</label>
+                        <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Correct Answer</label>
                         <input value={q.correct_answer} onChange={(e) => updateQuestion(qIndex, "correct_answer", e.target.value)} placeholder="For auto-grading" className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Question Text</label>
+                      <label className="block text-[9px] text-[var(--text-secondary)] font-mono  mb-1">Question Text</label>
                       <textarea required rows={2} value={q.question_text} onChange={(e) => updateQuestion(qIndex, "question_text", e.target.value)} placeholder="Enter your question..." className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none resize-none" />
                     </div>
                     {q.type === "multiple_choice" && (
@@ -561,7 +561,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 ))}
               </div>
 
-              <button type="submit" disabled={testCreating} className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90 disabled:opacity-50">
+              <button type="submit" disabled={testCreating} className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90 disabled:opacity-50">
                 {testCreating ? <><Loader2 className="w-4 h-4 animate-spin" /> Creating Test...</> : <><Send className="w-4 h-4" /> Create Test & Send Invitation</>}
               </button>
             </form>

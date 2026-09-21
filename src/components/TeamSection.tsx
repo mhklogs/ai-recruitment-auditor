@@ -140,11 +140,11 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
 
   if (imgError || isPlaceholder) {
     return (
-      <div className="w-full aspect-[4/3] flex items-center justify-center rounded-2xl border border-line bg-gradient-to-br from-[#131927] via-[#0A0D15] to-[#0D111C] overflow-hidden relative group">
+      <div className="w-full aspect-[4/3] flex items-center justify-center rounded-2xl border border-line bg-gradient-to-br from-paper via-paper to-white overflow-hidden relative group">
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#9BC4FF_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        <div className="w-28 h-28 rounded-full border border-[#60A5FA]/20 bg-gradient-to-br from-[#131927] to-[#0A0D15] flex flex-col items-center justify-center shadow-lg relative overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:border-[#60A5FA]/50">
+        <div className="w-28 h-28 rounded-full border border-[#60A5FA]/20 bg-gradient-to-br from-paper to-white flex flex-col items-center justify-center shadow-lg relative overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:border-[#60A5FA]/50">
           <User className="w-10 h-10 text-[var(--muted)] group-hover:text-[#60A5FA] transition-colors duration-300" />
-          <span className="text-[9px] text-[var(--muted)] font-mono tracking-widest uppercase mt-1">{getInitials(alt)}</span>
+          <span className="text-[9px] text-[var(--muted)] font-mono tracking-widest  mt-1">{getInitials(alt)}</span>
         </div>
       </div>
     );
@@ -159,7 +159,7 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 grayscale contrast-115 brightness-95"
       />
       {isFounder && (
-        <div className="absolute top-3 left-3 bg-[#0D111C]/90 text-[#60A5FA] text-[9px] font-bold font-mono px-2 py-0.5 rounded-full border border-[#60A5FA]/40 shadow-lg tracking-wider flex items-center gap-1 uppercase backdrop-blur-sm">
+        <div className="absolute top-3 left-3 bg-paper/90 text-[#60A5FA] text-[9px] font-bold font-mono px-2 py-0.5 rounded-full border border-[#60A5FA]/40 shadow-lg tracking-wider flex items-center gap-1  backdrop-blur-sm">
           <Shield className="w-2.5 h-2.5" /> Founder
         </div>
       )}
@@ -169,7 +169,7 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
 
 export default function TeamSection() {
   return (
-    <section id="team" className="py-24 px-5 md:px-6 relative overflow-hidden bg-[#0A0D15]/60">
+    <section id="team" className="py-24 px-5 md:px-6 relative overflow-hidden bg-paper/60">
       {/* Background gradients */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px] bg-[#60A5FA]/5 pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full blur-[100px] bg-[#4DE3FF]/5 pointer-events-none" />
@@ -177,11 +177,11 @@ export default function TeamSection() {
       <div className="max-w-7xl mx-auto space-y-20 relative z-10">
         {/* Heading */}
         <div className="text-center max-w-2xl mx-auto space-y-4 reveal-on-scroll">
-          <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+          <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 font-mono text-[11px]  tracking-[0.18em] text-[var(--text-secondary)]">
             <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
             Our team
           </div>
-          <h3 className="text-3xl md:text-4xl font-display uppercase tracking-tight text-[var(--text-primary)]">
+          <h3 className="text-3xl md:text-4xl font-display  leading-tight text-[var(--text-primary)]">
             The minds behind the audit engine
           </h3>
           <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-lg mx-auto">
@@ -194,10 +194,10 @@ export default function TeamSection() {
           <div className="accent-edge" />
           {stats.map((stat, idx) => (
             <div key={idx} className="text-center space-y-2 py-4 flex flex-col justify-center items-center">
-              <span className="text-3xl md:text-5xl font-display font-bold tracking-tighter bg-gradient-to-r from-[#60A5FA] to-[#4DE3FF] text-transparent bg-clip-text">
+              <span className="text-3xl md:text-5xl font-display font-bold leading-tighter bg-gradient-to-r from-[#60A5FA] to-[#4DE3FF] text-transparent bg-clip-text">
                 <AnimatedCounter value={stat.value} decimals={stat.decimals} suffix={stat.suffix} />
               </span>
-              <span className="text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-secondary)] uppercase font-bold">
+              <span className="text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-secondary)]  font-bold">
                 {stat.label}
               </span>
             </div>
@@ -247,7 +247,7 @@ export default function TeamSection() {
 
                       {member.isFounder && (
                         <div className="z-10">
-                          <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#60A5FA]/10 text-[#60A5FA] border border-[#60A5FA]/30 uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                          <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#60A5FA]/10 text-[#60A5FA] border border-[#60A5FA]/30  tracking-widest flex items-center gap-1 shadow-sm">
                             <Shield className="w-2.5 h-2.5 fill-current" /> Core
                           </span>
                         </div>
@@ -280,7 +280,7 @@ export default function TeamSection() {
                         href={member.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg glass hover:border-[#A6B1CC]/50 hover:bg-white/5 text-[var(--ink-soft)] hover:text-white transition-all duration-200"
+                        className="p-2 rounded-lg glass hover:border-[#A6B1CC]/50 hover:bg-white/5 text-[var(--ink-soft)] hover:text-ink transition-all duration-200"
                         title="GitHub Profile"
                       >
                         <Github className="w-4 h-4" />
@@ -301,7 +301,7 @@ export default function TeamSection() {
                       >
                         <Globe className="w-4 h-4" />
                         {member.role.includes("Co-Founder") && (
-                          <span className="text-[8px] font-bold font-mono tracking-wider uppercase pr-0.5">Vercel Portfolio</span>
+                          <span className="text-[8px] font-bold font-mono tracking-wider  pr-0.5">Vercel Portfolio</span>
                         )}
                       </a>
                     )}

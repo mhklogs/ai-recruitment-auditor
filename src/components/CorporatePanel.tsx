@@ -195,7 +195,7 @@ export default function CorporatePanel() {
         </div>
         <button
           onClick={handleSaveConfig}
-          className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white hover:opacity-90 text-[var(--text-primary)] text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink hover:opacity-90 text-[var(--text-primary)] text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
         >
           <Save className="w-3.5 h-3.5" />
           Save Changes to config.json
@@ -216,7 +216,7 @@ export default function CorporatePanel() {
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1 uppercase font-mono">Company ID (Vault Path)</label>
+                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1  font-mono">Company ID (Vault Path)</label>
                 <input
                   type="text"
                   value={companyId}
@@ -225,7 +225,7 @@ export default function CorporatePanel() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1 uppercase font-mono">Corporate Name</label>
+                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1  font-mono">Corporate Name</label>
                 <input
                   type="text"
                   value={companyName}
@@ -234,7 +234,7 @@ export default function CorporatePanel() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1 uppercase font-mono">Target Job Role</label>
+                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1  font-mono">Target Job Role</label>
                 <input
                   type="text"
                   value={role}
@@ -243,7 +243,7 @@ export default function CorporatePanel() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1 uppercase font-mono">Target Seniority Level</label>
+                <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-1  font-mono">Target Seniority Level</label>
                 <input
                   type="text"
                   value={seniority}
@@ -255,7 +255,7 @@ export default function CorporatePanel() {
 
             {/* Org Structure Grid */}
             <div className="pt-3">
-              <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-2 uppercase font-mono">Workspace Personnel & System Nodes</label>
+              <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-2  font-mono">Workspace Personnel & System Nodes</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="bg-[var(--bg-card)] border border-dashed border-[var(--border-color)] rounded-lg p-2.5 text-center">
                   <div className="text-[10px] text-[var(--text-secondary)] font-mono">Founder</div>
@@ -433,7 +433,7 @@ export default function CorporatePanel() {
               </div>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-[var(--text-primary)] text-xs font-semibold py-2 px-3 rounded-lg transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-ink text-[var(--text-primary)] text-xs font-semibold py-2 px-3 rounded-lg transition-colors cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 Submit Lead Telemetry Inquiry
@@ -449,7 +449,7 @@ export default function CorporatePanel() {
 
             {/* Inquiries Log */}
             <div className="border-t border-[var(--border-color)] pt-3">
-              <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-2 uppercase font-mono">Lead Inquiries Received ({inquiries.length})</label>
+              <label className="block text-[10px] text-[var(--text-secondary)] font-semibold mb-2  font-mono">Lead Inquiries Received ({inquiries.length})</label>
               <div className="max-h-[110px] overflow-y-auto space-y-2 pr-1 font-mono text-[10px]">
                 {inquiries.map((iq, i) => (
                   <div key={i} className="bg-[var(--bg-card)] border border-[var(--border-color)] p-2 rounded-lg space-y-1">
@@ -566,7 +566,7 @@ export default function CorporatePanel() {
 
         {/* Log contentions/errors list */}
         <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-3">
-          <div className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase font-mono mb-2">Integrity Audit Error Log</div>
+          <div className="text-[10px] font-semibold text-[var(--text-secondary)]  font-mono mb-2">Integrity Audit Error Log</div>
           {integrityData.issues && integrityData.issues.length > 0 ? (
             <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1">
               {integrityData.issues.map((issue: any, index: number) => (

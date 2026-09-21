@@ -160,7 +160,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
         <div className="flex items-center gap-3">
           <RecruitAuditorWordmark size={34} light />
           <div>
-            <h1 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-[var(--text-primary)]">Client Dashboard</h1>
+            <h1 className="font-display text-sm font-bold  tracking-[0.14em] text-[var(--text-primary)]">Client Dashboard</h1>
             <p className="text-xs font-mono text-[var(--muted)]">Welcome, {clientName}</p>
           </div>
         </div>
@@ -186,19 +186,19 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl">
-            <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Total Requests</div>
+            <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Total Requests</div>
             <div className="text-2xl font-bold text-[var(--text-primary)] mt-1">{stats.totalRequests}</div>
           </div>
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl">
-            <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Pending</div>
+            <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Pending</div>
             <div className="text-2xl font-bold text-yellow-400 mt-1">{stats.pendingRequests}</div>
           </div>
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl">
-            <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Hirings</div>
+            <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Hirings</div>
             <div className="text-2xl font-bold text-[var(--text-primary)] mt-1">{stats.totalHirings}</div>
           </div>
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl">
-            <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">Success Ratio</div>
+            <div className="text-[10px] font-mono text-[var(--text-secondary)] ">Success Ratio</div>
             <div className={`text-2xl font-bold mt-1 ${successColor}`}>{stats.successRatio}%</div>
           </div>
         </div>
@@ -265,7 +265,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
                 </select>
                 <input required placeholder="Details" value={reqForm.details} onChange={(e) => setReqForm({ ...reqForm, details: e.target.value })} className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none" />
               </div>
-              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Submit Request</button>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2 rounded-lg cursor-pointer">Submit Request</button>
             </form>
           )}
           <div className="space-y-2">
@@ -305,7 +305,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
-              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Add Hiring</button>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2 rounded-lg cursor-pointer">Add Hiring</button>
             </form>
           )}
           <div className="space-y-2">
@@ -332,7 +332,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
       </main>
 
       {showCustomPlanForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
           <div className="w-full max-w-md bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB]" />
             
@@ -344,7 +344,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
               <button
                 type="button"
                 onClick={() => setShowCustomPlanForm(false)}
-                className="text-gray-400 hover:text-white cursor-pointer"
+                className="text-gray-400 hover:text-ink cursor-pointer"
               >
                 <X className="w-4.5 h-4.5" />
               </button>
@@ -390,7 +390,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer hover:opacity-95"
+                className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2.5 rounded-xl cursor-pointer hover:opacity-95"
               >
                 Submit Proposal to Admin
               </button>

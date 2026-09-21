@@ -290,12 +290,12 @@ export default function ProctoringPortal() {
             <div className="inline-flex items-center justify-center bg-[var(--bg-primary)] p-2.5 border border-[var(--border-color)] text-red-500 rounded-xl mb-1 shadow">
               <Lock className="w-5 h-5 animate-pulse" />
             </div>
-            <h1 className="text-base font-bold text-[var(--text-primary)] uppercase tracking-wider">Candidate Proctor Portal</h1>
+            <h1 className="text-base font-bold text-[var(--text-primary)]  tracking-wider">Candidate Proctor Portal</h1>
             <p className="text-xs text-[var(--text-secondary)]">Secure assessment with camera and microphone monitoring</p>
           </div>
           <form onSubmit={handleStartExam} className="space-y-4">
             <div>
-              <label className="block text-[9px] text-[var(--text-secondary)] font-semibold mb-1 uppercase font-mono">Test Link / Token</label>
+              <label className="block text-[9px] text-[var(--text-secondary)] font-semibold mb-1  font-mono">Test Link / Token</label>
               <input
                 type="text"
                 placeholder="Paste your test link or enter token..."
@@ -311,7 +311,7 @@ export default function ProctoringPortal() {
                 <span>{authError}</span>
               </div>
             )}
-            <button type="submit" disabled={authLoading} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 px-4 rounded-lg cursor-pointer shadow">
+            <button type="submit" disabled={authLoading} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2.5 px-4 rounded-lg cursor-pointer shadow">
               {authLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
               {authLoading ? "Verifying Test Link..." : "Authenticate & Start Test"}
             </button>
@@ -333,7 +333,7 @@ export default function ProctoringPortal() {
           <div className="inline-flex items-center justify-center bg-red-500/10 text-red-500 border border-red-500/20 p-3 rounded-xl animate-bounce">
             <Lock className="w-6 h-6" />
           </div>
-          <h1 className="text-sm font-bold text-red-500 uppercase tracking-widest">EXAM WORKSPACE TERMINATED</h1>
+          <h1 className="text-sm font-bold text-red-500  tracking-widest">EXAM WORKSPACE TERMINATED</h1>
           <p className="text-xs text-[var(--text-secondary)] font-mono leading-relaxed">
             PROCTOR ACTION: Flagged as "TERMINATED_FRAUD". This assessment link has been permanently locked.
           </p>
@@ -354,7 +354,7 @@ export default function ProctoringPortal() {
           <div className="inline-flex items-center justify-center bg-green-500/10 text-green-500 border border-green-500/20 p-3 rounded-xl animate-pulse">
             <CheckCircle className="w-6 h-6" />
           </div>
-          <h1 className="text-sm font-bold text-green-500 uppercase tracking-wider">ASSESSMENT COMPLETE</h1>
+          <h1 className="text-sm font-bold text-green-500  tracking-wider">ASSESSMENT COMPLETE</h1>
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed font-mono">
             Your assessment has been submitted successfully. Results will be released after evaluation.
           </p>
@@ -375,11 +375,11 @@ export default function ProctoringPortal() {
           <div className="inline-flex items-center justify-center bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 p-3 rounded-xl animate-pulse">
             <WifiOff className="w-6 h-6" />
           </div>
-          <h1 className="text-sm font-bold text-yellow-500 uppercase tracking-wider">CONNECTION DISRUPTED</h1>
+          <h1 className="text-sm font-bold text-yellow-500  tracking-wider">CONNECTION DISRUPTED</h1>
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed font-mono">
             Telemetry sync dropped. The Proctor Engine has locked active answers locally.
           </p>
-          <button onClick={handleResetAuth} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 px-4 rounded-lg cursor-pointer">
+          <button onClick={handleResetAuth} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-2 px-4 rounded-lg cursor-pointer">
             Reconnect Proctor Node
           </button>
         </div>
@@ -397,7 +397,7 @@ export default function ProctoringPortal() {
         {/* Exam Header */}
         <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-lg flex justify-between items-center">
           <div>
-            <h1 className="text-xs font-extrabold text-[var(--text-primary)] uppercase tracking-wider">{testSession.title}</h1>
+            <h1 className="text-xs font-extrabold text-[var(--text-primary)]  tracking-wider">{testSession.title}</h1>
             <div className="text-[10px] text-[var(--text-secondary)] font-mono mt-1">
               Candidate: <span className="text-red-500 font-semibold">{testSession.candidateName}</span> | 
               Question: <span className="text-blue-500 font-semibold">{currentQuestionIndex + 1}/{totalQuestions}</span>
@@ -409,12 +409,12 @@ export default function ProctoringPortal() {
               Simulate Net Loss
             </button>
             {isLastQuestion ? (
-              <button onClick={handleSubmitExam} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
+              <button onClick={handleSubmitExam} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
                 <Send className="w-3.5 h-3.5" />
                 Submit Exam
               </button>
             ) : (
-              <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
+              <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
                 Next <ChevronRight className="w-3.5 h-3.5" />
               </button>
             )}
@@ -429,7 +429,7 @@ export default function ProctoringPortal() {
         {/* Question Panel */}
         {currentQuestion && (
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-lg space-y-4">
-            <div className="text-[9px] font-bold text-[var(--text-secondary)] font-mono uppercase tracking-wider flex items-center gap-1.5">
+            <div className="text-[9px] font-bold text-[var(--text-secondary)] font-mono  tracking-wider flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-red-500" />
               {currentQuestion.type === "multiple_choice" ? "Multiple Choice" : "Text Response"} ({currentQuestion.points} pts)
             </div>
@@ -474,14 +474,14 @@ export default function ProctoringPortal() {
         
         {/* Live Proctor Video/Mic feeds */}
         <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-lg space-y-4">
-          <h2 className="text-[9px] font-bold text-[var(--text-secondary)] font-mono uppercase tracking-wider flex items-center gap-1.5 border-b border-[var(--border-color)] pb-2.5">
+          <h2 className="text-[9px] font-bold text-[var(--text-secondary)] font-mono  tracking-wider flex items-center gap-1.5 border-b border-[var(--border-color)] pb-2.5">
             <Camera className="w-3.5 h-3.5 text-red-500" />
             AI Proctoring Feed Telemetry
           </h2>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl p-3 flex flex-col items-center justify-center gap-2 relative aspect-video overflow-hidden">
-              <div className="absolute top-2 left-2 flex items-center gap-1.5 text-[8px] font-mono text-red-500 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full uppercase tracking-wider">
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 text-[8px] font-mono text-red-500 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full  tracking-wider">
                 <span className={`w-1.5 h-1.5 rounded-full ${cameraStream ? 'bg-red-500 animate-ping' : 'bg-gray-500'}`}></span>
                 Webcam Auditing
               </div>
@@ -496,7 +496,7 @@ export default function ProctoringPortal() {
             </div>
 
             <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl p-3 flex flex-col items-center justify-center gap-2 relative aspect-video overflow-hidden">
-              <div className="absolute top-2 left-2 flex items-center gap-1.5 text-[8px] font-mono text-blue-500 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded-full uppercase tracking-wider">
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 text-[8px] font-mono text-blue-500 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded-full  tracking-wider">
                 <span className={`w-1.5 h-1.5 rounded-full ${micStream ? 'bg-blue-500 animate-ping' : 'bg-gray-500'}`}></span>
                 Mic Auditing
               </div>
@@ -514,7 +514,7 @@ export default function ProctoringPortal() {
 
         {/* Live Keystroke timeline terminal */}
         <div className="flex-1 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-lg flex flex-col overflow-hidden min-h-[250px]">
-          <h2 className="text-[9px] font-bold text-[var(--text-secondary)] font-mono uppercase tracking-wider flex items-center gap-1.5 border-b border-[var(--border-color)] pb-2.5">
+          <h2 className="text-[9px] font-bold text-[var(--text-secondary)] font-mono  tracking-wider flex items-center gap-1.5 border-b border-[var(--border-color)] pb-2.5">
             <Terminal className="w-3.5 h-3.5 text-red-500" />
             Keystroke Telemetry Logger
           </h2>
@@ -524,7 +524,7 @@ export default function ProctoringPortal() {
               <div key={index} className="flex items-start gap-2">
                 <span className="text-gray-500">[{log.timestamp}]</span>
                 <div>
-                  <span className="text-red-500 font-bold uppercase">[{log.event_type}]</span>{" "}
+                  <span className="text-red-500 font-bold ">[{log.event_type}]</span>{" "}
                   <span className="text-[var(--text-primary)]">{log.details}</span>
                 </div>
               </div>
@@ -533,13 +533,13 @@ export default function ProctoringPortal() {
 
           <div className="border-t border-[var(--border-color)] pt-3.5 mt-3 grid grid-cols-2 gap-2 text-center text-[9px] font-mono">
             <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] p-2 rounded-lg">
-              <div className="text-[var(--text-secondary)] uppercase">Focus Losses</div>
+              <div className="text-[var(--text-secondary)] ">Focus Losses</div>
               <div className={`text-xs font-bold mt-0.5 ${tabSwitches > 0 ? "text-red-500" : "text-[var(--text-primary)]"}`}>
                 {tabSwitches} blurs
               </div>
             </div>
             <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] p-2 rounded-lg">
-              <div className="text-[var(--text-secondary)] uppercase">Bulk Pastes</div>
+              <div className="text-[var(--text-secondary)] ">Bulk Pastes</div>
               <div className={`text-xs font-bold mt-0.5 ${pasteCount > 0 ? "text-red-500" : "text-[var(--text-primary)]"}`}>
                 {pasteCount} times
               </div>
