@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ExternalLink, Linkedin, Github, Mail, Briefcase, User, Shield, Star, Globe } from "lucide-react";
+import { Linkedin, Github, Mail, User, Shield, Globe } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -22,7 +22,7 @@ const teamMembers: TeamMember[] = [
     image_path: "hassaan.png",
     links: {
       linkedin: "https://www.linkedin.com/in/hassaan-abdullah-kiyani",
-      github: "https://github.com/hassaan-abdullah-kiyani", 
+      github: "https://github.com/hassaan-abdullah-kiyani",
       email: "hasaanzia02@gmail.com"
     },
     isFounder: true,
@@ -96,8 +96,6 @@ function AnimatedCounter({ value, duration = 1800, decimals = 0, suffix = "" }: 
     const updateCount = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing out quad
       const easeProgress = progress * (2 - progress);
       const current = easeProgress * (end - start) + start;
 
@@ -142,18 +140,18 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
 
   if (imgError || isPlaceholder) {
     return (
-      <div className="w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 rounded-2xl border border-[var(--border-color)] overflow-hidden relative group">
-        <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 flex flex-col items-center justify-center shadow-lg relative overflow-hidden transition-all duration-300 hover:border-red-500/30 group-hover:scale-105">
-          <User className="w-10 h-10 text-slate-500 group-hover:text-red-400/80 transition-colors duration-300" />
-          <span className="text-[9px] text-slate-500 font-mono tracking-widest uppercase mt-1">{getInitials(alt)}</span>
+      <div className="w-full aspect-[4/3] flex items-center justify-center rounded-2xl border border-line bg-gradient-to-br from-[#131927] via-[#0A0D15] to-[#0D111C] overflow-hidden relative group">
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#9BC4FF_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="w-28 h-28 rounded-full border border-[#60A5FA]/20 bg-gradient-to-br from-[#131927] to-[#0A0D15] flex flex-col items-center justify-center shadow-lg relative overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:border-[#60A5FA]/50">
+          <User className="w-10 h-10 text-[var(--muted)] group-hover:text-[#60A5FA] transition-colors duration-300" />
+          <span className="text-[9px] text-[var(--muted)] font-mono tracking-widest uppercase mt-1">{getInitials(alt)}</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-[var(--border-color)] relative group">
+    <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-line relative group">
       <img
         src={src}
         alt={alt}
@@ -161,7 +159,7 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 grayscale contrast-115 brightness-95"
       />
       {isFounder && (
-        <div className="absolute top-3 left-3 bg-red-600/90 text-white text-[9px] font-bold font-mono px-2 py-0.5 rounded-full border border-red-500/30 shadow-lg tracking-wider flex items-center gap-1 uppercase">
+        <div className="absolute top-3 left-3 bg-[#0D111C]/90 text-[#60A5FA] text-[9px] font-bold font-mono px-2 py-0.5 rounded-full border border-[#60A5FA]/40 shadow-lg tracking-wider flex items-center gap-1 uppercase backdrop-blur-sm">
           <Shield className="w-2.5 h-2.5" /> Founder
         </div>
       )}
@@ -171,32 +169,32 @@ function TeamImage({ src, alt, isFounder }: { src: string; alt: string; isFounde
 
 export default function TeamSection() {
   return (
-    <section id="team" className="py-24 px-6 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-red-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+    <section id="team" className="py-24 px-5 md:px-6 relative overflow-hidden bg-[#0A0D15]/60">
+      {/* Background gradients */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px] bg-[#60A5FA]/5 pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full blur-[100px] bg-[#4DE3FF]/5 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-20 relative z-10">
-        {/* Heading Section */}
+        {/* Heading */}
         <div className="text-center max-w-2xl mx-auto space-y-4 reveal-on-scroll">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/5 border border-red-500/15">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-[10px] font-bold text-red-500 tracking-widest uppercase font-mono">Our Team</span>
+          <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+            <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
+            Our team
           </div>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
-            Meet the Visionaries
+          <h3 className="text-3xl md:text-4xl font-display uppercase tracking-tight text-[var(--text-primary)]">
+            The minds behind the audit engine
           </h3>
           <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-lg mx-auto">
             The technical and creative minds building the future of autonomous, high-fidelity recruitment audits.
           </p>
         </div>
 
-        {/* Counter Statistics Section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto p-6 md:p-8 bg-gradient-to-b from-[var(--bg-card)] to-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl relative overflow-hidden shadow-lg shadow-black/10 reveal-on-scroll">
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
+        {/* Counter Statistics */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto p-6 md:p-8 panel relative overflow-hidden reveal-on-scroll">
+          <div className="accent-edge" />
           {stats.map((stat, idx) => (
             <div key={idx} className="text-center space-y-2 py-4 flex flex-col justify-center items-center">
-              <span className="text-3xl md:text-5xl font-black font-mono tracking-tighter bg-gradient-to-r from-red-500 via-rose-500 to-blue-500 text-transparent bg-clip-text">
+              <span className="text-3xl md:text-5xl font-display font-bold tracking-tighter bg-gradient-to-r from-[#60A5FA] to-[#4DE3FF] text-transparent bg-clip-text">
                 <AnimatedCounter value={stat.value} decimals={stat.decimals} suffix={stat.suffix} />
               </span>
               <span className="text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-secondary)] uppercase font-bold">
@@ -206,7 +204,7 @@ export default function TeamSection() {
           ))}
         </div>
 
-        {/* Alternating Zig-Zag Profile List */}
+        {/* Alternating Profile List */}
         <div className="space-y-12 max-w-5xl mx-auto">
           {teamMembers.map((member, index) => {
             const isPlaceholder = !member.image_path || member.image_path === "placeholder.png";
@@ -216,84 +214,79 @@ export default function TeamSection() {
             return (
               <div
                 key={index}
-                className={`flex flex-col md:flex-row ${
+                className={`panel p-6 md:p-8 flex flex-col md:flex-row ${
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
-                } items-center md:items-stretch gap-6 md:gap-10 bg-[var(--bg-card)] border rounded-3xl p-6 md:p-8 shadow-sm transition-all duration-300 relative overflow-hidden group hover:border-red-500/30 ${revealClass} ${
-                  member.isFounder
-                    ? "border-red-500/20 shadow-md shadow-red-950/5"
-                    : "border-[var(--border-color)]"
-                }`}
+                } items-center md:items-stretch gap-6 md:gap-10 transition-all duration-300 group ${
+                  member.isFounder ? "hover:border-[#60A5FA]/40 shadow-[0_0_34px_-18px_rgba(96,165,250,0.5)]" : "hover:border-[#60A5FA]/25"
+                } ${revealClass}`}
               >
-                {/* Profile Image container - landscape (4:3) and compact layout */}
+                {/* Profile image */}
                 <div className="w-full md:w-72 shrink-0 flex items-center justify-center">
-                  <TeamImage 
-                    src={imageSrc} 
-                    alt={member.name} 
-                    isFounder={member.isFounder} 
+                  <TeamImage
+                    src={imageSrc}
+                    alt={member.name}
+                    isFounder={member.isFounder}
                   />
                 </div>
 
-                {/* Bio text block - flex-1 stretches across remaining row space */}
+                {/* Bio */}
                 <div className="flex-1 flex flex-col justify-between space-y-6 w-full">
                   <div className="space-y-4">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                       <div>
-                        <h4 className={`text-xl font-bold tracking-wide transition-colors duration-300 group-hover:text-red-400 ${
-                          member.isFounder ? "text-red-400" : "text-[var(--text-primary)]"
+                        <h4 className={`text-xl font-head font-bold tracking-wide transition-colors duration-300 ${
+                          member.isFounder ? "text-[#60A5FA]" : "text-[var(--text-primary)] group-hover:text-[#60A5FA]"
                         }`}>
                           {member.name}
                         </h4>
                         <p className="text-[10px] text-[var(--text-secondary)] font-mono flex items-center gap-1.5 mt-1">
-                          <Briefcase className="w-3.5 h-3.5 opacity-80 text-red-500" />
+                          <Shield className="w-3.5 h-3.5 opacity-80 text-[#60A5FA]" />
                           {member.role}
                         </p>
                       </div>
 
                       {member.isFounder && (
                         <div className="z-10">
-                          <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 uppercase tracking-widest flex items-center gap-1 shadow-sm">
-                            <Star className="w-2.5 h-2.5 fill-current" /> Core
+                          <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#60A5FA]/10 text-[#60A5FA] border border-[#60A5FA]/30 uppercase tracking-widest flex items-center gap-1 shadow-sm">
+                            <Shield className="w-2.5 h-2.5 fill-current" /> Core
                           </span>
                         </div>
                       )}
                     </div>
 
                     {member.description && (
-                      <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed italic border-l-2 border-red-500/20 pl-4 py-1">
+                      <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed italic border-l-2 border-[#60A5FA]/30 pl-4 py-1">
                         "{member.description}"
                       </p>
                     )}
                   </div>
 
-                  {/* Social links integrated clearly */}
-                  <div className="flex items-center gap-2 pt-4 border-t border-[var(--border-color)]">
-                    {/* LinkedIn */}
+                  {/* Social links */}
+                  <div className="flex items-center gap-2 pt-4 border-t border-line">
                     {member.links.linkedin && (
                       <a
                         href={member.links.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-blue-500/50 hover:bg-blue-500/5 text-blue-400 hover:text-blue-300 transition-all duration-200"
+                        className="p-2 rounded-lg glass hover:border-[#60A5FA]/50 hover:bg-[#60A5FA]/5 text-[#60A5FA] hover:text-[#9BC4FF] transition-all duration-200"
                         title="LinkedIn Profile"
                       >
                         <Linkedin className="w-4 h-4" />
                       </a>
                     )}
 
-                    {/* GitHub */}
                     {member.links.github && (
                       <a
                         href={member.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-slate-500/50 hover:bg-slate-500/5 text-slate-400 hover:text-slate-200 transition-all duration-200"
+                        className="p-2 rounded-lg glass hover:border-[#A6B1CC]/50 hover:bg-white/5 text-[var(--ink-soft)] hover:text-white transition-all duration-200"
                         title="GitHub Profile"
                       >
                         <Github className="w-4 h-4" />
                       </a>
                     )}
 
-                    {/* Portfolio Vercel Link for Co-Founder */}
                     {member.links.portfolio && (
                       <a
                         href={member.links.portfolio}
@@ -301,8 +294,8 @@ export default function TeamSection() {
                         rel="noopener noreferrer"
                         className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-1.5 ${
                           member.role.includes("Co-Founder")
-                            ? "bg-gradient-to-tr from-red-500/10 to-blue-500/10 border border-red-500/30 hover:border-red-500/60 hover:from-red-500/20 hover:to-blue-500/20 text-red-400 hover:text-red-300 shadow-[0_0_10px_rgba(239,68,68,0.1)]"
-                            : "bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-red-500/50 hover:bg-red-500/5 text-red-400 hover:text-red-300"
+                            ? "border border-[#60A5FA]/30 bg-[#60A5FA]/5 hover:border-[#60A5FA]/60 hover:bg-[#60A5FA]/10 text-[#60A5FA] hover:text-[#9BC4FF] shadow-[0_0_10px_rgba(96,165,250,0.15)]"
+                            : "glass hover:border-[#60A5FA]/50 hover:bg-[#60A5FA]/5 text-[#60A5FA] hover:text-[#9BC4FF]"
                         }`}
                         title="Developer Portfolio"
                       >
@@ -313,11 +306,10 @@ export default function TeamSection() {
                       </a>
                     )}
 
-                    {/* Email Link */}
                     {member.links.email && (
                       <a
                         href={`mailto:${member.links.email}`}
-                        className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-emerald-500/50 hover:bg-emerald-500/5 text-emerald-400 hover:text-emerald-300 transition-all duration-200"
+                        className="p-2 rounded-lg glass hover:border-[#4EF2BA]/50 hover:bg-[#4EF2BA]/5 text-[#4EF2BA] hover:text-[#9BF2D8] transition-all duration-200"
                         title="Send Email"
                       >
                         <Mail className="w-4 h-4" />

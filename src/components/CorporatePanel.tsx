@@ -195,7 +195,7 @@ export default function CorporatePanel() {
         </div>
         <button
           onClick={handleSaveConfig}
-          className="flex items-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white hover:opacity-90 text-[var(--text-primary)] text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white hover:opacity-90 text-[var(--text-primary)] text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
         >
           <Save className="w-3.5 h-3.5" />
           Save Changes to config.json
@@ -275,7 +275,7 @@ export default function CorporatePanel() {
                 <div className="bg-[var(--bg-card)] border border-dashed border-[var(--border-color)] rounded-lg p-2.5 text-center">
                   <div className="text-[10px] text-[var(--text-secondary)] font-mono">AI Driver Cluster</div>
                   <div className="text-xs font-bold text-[var(--text-primary)] mt-1">4 Parallel Core</div>
-                  <div className="text-[9px] text-[#8a3ffc] mt-0.5">⚡ High Cap</div>
+                  <div className="text-[9px] text-[#8a3ffc] mt-0.5">High Cap</div>
                 </div>
               </div>
             </div>
@@ -308,8 +308,8 @@ export default function CorporatePanel() {
                   <div className="text-xs font-bold text-[var(--text-primary)]">{name}</div>
                   <div className="text-lg font-bold text-red-500 mt-1">${data.price}<span className="text-[10px] text-[var(--text-secondary)] font-normal">/mo</span></div>
                   <div className="text-[10px] text-[var(--text-secondary)] mt-2 space-y-1">
-                    <div>🗂️ {data.resumes} Resumes/mo</div>
-                    <div>🎯 {data.tracks} Active Tracks</div>
+                    <div>{data.resumes} Resumes/mo</div>
+                    <div>{data.tracks} Active Tracks</div>
                   </div>
                 </button>
               ))}

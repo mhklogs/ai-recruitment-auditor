@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, AlertTriangle, User, Lock, Globe } from "lucide-react";
+import { AlertTriangle, User, Lock } from "lucide-react";
+import { RecruitAuditorWordmark } from "./Logo";
 
 interface UnifiedLoginProps {
   onLogin: (role: "admin" | "client", data: any) => void;
@@ -80,50 +81,59 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-transparent to-red-900/5 pointer-events-none" />
-      <div className="w-full max-w-md bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 space-y-5 shadow-2xl relative">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-900 to-red-600 rounded-t-2xl" />
-        <div className="text-center space-y-1">
-          <div className="inline-flex items-center justify-center bg-red-950/20 text-red-500 border border-red-500/20 p-2.5 rounded-xl">
-            <ShieldCheck className="w-5 h-5" />
+      {/* Background scaffolds */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 hud-grid" />
+        <div className="aurora -top-24 left-[12%] h-80 w-80 bg-[#60A5FA]/14" />
+        <div className="aurora bottom-[8%] right-[8%] h-72 w-72 bg-[#4DE3FF]/8" />
+      </div>
+
+      <div className="w-full max-w-md glass-strong rounded-2xl p-6 space-y-5 shadow-2xl relative overflow-hidden">
+        <div className="accent-edge" />
+
+        <div className="text-center space-y-3 pt-2">
+          <div className="flex justify-center">
+            <RecruitAuditorWordmark size={34} light />
           </div>
-          <h3 className="text-sm font-extrabold text-[var(--text-primary)] uppercase tracking-wider">Access Portal</h3>
-          <p className="text-xs text-[var(--text-secondary)]">Enter your Client ID or Admin credentials</p>
+          <div>
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.18em] text-[var(--text-primary)]">Access portal</h3>
+            <p className="mt-1 text-xs font-mono text-[var(--muted)]">Client ID or admin credentials</p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">ID Number</label>
+            <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">ID Number</label>
             <input
               type="text"
               required
               placeholder="Enter your ID..."
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] focus:border-[#be123c] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none font-mono"
+              className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
               autoFocus
             />
             {isAdmin && (
-              <p className="text-[9px] text-yellow-500 font-mono mt-1">Admin access detected</p>
+              <p className="text-[9px] text-[#FFC53D] font-mono mt-1">Admin access detected</p>
             )}
           </div>
 
           {(isAdmin || needsPassword) && (
             <div>
-              <label className="block text-[9px] text-[var(--text-secondary)] font-mono uppercase mb-1">Admin Password</label>
+              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">Admin Password</label>
               <input
                 type="password"
                 required
                 placeholder="Enter admin password..."
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] focus:border-[#be123c] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none font-mono"
+                className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] font-mono focus:border-[#60A5FA]/60"
               />
             </div>
           )}
 
           {error && (
-            <div className="bg-red-950/25 border border-red-800/30 text-red-400 p-2.5 rounded-lg text-[10px] font-mono flex items-start gap-2">
+            <div className="bg-[#FF2E44]/10 border border-[#FF2E44]/30 text-[#FF8A8A] p-2.5 rounded-lg text-[10px] font-mono flex items-start gap-2">
               <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -134,7 +144,7 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
               type="button"
               onClick={handleClientAccess}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-900 to-red-600 hover:opacity-90 text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#60A5FA] text-xs font-head font-bold text-[#05060B] py-2.5 shadow-[0_0_30px_-8px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer disabled:opacity-50"
             >
               <User className="w-4 h-4" />
               {loading ? "Verifying..." : "Access Client Dashboard"}
@@ -145,7 +155,7 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-900 to-red-600 hover:opacity-90 text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#60A5FA] text-xs font-head font-bold text-[#05060B] py-2.5 shadow-[0_0_30px_-8px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer disabled:opacity-50"
             >
               <Lock className="w-4 h-4" />
               {loading ? "Authenticating..." : "Access Admin Dashboard"}
@@ -154,8 +164,7 @@ export default function UnifiedLogin({ onLogin }: UnifiedLoginProps) {
         </form>
 
         <div className="text-center pt-2">
-          <button type="button" onClick={() => window.location.href = "/"} className="text-[10px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] underline cursor-pointer flex items-center justify-center gap-1 mx-auto">
-            <Globe className="w-3 h-3" />
+          <button type="button" onClick={() => window.location.href = "/"} className="text-[10px] font-mono text-[var(--muted)] hover:text-[var(--text-primary)] underline cursor-pointer flex items-center justify-center gap-1 mx-auto">
             Visit Public Landing Page
           </button>
         </div>

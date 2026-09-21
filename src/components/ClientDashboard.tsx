@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, Plus, Trash2, CheckCircle2, XCircle, Clock, TrendingUp, FileText, Users, AlertTriangle, ChevronDown, X } from "lucide-react";
+import { Plus, Trash2, CheckCircle2, XCircle, Clock, TrendingUp, FileText, Users, AlertTriangle, ChevronDown, X } from "lucide-react";
+import { RecruitAuditorWordmark } from "./Logo";
 
 interface Request {
   id: string;
@@ -157,12 +158,10 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col">
       <header className="border-b border-[var(--border-color)] bg-[var(--bg-card)] px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="bg-[var(--bg-primary)] border border-red-500/40 p-2 rounded-lg text-red-500 shadow-md">
-            <ShieldCheck className="w-5 h-5 animate-pulse" />
-          </div>
+          <RecruitAuditorWordmark size={34} light />
           <div>
-            <h1 className="text-base font-bold tracking-tight text-[var(--text-primary)]">CLIENT DASHBOARD</h1>
-            <p className="text-xs text-[var(--text-secondary)]">Welcome, {clientName}</p>
+            <h1 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-[var(--text-primary)]">Client Dashboard</h1>
+            <p className="text-xs font-mono text-[var(--muted)]">Welcome, {clientName}</p>
           </div>
         </div>
         <button onClick={onLogout} className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-gray-500 text-[var(--text-primary)] px-3 py-1.5 rounded-lg cursor-pointer text-xs font-semibold">
@@ -232,7 +231,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
             <h3 className="text-sm font-bold mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-500" /> Success Ratio</h3>
             <div className="space-y-2">
               <div className="w-full bg-[var(--bg-card-hover)] rounded-full h-4 border border-[var(--border-color)]">
-                <div className={`h-4 rounded-full bg-gradient-to-r from-blue-900 to-red-600 transition-all duration-500`} style={{ width: `${barWidth}%` }} />
+                <div className={`h-4 rounded-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] transition-all duration-500`} style={{ width: `${barWidth}%` }} />
               </div>
               <div className="flex justify-between text-[10px] font-mono text-[var(--text-secondary)]">
                 <span>0%</span>
@@ -266,7 +265,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
                 </select>
                 <input required placeholder="Details" value={reqForm.details} onChange={(e) => setReqForm({ ...reqForm, details: e.target.value })} className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none" />
               </div>
-              <button type="submit" className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Submit Request</button>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Submit Request</button>
             </form>
           )}
           <div className="space-y-2">
@@ -306,7 +305,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
-              <button type="submit" className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Add Hiring</button>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 rounded-lg cursor-pointer">Add Hiring</button>
             </form>
           )}
           <div className="space-y-2">
@@ -335,7 +334,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
       {showCustomPlanForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="w-full max-w-md bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-600 to-blue-905" />
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB]" />
             
             <div className="flex justify-between items-start mb-6">
               <div>
@@ -391,7 +390,7 @@ export default function ClientDashboard({ clientId, clientName, onLogout }: Clie
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer hover:opacity-95"
+                className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer hover:opacity-95"
               >
                 Submit Proposal to Admin
               </button>

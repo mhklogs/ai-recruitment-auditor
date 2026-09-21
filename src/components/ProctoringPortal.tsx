@@ -285,7 +285,7 @@ export default function ProctoringPortal() {
     return (
       <div className="flex-1 flex items-center justify-center p-6 bg-[var(--bg-primary)]">
         <div className="hover-pop w-full max-w-md bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 space-y-5 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-900 to-red-600"></div>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB]"></div>
           <div className="text-center space-y-1">
             <div className="inline-flex items-center justify-center bg-[var(--bg-primary)] p-2.5 border border-[var(--border-color)] text-red-500 rounded-xl mb-1 shadow">
               <Lock className="w-5 h-5 animate-pulse" />
@@ -311,13 +311,13 @@ export default function ProctoringPortal() {
                 <span>{authError}</span>
               </div>
             )}
-            <button type="submit" disabled={authLoading} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 px-4 rounded-lg cursor-pointer shadow">
+            <button type="submit" disabled={authLoading} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 px-4 rounded-lg cursor-pointer shadow">
               {authLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
               {authLoading ? "Verifying Test Link..." : "Authenticate & Start Test"}
             </button>
           </form>
           <div className="text-[9px] text-[var(--text-secondary)] font-mono text-center border-t border-[var(--border-color)] pt-3.5">
-            🔑 Security: Tab switches and pastes are monitored. Camera and microphone will be activated.
+            Security: Tab switches and pastes are monitored. Camera and microphone will be activated.
           </div>
         </div>
       </div>
@@ -379,7 +379,7 @@ export default function ProctoringPortal() {
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed font-mono">
             Telemetry sync dropped. The Proctor Engine has locked active answers locally.
           </p>
-          <button onClick={handleResetAuth} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2 px-4 rounded-lg cursor-pointer">
+          <button onClick={handleResetAuth} className="hover-pop w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2 px-4 rounded-lg cursor-pointer">
             Reconnect Proctor Node
           </button>
         </div>
@@ -409,12 +409,12 @@ export default function ProctoringPortal() {
               Simulate Net Loss
             </button>
             {isLastQuestion ? (
-              <button onClick={handleSubmitExam} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
+              <button onClick={handleSubmitExam} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
                 <Send className="w-3.5 h-3.5" />
                 Submit Exam
               </button>
             ) : (
-              <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
+              <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} className="hover-pop flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-1.5 px-4 rounded-lg transition-colors cursor-pointer shadow">
                 Next <ChevronRight className="w-3.5 h-3.5" />
               </button>
             )}
@@ -423,7 +423,7 @@ export default function ProctoringPortal() {
 
         {/* Progress Bar */}
         <div className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] rounded-full h-2">
-          <div className="h-2 rounded-full bg-gradient-to-r from-blue-900 to-red-600 transition-all duration-300" style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }} />
+          <div className="h-2 rounded-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] transition-all duration-300" style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }} />
         </div>
 
         {/* Question Panel */}

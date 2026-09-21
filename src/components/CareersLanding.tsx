@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { 
-  Terminal, 
-  Cpu, 
-  Database, 
-  ShieldCheck, 
-  Code2, 
-  Workflow, 
-  Zap, 
-  Globe, 
-  ArrowRight, 
-  CheckCircle,
+import React, { useState, useEffect } from "react";
+import {
+  Terminal,
+  Cpu,
+  Database,
+  ShieldCheck,
+  Code2,
+  Workflow,
+  Zap,
+  Globe,
+  ArrowRight,
+  CheckCircle2,
   Briefcase,
   Layers,
   Send
 } from "lucide-react";
 import TeamSection from "./TeamSection";
+import { RecruitAuditorWordmark } from "./Logo";
 
 export default function CareersLanding() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -26,6 +27,30 @@ export default function CareersLanding() {
     portfolio: "",
     bio: ""
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+
+      const elements = document.querySelectorAll(
+        ".reveal-on-scroll, .reveal-left, .reveal-right, .reveal-scale, .reveal-down, .reveal-up"
+      );
+      elements.forEach((el) => observer.observe(el));
+
+      return () => observer.disconnect();
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -67,236 +92,248 @@ export default function CareersLanding() {
     { name: "AI Orchestration", icon: ShieldCheck, desc: "Integration with LLM decision graphs and sandboxes" }
   ];
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] relative overflow-x-hidden font-sans">
-      {/* Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.06)_0%,rgba(30,58,138,0.04)_50%,transparent_100%)] pointer-events-none" />
+      {/* Background scaffolds */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 hud-grid" />
+        <div className="aurora -top-20 left-[6%] h-80 w-80 bg-[#60A5FA]/14" />
+        <div className="aurora top-40 right-[5%] h-72 w-72 bg-[#4DE3FF]/8" />
+        <div className="aurora bottom-[10%] left-1/2 h-64 w-[130%] -translate-x-1/2 bg-[#60A5FA]/8" />
+      </div>
 
       {/* Floating navigation header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/80 border-b border-[var(--border-color)] px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 font-mono font-bold tracking-wider text-xs md:text-sm uppercase text-[var(--text-primary)]">
-            <span className="p-1.5 rounded-lg bg-red-600 text-white font-black"><Cpu className="w-4 h-4" /></span>
-            RecruitAI <span className="text-red-500 font-normal">Engine</span>
+      <header className="sticky top-0 z-50 glass-strong border-b border-line px-5 md:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <a href="/" className="flex items-center shrink-0 cursor-pointer">
+            <RecruitAuditorWordmark size={30} light />
           </a>
-          <nav className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)]">
-            <a href="#culture" className="hover:text-[var(--text-primary)] transition-colors">Culture</a>
-            <a href="#hiring" className="hover:text-[var(--text-primary)] transition-colors">Process</a>
-            <a href="#team" className="hover:text-[var(--text-primary)] transition-colors">Team</a>
-            <a href="#tech" className="hover:text-[var(--text-primary)] transition-colors">Stack</a>
+          <nav className="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+            {[
+              { id: "culture", label: "Culture" },
+              { id: "hiring", label: "Process" },
+              { id: "team", label: "Team" },
+              { id: "tech", label: "Stack" }
+            ].map((item) => (
+              <button key={item.id} onClick={() => scrollTo(item.id)} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">
+                {item.label}
+              </button>
+            ))}
           </nav>
-          <div>
-            <a 
-              href="#apply" 
-              className="px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-lg shadow-[0_0_15px_rgba(220,38,38,0.2)] transition-all duration-300"
-            >
-              Open Roles
-            </a>
-          </div>
+          <a
+            href="#apply"
+            className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-[#60A5FA] px-4 py-2 text-xs font-head font-semibold text-[#05060B] shadow-[0_0_30px_-8px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer"
+          >
+            Open Roles
+          </a>
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="py-24 md:py-32 px-6 text-center max-w-5xl mx-auto space-y-8 relative">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/5 border border-red-500/15">
-          <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-          <span className="text-[10px] font-bold text-red-500 tracking-widest uppercase font-mono">Careers at RecruitAI</span>
+      {/* HERO */}
+      <section className="relative px-6 py-24 md:py-32 text-center max-w-5xl mx-auto space-y-8">
+        <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+          <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
+          Careers at RecruitAuditor
         </div>
-        
-        <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] max-w-4xl mx-auto bg-gradient-to-b from-[var(--text-primary)] to-[var(--text-secondary)] text-transparent bg-clip-text">
-          Help Us Solve the Hardest Engineering Problems in <span className="bg-gradient-to-r from-red-500 via-rose-500 to-blue-500 text-transparent bg-clip-text">AI Auditing</span>
+
+        <h1 className="text-4xl md:text-6xl font-display uppercase tracking-tight leading-[1.08] max-w-4xl mx-auto">
+          Help build the integrity layer of{" "}
+          <span className="text-glow-audit text-[#60A5FA]">autonomous recruiting</span>
         </h1>
-        
+
         <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
-          We are building the trust layer for autonomous recruitment. Join a high-caliber team of engineers engineering secure, scalable, and bias-free candidate evaluation systems.
+          We are the team behind biased-proof, proctored candidate evaluation. Join
+          engineers shipping secure sandboxes, telemetry ledgers, and interview
+          matrices for hiring teams that refuse to guess.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <a
             href="#apply"
-            className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-xl shadow-lg shadow-red-950/20 flex items-center justify-center gap-2 transition-all duration-300 hover:translate-y-[-2px]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] px-7 py-4 text-sm font-head font-semibold text-[#05060B] shadow-[0_0_44px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer"
           >
-            Join the Mission <ArrowRight className="w-4 h-4" />
+            Apply to open roles <ArrowRight className="w-4 h-4" />
           </a>
-          <a
-            href="#culture"
-            className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-red-500/30 rounded-xl text-[var(--text-primary)] flex items-center justify-center gap-2 transition-all duration-300"
+          <button
+            onClick={() => scrollTo("culture")}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
           >
-            Our Philosophy
-          </a>
+            How we work
+          </button>
         </div>
+
+        <p className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs font-mono text-[var(--muted)]">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> 48-hour first response
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> No whiteboard trivia
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> Production access on day one
+          </span>
+        </p>
       </section>
 
-      {/* CULTURE & PHILOSOPHY SECTION */}
-      <section id="culture" className="py-24 px-6 border-t border-[var(--border-color)] relative">
+      {/* CULTURE & PHILOSOPHY */}
+      <section id="culture" className="py-24 px-6 border-t border-line bg-[#0A0D15]/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Culture & Philosophy</h2>
-            <h3 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">Our Core Operating Values</h3>
+            <p className="eyebrow text-[#60A5FA]">Culture &amp; Philosophy</p>
+            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Our core operating values</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               We replace process overhead with absolute clarity and engineering autonomy.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Value 1 */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-2xl space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-red-500/20 hover:shadow-[var(--glow-shadow)] group">
-              <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform duration-300">
-                <Terminal className="w-5 h-5" />
-              </div>
-              <h4 className="text-base font-bold text-[var(--text-primary)]">Technical Rigor</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                We take pride in clean design systems, strict linting, TypeScript typing, and optimized backend query layouts. We measure and audit what we build.
-              </p>
-            </div>
-
-            {/* Value 2 */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-2xl space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/20 hover:shadow-[var(--glow-shadow)] group">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h4 className="text-base font-bold text-[var(--text-primary)]">AI-First Workflow</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                We co-program with agentic AI assistants daily, building systems that leverage models not just for autocomplete, but for sandbox orchestration and deep telemetry auditing.
-              </p>
-            </div>
-
-            {/* Value 3 */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-2xl space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-rose-500/20 hover:shadow-[var(--glow-shadow)] group">
-              <div className="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform duration-300">
-                <Workflow className="w-5 h-5" />
-              </div>
-              <h4 className="text-base font-bold text-[var(--text-primary)]">Collaborative Autonomy</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                We work in small, highly aligned teams. You own your code end-to-end, meaning low meeting overhead, high direct project impact, and rapid release cadences.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THE HIRING PROCESS TIMELINE */}
-      <section id="hiring" className="py-24 px-6 border-t border-[var(--border-color)] bg-[var(--bg-card)]/30 relative">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">The Recruitment Path</h2>
-            <h3 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">Built on Candidate Trust</h3>
-            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
-              We respect your time. Our hiring cycle is streamlined, transparent, and developer-centric.
-            </p>
-          </div>
-
-          {/* Timeline Wrapper */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-            {/* Step 1 */}
-            <div className="space-y-4 relative">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-red-600 text-white font-mono font-bold flex items-center justify-center text-xs">1</div>
-                <div className="h-[2px] flex-1 bg-gradient-to-r from-red-600 to-slate-800 hidden lg:block" />
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)] font-mono">Application</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Submit your GitHub profile, portfolio link, or CV. We review applications within 48 hours focusing on real, practical engineering output.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="space-y-4 relative">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-rose-600 text-white font-mono font-bold flex items-center justify-center text-xs">2</div>
-                <div className="h-[2px] flex-1 bg-gradient-to-r from-rose-600 to-slate-800 hidden lg:block" />
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)] font-mono">Technical Assessment</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Solve a practical, real-world sandbox challenge matching our actual tech stack. No algorithmic trivia or whiteboard balancing.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="space-y-4 relative">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-purple-600 text-white font-mono font-bold flex items-center justify-center text-xs">3</div>
-                <div className="h-[2px] flex-1 bg-gradient-to-r from-purple-600 to-slate-800 hidden lg:block" />
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)] font-mono">Team Sync</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Join a 45-minute architectural review with our technical founders. We discuss your solution, design patterns, and engineering philosophies.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="space-y-4 relative">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-mono font-bold flex items-center justify-center text-xs">4</div>
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)] font-mono">Rapid Onboarding</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Receive an offer within 24 hours. Once joined, get direct production write-access on your first day with dedicated peer support.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TEAM SPOTLIGHT SECTION */}
-      <section className="border-t border-[var(--border-color)]">
-        <TeamSection />
-      </section>
-
-      {/* TECHNICAL STACK / ENVIRONMENT SECTION */}
-      <section id="tech" className="py-24 px-6 border-t border-[var(--border-color)] bg-[var(--bg-card)]/20 relative">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Engineering Stack</h2>
-            <h3 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">Our Production Environment</h3>
-            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
-              We use modern, fast, and secure tools to ship stable software rapidly.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {techStack.map((tech, idx) => (
-              <div 
-                key={idx} 
-                className="bg-[var(--bg-card)] border border-[var(--border-color)] p-6 rounded-2xl space-y-3 transition-all duration-300 hover:-translate-y-1 hover:border-red-500/10 hover:shadow-sm"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <Terminal className="w-5 h-5 text-[#60A5FA]" />,
+                title: "Technical rigor",
+                text: "Clean design systems, strict linting, TypeScript typing, and optimized query layouts. We measure and audit what we build — including our own hiring."
+              },
+              {
+                icon: <Cpu className="w-5 h-5 text-[#60A5FA]" />,
+                title: "AI-first workflow",
+                text: "We co-program with agentic AI daily, leveraging models for sandbox orchestration, deep telemetry auditing, and evaluation-heavy pipelines."
+              },
+              {
+                icon: <Workflow className="w-5 h-5 text-[#60A5FA]" />,
+                title: "Collaborative autonomy",
+                text: "Small, tightly aligned teams. You own your code end-to-end: low meeting overhead, high direct impact, rapid release cadences."
+              }
+            ].map((value, i) => (
+              <div
+                key={value.title}
+                className={`panel p-8 transition-all duration-300 hover:-translate-y-1 ${
+                  i === 0 ? "reveal-left" : i === 2 ? "reveal-right" : "reveal-on-scroll"
+                }`}
               >
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-red-500/10 to-blue-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
-                  <tech.icon className="w-4 h-4" />
-                </div>
-                <h4 className="text-xs font-bold text-[var(--text-primary)] font-mono uppercase tracking-wider">{tech.name}</h4>
-                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed">{tech.desc}</p>
+                <span className="logo-tile flex h-12 w-12 items-center justify-center">
+                  {value.icon}
+                </span>
+                <h3 className="mt-5 font-head text-lg font-semibold uppercase tracking-wide">{value.title}</h3>
+                <p className="mt-2 text-xs text-[var(--text-secondary)] leading-relaxed">{value.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* INTERACTIVE APPLICATION FORM */}
-      <section id="apply" className="py-24 px-6 border-t border-[var(--border-color)] bg-[var(--bg-card)]/50 relative">
-        <div className="max-w-3xl mx-auto space-y-12">
-          <div className="text-center space-y-4">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Join the Mission</h2>
-            <h3 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">Launch Your Application</h3>
+      {/* HIRING PROCESS */}
+      <section id="hiring" className="py-24 px-6 border-t border-line relative">
+        <div className="max-w-7xl mx-auto space-y-16">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <p className="eyebrow text-[#4DE3FF]">The recruitment path</p>
+            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Built on candidate trust</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
-              Submit your credentials below. No formal cover letter required; let your work speak for itself.
+              We respect your time. The cycle is streamlined, transparent, and engineer-first.
             </p>
           </div>
 
-          <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 md:p-10 shadow-lg relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-500 via-rose-500 to-blue-500" />
-            
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            {[
+              {
+                num: "01",
+                title: "Application",
+                text: "Submit your GitHub profile, portfolio link, or CV. We respond within 48 hours on real, practical engineering output."
+              },
+              {
+                num: "02",
+                title: "Technical assessment",
+                text: "Solve a practical, real-world sandbox challenge on our exact stack. No algorithmic trivia or whiteboard balancing."
+              },
+              {
+                num: "03",
+                title: "Team sync",
+                text: "A 45-minute architectural review with the founders on your solution, design patterns, and engineering philosophy."
+              },
+              {
+                num: "04",
+                title: "Rapid onboarding",
+                text: "Offer within 24 hours. Direct production write access on day one with dedicated peer support."
+              }
+            ].map((step, idx) => (
+              <div key={step.title} className={`space-y-4 reveal-${idx === 0 ? "left" : idx === 3 ? "right" : "on-scroll"}`}>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#60A5FA]/40 bg-[#60A5FA]/10 font-mono text-xs font-bold text-[#60A5FA]">
+                    {step.num}
+                  </div>
+                  <div className="h-[2px] flex-1 bg-gradient-to-r from-[#60A5FA]/60 to-transparent hidden lg:block" />
+                </div>
+                <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">{step.title}</h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="border-t border-line">
+        <TeamSection />
+      </section>
+
+      {/* TECHNICAL STACK */}
+      <section id="tech" className="py-24 px-6 border-t border-line bg-[#0A0D15]/80 relative">
+        <div className="max-w-7xl mx-auto space-y-16">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <p className="eyebrow text-[#60A5FA]">Engineering stack</p>
+            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Our production environment</h2>
+            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
+              Modern, fast, and secure tooling for stable software shipped rapidly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+            {techStack.map((tech, idx) => (
+              <div
+                key={idx}
+                className="panel p-6 space-y-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#60A5FA]/40"
+              >
+                <span className="logo-tile flex h-10 w-10 items-center justify-center text-[#60A5FA]">
+                  <tech.icon className="w-4 h-4" />
+                </span>
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-[var(--text-primary)]">{tech.name}</h3>
+                <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">{tech.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* APPLICATION FORM */}
+      <section id="apply" className="py-24 px-6 border-t border-line relative">
+        <div className="max-w-3xl mx-auto space-y-12">
+          <div className="text-center space-y-4">
+            <p className="eyebrow text-[#60A5FA]">Join the mission</p>
+            <h2 className="text-3xl md:text-4xl font-display uppercase tracking-tight">Launch your application</h2>
+            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
+              No formal cover letter needed. Let your work speak for itself.
+            </p>
+          </div>
+
+          <div className="panel p-6 md:p-10 relative overflow-hidden">
+            <div className="accent-edge" />
             {formSubmitted ? (
               <div className="text-center py-12 space-y-4 animate-fade-in">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                  <CheckCircle className="w-8 h-8" />
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 text-[#4EF2BA]">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h4 className="text-lg font-bold text-[var(--text-primary)]">Application Successfully Registered</h4>
+                <h4 className="text-lg font-head font-semibold text-[var(--text-primary)]">Application registered</h4>
                 <p className="text-xs text-[var(--text-secondary)] max-w-md mx-auto leading-relaxed">
-                  Thank you for applying to RecruitAI! Our engineering team will review your credentials and get back to you via email within 48 hours.
+                  Thank you for applying to RecruitAuditor. Our team reviews every
+                  submission and will reach out within 48 hours.
                 </p>
-                <button 
+                <button
                   onClick={() => setFormSubmitted(false)}
-                  className="px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-color)] rounded-lg hover:bg-[var(--bg-card-hover)] transition-all mt-4"
+                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg glass px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-all cursor-pointer"
                 >
                   Apply for another role
                 </button>
@@ -305,90 +342,90 @@ export default function CareersLanding() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">Full Name</label>
-                    <input 
-                      type="text" 
+                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Full Name</label>
+                    <input
+                      type="text"
                       name="name"
                       required
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Alan Turing"
-                      className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] placeholder-gray-600"
+                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">Email Address</label>
-                    <input 
-                      type="email" 
+                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Email Address</label>
+                    <input
+                      type="email"
                       name="email"
                       required
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="alan@turing.org"
-                      className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] placeholder-gray-600"
+                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">Target Role</label>
-                    <select 
+                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Target Role</label>
+                    <select
                       name="role"
                       value={formData.role}
                       onChange={handleInputChange}
-                      className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] font-mono"
+                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none font-mono focus:border-[#60A5FA]/60"
                     >
                       <option value="software-engineer">Software Engineer (Frontend/Core)</option>
                       <option value="systems-architect">Systems Architect (Sandbox Security)</option>
-                      <option value="ai-scientist">R&D AI Security Scientist</option>
+                      <option value="ai-scientist">R&amp;D AI Security Scientist</option>
                       <option value="developer-relations">Developer Advocate / Lead</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">GitHub Profile Link</label>
-                    <input 
-                      type="url" 
+                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">GitHub Profile Link</label>
+                    <input
+                      type="url"
                       name="github"
                       required
                       value={formData.github}
                       onChange={handleInputChange}
                       placeholder="https://github.com/turing"
-                      className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] placeholder-gray-600"
+                      className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">Portfolio or Project Links (Optional)</label>
-                  <input 
-                    type="url" 
+                  <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Portfolio or Project Links (Optional)</label>
+                  <input
+                    type="url"
                     name="portfolio"
                     value={formData.portfolio}
                     onChange={handleInputChange}
                     placeholder="https://turing.org"
-                    className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] placeholder-gray-600"
+                    className="hover-pop w-full rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[9px] text-[var(--text-secondary)] font-mono font-bold uppercase tracking-wider mb-2">Brief Technical Accomplishments Summary</label>
-                  <textarea 
+                  <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">Brief Technical Accomplishments Summary</label>
+                  <textarea
                     name="bio"
                     required
                     rows={4}
                     value={formData.bio}
                     onChange={handleInputChange}
                     placeholder="Briefly describe an auditing parser, sandbox virtualization, or high-performance frontend component you have deployed."
-                    className="w-full text-xs bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-3.5 focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all text-[var(--text-primary)] placeholder-gray-600 resize-y"
+                    className="hover-pop w-full resize-y rounded-xl border border-line bg-[#0D111C] p-3.5 text-xs text-[var(--text-primary)] outline-none placeholder:text-[var(--muted)] focus:border-[#60A5FA]/60"
                   />
                 </div>
 
-                <button 
+                <button
                   type="submit"
-                  className="w-full py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-xl shadow-lg hover:shadow-red-900/30 flex items-center justify-center gap-2 transition-all duration-300 active:scale-98"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] py-3.5 text-xs font-head font-bold uppercase tracking-wider text-[#05060B] shadow-[0_0_30px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] active:scale-[0.99] cursor-pointer"
                 >
                   <Send className="w-4 h-4" /> Submit Engineering Application
                 </button>
@@ -399,10 +436,10 @@ export default function CareersLanding() {
       </section>
 
       {/* FOOTER */}
-      <footer className="py-12 border-t border-[var(--border-color)] bg-[var(--bg-card)] text-center text-xs text-[var(--text-secondary)] font-mono">
+      <footer className="border-t border-line bg-[#0D111C] py-12 text-center text-xs font-mono text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} RecruitAI Engine Inc. All rights reserved.</p>
-          <div className="flex gap-4">
+          <p>&copy; {new Date().getFullYear()} RecruitAuditor. All rights reserved.</p>
+          <div className="flex gap-6">
             <a href="/" className="hover:text-[var(--text-primary)] transition-colors">Corporate Landing</a>
             <a href="/login" className="hover:text-[var(--text-primary)] transition-colors">Audit Console</a>
           </div>

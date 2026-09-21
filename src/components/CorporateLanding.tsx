@@ -1,37 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
-import { 
-  ShieldCheck, 
-  Sparkles, 
-  Layers, 
-  Users, 
-  HelpCircle, 
-  Star, 
-  CheckCircle, 
-  ArrowRight, 
-  Lock, 
-  TrendingUp, 
-  Terminal, 
-  Sliders, 
-  ExternalLink,
-  ShieldAlert,
+import React, { useState, useEffect } from "react";
+import {
+  ShieldCheck,
+  Target,
+  ArrowRight,
+  Lock,
+  Sliders,
   ChevronDown,
   Linkedin,
   Github,
   Mail,
-  Briefcase,
-  User,
-  UserPlus,
   Search,
   Upload,
   ChevronLeft,
   ChevronRight,
   Download,
   MapPin,
-  Twitter,
-  Globe,
-  Cpu
+  CheckCircle2,
+  X,
+  Menu,
+  ListChecks,
+  Files,
+  Scale,
+  Users,
+  Star,
+  Sparkles
 } from "lucide-react";
 import TeamSection from "./TeamSection";
+import { RecruitAuditorLogo, RecruitAuditorWordmark } from "./Logo";
 
 const openJobs = [
   {
@@ -66,155 +61,23 @@ const openJobs = [
 const successStories = [
   {
     logo: "Aether Labs",
-    metric: "Hiring time reduced by 50%",
-    details: "Successfully automated first-round screening for 1,200+ systems applicants, maintaining 0% plagiarism escape rate.",
-    color: "from-blue-600 to-cyan-500"
+    metric: "Hiring time cut by 50%",
+    details: "Automated first-round screening for 1,200+ systems applicants while keeping a 0% plagiarism escape rate across proctored workspaces.",
+    color: "bg-[#60A5FA]"
   },
   {
     logo: "Quantum Analytics",
-    metric: "Auditor coverage at 99.8%",
-    details: "Deployed sandboxed browser metrics detecting tab-switching, keyboard macro injections, and external display splits.",
-    color: "from-rose-600 to-red-500"
+    metric: "Screening coverage at 99.8%",
+    details: "Every candidate was scored against the posted JD with a written verdict — tab-switching, macro injection, and external-display splits all captured as evidence.",
+    color: "bg-[#4DE3FF]"
   },
   {
     logo: "Apex Systems",
-    metric: "40% rise in onboarding quality",
-    details: "Replaced whiteboard algorithmic trivia with sandbox-based practical challenges directly related to production tasks.",
-    color: "from-purple-600 to-indigo-500"
+    metric: "Fill rate up 40%",
+    details: "Replaced whiteboard trivia with role-native challenges and a matching interview matrix, so shortlisted candidates showed up ready for the panel.",
+    color: "bg-[#8F7BFF]"
   }
 ];
-
-function CanvasBackground() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
-
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      baseColor: string;
-    }> = [];
-
-    const particleCount = 70;
-    const colors = [
-      "rgba(30, 58, 138, 0.4)", // Navy Blue
-      "rgba(190, 18, 60, 0.4)", // Red
-    ];
-
-    // Initialize particles
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        radius: Math.random() * 2 + 1,
-        baseColor: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-
-    let mouse = { x: -1000, y: -1000 };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-
-    const handleMouseLeave = () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Draw particle connections
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        
-        // Move particle
-        p1.x += p1.vx;
-        p1.y += p1.vy;
-
-        // Bounce on borders
-        if (p1.x < 0 || p1.x > width) p1.vx *= -1;
-        if (p1.y < 0 || p1.y > height) p1.vy *= -1;
-
-        // Interactive mouse repulsion
-        const dx = p1.x - mouse.x;
-        const dy = p1.y - mouse.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 120) {
-          const force = (120 - dist) / 120;
-          p1.x += (dx / dist) * force * 3;
-          p1.y += (dy / dist) * force * 3;
-        }
-
-        // Draw particle dot
-        ctx.beginPath();
-        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p1.baseColor;
-        ctx.fill();
-
-        // Connect lines
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const distBetween = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-
-          if (distBetween < 110) {
-            const alpha = (110 - distBetween) / 110 * 0.15;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(138, 63, 252, ${alpha})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-    />
-  );
-}
 
 interface CorporateLandingProps {
   onLoginRequested?: () => void;
@@ -260,6 +123,9 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
   ]);
   const [submittedInquiry, setSubmittedInquiry] = useState(false);
 
+  // Mobile nav state
+  const [menuOpen, setMenuOpen] = useState(false);
+
   // Scroll visibility reveal logic
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -275,7 +141,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       );
 
       const elements = document.querySelectorAll(
-        ".reveal-on-scroll, .reveal-left, .reveal-right, .reveal-scale, .reveal-down"
+        ".reveal-on-scroll, .reveal-left, .reveal-right, .reveal-scale, .reveal-down, .reveal-up"
       );
       elements.forEach((el) => observer.observe(el));
 
@@ -300,8 +166,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
   };
 
   // Dynamic custom calculation formula
-  const computedPrice = activePreset === "custom" 
-    ? Math.round((maxResumes * 0.8) + (maxTracks * 35)) 
+  const computedPrice = activePreset === "custom"
+    ? Math.round((maxResumes * 0.8) + (maxTracks * 35))
     : presets[activePreset]?.price || 0;
 
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -343,193 +209,366 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
   // Helper to scroll smoothly to section ID
   const scrollToSection = (id: string) => {
+    setMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  const goLogin = () => {
+    if (onLoginRequested) onLoginRequested();
+    else window.location.href = "/login";
+  };
+
+  const navItems = [
+    { id: "home", label: "Why RecruitAuditor" },
+    { id: "success-stories", label: "Results" },
+    { id: "plans", label: "Plans" },
+    { id: "team", label: "Team" },
+    { id: "contact", label: "Contact" }
+  ];
+
   return (
-    <div className="w-full min-h-screen flex flex-col relative select-none">
-      
-      {/* Dynamic Header Sticky Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-opacity-70 bg-[var(--bg-primary)] border-b border-[var(--border-color)] transition-all">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => scrollToSection("home")}>
-            <div className="bg-gradient-to-br from-blue-900 to-red-600 p-2 rounded-xl text-white shadow-lg">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <span className="font-extrabold text-sm tracking-widest text-[var(--text-primary)]">
-              RECRUITAI <span className="text-red-500 font-normal">ENGINE</span>
-            </span>
-          </div>
+    <div className="w-full min-h-screen flex flex-col relative bg-[var(--bg-primary)] text-[var(--text-primary)]">
+      {/* ================= HEADER ================= */}
+      <header className="sticky top-0 z-50 glass-strong border-b border-line">
+        <div className="max-w-7xl mx-auto px-5 md:px-6 py-3 flex items-center justify-between gap-4">
+          <button onClick={() => scrollToSection("home")} className="flex items-center cursor-pointer shrink-0">
+            <RecruitAuditorWordmark size={30} light />
+          </button>
 
-          {/* Nav links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-[var(--text-secondary)]">
-            <button onClick={() => scrollToSection("home")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Home</button>
-            <button onClick={() => scrollToSection("why-us")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Why Us</button>
-            <button onClick={() => scrollToSection("team")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Our Team</button>
-            <button onClick={() => scrollToSection("plans")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Our Plans</button>
-            <button onClick={() => scrollToSection("clients")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Clients</button>
-            <button onClick={() => scrollToSection("contact")} className="hover:text-[var(--text-primary)] transition-colors cursor-pointer">Contact Us</button>
-            <button onClick={() => window.location.href = "/login"} className="bg-gradient-to-r from-blue-900 to-red-600 text-white px-4 py-1.5 rounded-lg cursor-pointer hover:opacity-90">Client Dashboard</button>
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-7 text-xs font-medium text-[var(--text-secondary)]">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="hover:text-[var(--text-primary)] transition-colors cursor-pointer font-mono uppercase tracking-[0.14em]"
+              >
+                {item.label}
+              </button>
+            ))}
           </nav>
-        </div>
-      </header>
 
-      {/* HERO SECTION */}
-      <section id="home" className="min-h-[90vh] flex flex-col items-center justify-center text-center px-6 relative py-20 overflow-hidden">
-        
-        {/* Playful Interactive Particle Background Screen */}
-        <CanvasBackground />
-
-        {/* Glow overlay */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-900/10 via-red-900/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
-
-        <div className="max-w-4xl space-y-6 reveal-down visible z-10">
-
-
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-[var(--text-primary)]">
-            Objective Merit.<br />
-            <span className="bg-gradient-to-r from-blue-500 via-red-500 to-purple-500 bg-clip-text text-transparent">
-              Unparalleled Integrity.
-            </span>
-          </h1>
-
-          <p className="text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
-            Eliminate the "candidate black hole". Parse resumes anonymously based on actual code complexity and keystroke telemetry without demographic filters.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <div className="hidden lg:flex items-center gap-3">
+            <button
+              onClick={goLogin}
+              className="inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-xs font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              Client dashboard
+            </button>
             <button
               onClick={() => scrollToSection("plans")}
-              className="hover-pop w-full sm:w-auto bg-gradient-to-r from-blue-900 to-red-600 hover:opacity-90 text-white text-xs font-bold py-3.5 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#60A5FA] px-4 py-2 text-xs font-head font-semibold text-[#05060B] shadow-[0_0_30px_-8px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer"
             >
-              Configure Subscription Tier
-              <ArrowRight className="w-4 h-4" />
+              Try RecruitAuditor free
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden inline-flex items-center justify-center rounded-lg glass p-2.5 text-white cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <nav className="lg:hidden glass-strong border-t border-line px-5 py-4 flex flex-col gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="text-left px-3 py-3 rounded-lg font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+              >
+                {item.label}
+              </button>
+            ))}
+            <button
+              onClick={goLogin}
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl glass px-4 py-3 text-xs font-head font-semibold text-white cursor-pointer"
+            >
+              <Lock className="h-3.5 w-3.5" /> Client dashboard
             </button>
             <button
-              onClick={() => scrollToSection("why-us")}
-              className="hover-pop w-full sm:w-auto bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-primary)] text-xs font-bold py-3.5 px-8 rounded-xl cursor-pointer"
+              onClick={() => scrollToSection("plans")}
+              className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] px-4 py-3 text-xs font-head font-semibold text-[#05060B] cursor-pointer"
             >
-              Explore Capabilities
+              Try RecruitAuditor free <ArrowRight className="h-3.5 w-3.5" />
             </button>
-          </div>
+          </nav>
+        )}
+      </header>
+
+      {/* ================= HERO ================= */}
+      <section id="home" className="relative overflow-hidden">
+        {/* background scaffolds */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 hud-grid" />
+          <div className="aurora -top-28 left-[8%] h-80 w-80 bg-[#60A5FA]/16" />
+          <div className="aurora top-24 right-[4%] h-72 w-72 bg-[#4DE3FF]/10" />
+          <div className="aurora bottom-0 left-1/2 h-64 w-[130%] -translate-x-1/2 bg-[#60A5FA]/8 blur-3xl" />
         </div>
 
-        <div className="absolute bottom-10 animate-bounce cursor-pointer z-10 animate-pulse" onClick={() => scrollToSection("why-us")}>
-          <ChevronDown className="w-6 h-6 text-[var(--text-secondary)]" />
-        </div>
-      </section>
-
-      {/* WHY US (CAPABILITIES) SECTION */}
-      <section id="why-us" className="py-24 bg-[var(--bg-card)] border-y border-[var(--border-color)] px-6">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Monitored Verification Engine</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Why B2B Leaders Choose RecruitAI</h3>
-            <p className="text-xs text-[var(--text-secondary)]">We audit actual capabilities using secure, telemetry-backed proctor nodes.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="hover-pop bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-4 shadow-sm reveal-left">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center shadow-inner">
-                <ShieldCheck className="w-5 h-5" />
+        <div className="relative mx-auto max-w-7xl px-5 md:px-6 pb-20 pt-16 md:pt-24">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+            {/* Left: copy */}
+            <div className="reveal-down visible">
+              <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+                <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
+                RecruitAuditor · AI CV screening & interview matrix
               </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">Anti-Cheat Proctoring</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Dual-engine focus monitoring. Instantly terminates candidate workspaces upon tab evasions or focus loss, locking access and flagging suspicious activity.
+
+              <h1 className="mt-7 font-display text-[2rem] uppercase leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
+                Every resume scored against{" "}
+                <span className="text-glow-audit text-[#60A5FA]">the job you actually posted.</span>
+              </h1>
+
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] md:text-lg">
+                RecruitAuditor screens a CV against your job description and hands you the
+                outcome of a senior recruiter's first pass in about a minute: a compatibility
+                score, a skills match table, ready-to-ask interview questions, and a
+                proctored SQA-style test matrix — with demographic signals stripped out.
+              </p>
+
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <button
+                  onClick={() => scrollToSection("plans")}
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#60A5FA] px-7 py-4 text-sm font-head font-semibold text-[#05060B] shadow-[0_0_44px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer"
+                >
+                  Try it free — screen a real resume
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </button>
+                <button
+                  onClick={() => scrollToSection("results")}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl glass px-7 py-4 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+                >
+                  See what a verdict looks like
+                </button>
+              </div>
+
+              <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[var(--muted)]">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> One free screening report
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> No credit card
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#4DE3FF]" /> Runs on your JD + CVs
+                </span>
               </p>
             </div>
 
-            <div className="hover-pop bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-4 shadow-sm reveal-scale">
-              <div className="w-10 h-10 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center shadow-inner">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">Demographic Anonymization</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Strips out names, age variables, location metrics, and specific universities to parse candidate resumes strictly on skills merit.
-              </p>
-            </div>
-
-            <div className="hover-pop bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-4 shadow-sm reveal-right">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center shadow-inner">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">Database Consolidation</h4>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Maintains a permanent, POSIX atomic-backed index ledger of all historical exam sessions, keystroke dynamics, and evaluations.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SUCCESS STORIES SECTION */}
-      <section id="success-stories" className="py-24 bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-card)] border-y border-[var(--border-color)] px-6 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto space-y-12 relative z-10">
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Success Stories</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Measurable B2B Impact</h3>
-            <p className="text-xs text-[var(--text-secondary)]">How global technical teams leverage the RecruitAI audit engine.</p>
-          </div>
-
-          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-lg">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-900 to-red-600" />
-            
-            <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8">
-              {/* Metric Card */}
-              <div className={`w-full md:w-1/3 rounded-2xl bg-gradient-to-br ${successStories[storyIndex].color} p-8 flex flex-col justify-center text-white shadow-md relative overflow-hidden`}>
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
-                <span className="text-sm font-mono tracking-widest uppercase opacity-70 mb-2">{successStories[storyIndex].logo}</span>
-                <span className="text-2xl md:text-3xl font-black leading-tight tracking-tight">{successStories[storyIndex].metric}</span>
-              </div>
-
-              {/* Details Column */}
-              <div className="flex-1 flex flex-col justify-between space-y-6">
-                <div className="space-y-4">
+            {/* Right: working product surface mock */}
+            <div className="reveal-up visible">
+              <div className="panel hover-glow relative p-6">
+                <div className="flex items-center justify-between border-b border-line pb-4">
                   <div className="flex items-center gap-2">
-                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
-                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
-                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
-                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
-                    <Star className="w-4.5 h-4.5 text-yellow-500 fill-yellow-500" />
+                    <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+                      Live screening · Staff Go Engineer
+                    </span>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed italic">
-                    "{successStories[storyIndex].details}"
-                  </p>
+                  <span className="rounded-full bg-[#60A5FA]/10 border border-[#60A5FA]/30 px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#60A5FA]">
+                    COMPATIBILITY 87
+                  </span>
                 </div>
 
-                {/* Navigation controls */}
-                <div className="flex items-center justify-between border-t border-[var(--border-color)] pt-4">
+                {/* score + match table */}
+                <div className="mt-5 flex items-center gap-5">
+                  <div className="relative h-24 w-24 shrink-0">
+                    <svg className="h-24 w-24 -rotate-90">
+                      <circle cx="48" cy="48" r="42" stroke="rgba(140,160,200,0.14)" strokeWidth="8" fill="none" />
+                      <circle cx="48" cy="48" r="42" stroke="#60A5FA" strokeWidth="8" fill="none"
+                        strokeDasharray="263.9" strokeDashoffset={263.9 - (263.9 * 87) / 100} strokeLinecap="round" />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="font-display text-2xl font-bold text-white">87</span>
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--muted)]">/ 100</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 space-y-2.5">
+                    {[
+                      { k: "Go / microservices", v: 94 },
+                      { k: "Kubernetes deploy", v: 88 },
+                      { k: "Terraform IaC", v: 71 },
+                      { k: "SQL optimizations", v: 63 }
+                    ].map((row) => (
+                      <div key={row.k} className="flex items-center gap-3">
+                        <span className="w-40 truncate font-mono text-[10px] uppercase tracking-wide text-[var(--text-secondary)]">{row.k}</span>
+                        <div className="h-1.5 flex-1 rounded-full bg-white/5 overflow-hidden">
+                          <div className="h-full rounded-full" style={{ width: `${row.v}%`, background: row.v >= 80 ? "#60A5FA" : row.v >= 65 ? "#4DE3FF" : "#8F7BFF" }} />
+                        </div>
+                        <span className="w-7 text-right font-mono text-[10px] text-white">{row.v}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* interview matrix + proctored note */}
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-line bg-[#0A0D15] p-3">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Interview matrix</span>
+                    <p className="mt-1 text-xs leading-relaxed text-[var(--text-secondary)]">
+                      5 role-native questions generated from JD gaps.
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-line bg-[#0A0D15] p-3">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Proctored evidence</span>
+                    <p className="mt-1 text-xs leading-relaxed text-[var(--text-secondary)]">
+                      SQA test matrix attached, anti-cheat telemetry intact.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
+                  <div className="flex items-center gap-2 font-mono text-[10px] text-[var(--text-secondary)]">
+                    <ShieldCheck className="h-3.5 w-3.5 text-[#4DE3FF]" />
+                    Demographic signals removed
+                  </div>
+                  <button
+                    onClick={() => scrollToSection("plans")}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-3.5 py-2 text-[11px] font-head font-semibold text-[#60A5FA] transition hover:bg-white/10 cursor-pointer"
+                  >
+                    Run this on my JD <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+
+              {/* trust stats */}
+              <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {[
+                  { v: "≈80s", l: "to first verdict" },
+                  { v: "0", l: "demographic bias signals" },
+                  { v: "5", l: "interview Qs per shortlist" },
+                  { v: "100%", l: "proctored, on-record" }
+                ].map((s) => (
+                  <div key={s.l} className="text-center">
+                    <p className="font-display text-xl text-glow-white md:text-2xl">{s.v}</p>
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">{s.l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 flex justify-center">
+            <ChevronDown className="h-6 w-6 animate-bounce text-[var(--muted)]" />
+          </div>
+        </div>
+      </section>
+
+      {/* ================= WHY / CAPABILITIES ================= */}
+      <section id="why-us" className="border-y border-line bg-[#0A0D15] py-20">
+        <div className="mx-auto max-w-7xl px-5 md:px-6">
+          <div className="max-w-2xl">
+            <p className="eyebrow text-[#60A5FA]">Why RecruitAuditor</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              The screening pass that fills roles, not inboxes
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)] md:text-base">
+              You post a JD, candidates apply, and instead of a black hole you get a ranked,
+              evidence-backed shortlist with the questions and tests already drafted for the
+              interview round. Free to run once on your real CVs.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {[
+              {
+                icon: <Scale className="h-5 w-5 text-[#60A5FA]" />,
+                title: "Bias-free, evidence-driven",
+                text: "Names, locations, universities and ages are stripped before scoring. The compatibility figure and match table are generated from skill evidence alone — defensible in review, not vibes."
+              },
+              {
+                icon: <ListChecks className="h-5 w-5 text-[#60A5FA]" />,
+                title: "Interview matrix included",
+                text: "Every shortlisted CV comes with role-native interview questions mapped to the JD, so your panel stops ad-libbing and starts verifying the exact gaps the screen found."
+              },
+              {
+                icon: <Files className="h-5 w-5 text-[#60A5FA]" />,
+                title: "SQA test matrix attached",
+                text: "Screening outputs pair with a proctored, anti-cheat SQA test matrix — keystroke and focus telemetry on record for every candidate who advances."
+              }
+            ].map((f, i) => (
+              <div
+                key={f.title}
+                className={`panel reveal-${i === 0 ? "left" : i === 2 ? "right" : "on-scroll"} p-7`}
+              >
+                <span className="logo-tile flex h-12 w-12 items-center justify-center transition group-hover:scale-105">
+                  {f.icon}
+                </span>
+                <h3 className="mt-5 font-head text-lg font-semibold uppercase tracking-wide">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SUCCESS STORIES ================= */}
+      <section id="results" className="py-20">
+        <div className="mx-auto max-w-5xl px-5 md:px-6">
+          <div className="text-center">
+            <p className="eyebrow text-[#4DE3FF]">Verified results</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              Measurable outcomes for talent teams
+            </h2>
+          </div>
+
+          <div className="panel mt-12 p-6 md:p-10">
+            <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:items-stretch">
+              <div className={`rounded-2xl ${successStories[storyIndex].color} p-8 flex flex-col justify-center text-[#05060B] relative overflow-hidden`}>
+                <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-white/20 blur-2xl" />
+                <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] opacity-80">
+                  {successStories[storyIndex].logo}
+                </span>
+                <span className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight">
+                  {successStories[storyIndex].metric}
+                </span>
+              </div>
+
+              <div className="flex flex-col justify-between gap-6">
+                <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                  "{successStories[storyIndex].details}"
+                </p>
+
+                <div className="flex items-center justify-between border-t border-line pt-4">
                   <div className="flex gap-2">
                     {successStories.map((_, idx) => (
                       <button
                         key={idx}
                         type="button"
                         onClick={() => setStoryIndex(idx)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          storyIndex === idx ? "bg-red-500 w-6" : "bg-slate-700"
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                          storyIndex === idx ? "w-6 bg-[#60A5FA]" : "w-2 bg-white/15"
                         }`}
                       />
                     ))}
                   </div>
-
                   <div className="flex gap-2">
                     <button
                       type="button"
                       onClick={() => setStoryIndex((prev) => (prev === 0 ? successStories.length - 1 : prev - 1))}
-                      className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-red-500/50 hover:bg-red-500/5 transition-all cursor-pointer"
+                      className="p-2.5 rounded-lg glass text-white hover:bg-white/10 transition-all cursor-pointer"
+                      aria-label="Previous story"
                     >
-                      <ChevronLeft className="w-4 h-4" />
+                      <ChevronLeft className="h-4 w-4" />
                     </button>
                     <button
                       type="button"
                       onClick={() => setStoryIndex((prev) => (prev === successStories.length - 1 ? 0 : prev + 1))}
-                      className="p-2 rounded-lg bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-[var(--text-primary)] hover:border-red-500/50 hover:bg-red-500/5 transition-all cursor-pointer"
+                      className="p-2.5 rounded-lg glass text-white hover:bg-white/10 transition-all cursor-pointer"
+                      aria-label="Next story"
                     >
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -539,36 +578,38 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         </div>
       </section>
 
-      {/* PLANS (INTERACTIVE SELECTOR) SECTION */}
-      <section id="plans" className="py-24 bg-[var(--bg-card)] border-y border-[var(--border-color)] px-6">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">B2B Service Subscriptions</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Interactive Tier Capacity Selector</h3>
-            <p className="text-xs text-[var(--text-secondary)]">Slide parameters below to estimate customized B2B billing rates.</p>
+      {/* ================= PLANS ================= */}
+      <section id="plans" className="border-y border-line bg-[#0A0D15] py-20">
+        <div className="mx-auto max-w-7xl px-5 md:px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="eyebrow text-[#60A5FA]">Pricing</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              Start free on a real resume
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+              One free screening report, no credit card. Then pick the capacity that matches
+              your pipeline with the slider below.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Custom pricing sliders */}
-            <div className="lg:col-span-8 bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-6 shadow-sm reveal-left">
-              
-              <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                <h4 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
-                  <Sliders className="w-4 h-4 text-red-500" />
-                  Custom Capacity Calculator
+          <div className="mt-12 grid gap-8 lg:grid-cols-12">
+            {/* Custom pricing calculator */}
+            <div className="panel p-6 space-y-6 lg:col-span-8">
+              <div className="flex items-center justify-between gap-4 border-b border-line pb-4">
+                <h4 className="flex items-center gap-2 font-head text-base font-semibold">
+                  <Sliders className="h-4 w-4 text-[#60A5FA]" />
+                  Capacity calculator
                 </h4>
-                <span className="text-xs bg-[#be123c]/10 text-red-500 border border-[#be123c]/20 px-2 py-0.5 rounded-full font-mono font-bold">
-                  Estimated: ${computedPrice}/mo
+                <span className="rounded-full bg-[#60A5FA]/10 border border-[#60A5FA]/30 px-3 py-1 font-mono text-xs font-bold text-[#60A5FA]">
+                  ${computedPrice}/mo
                 </span>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div>
-                  <div className="flex justify-between text-xs text-[var(--text-primary)] mb-1">
-                    <span>Monthly Resume Parsing Limit</span>
-                    <span className="font-bold text-red-500">{maxResumes} Resumes</span>
+                  <div className="mb-2 flex justify-between items-end">
+                    <span className="font-head text-sm text-[var(--text-primary)]">Resumes screened monthly</span>
+                    <span className="font-mono text-xs font-bold text-[#60A5FA]">{maxResumes} resumes</span>
                   </div>
                   <input
                     type="range"
@@ -577,18 +618,18 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                     step="10"
                     value={maxResumes}
                     onChange={(e) => { setMaxResumes(Number(e.target.value)); setActivePreset("custom"); }}
-                    className="w-full cursor-pointer h-1.5 bg-[var(--border-color)] rounded-lg appearance-none"
+                    className="w-full cursor-pointer"
                   />
-                  <div className="flex justify-between text-[9px] text-[var(--text-secondary)] mt-1 font-mono">
-                    <span>10 Resumes</span>
-                    <span>1,000 Resumes</span>
+                  <div className="mt-1 flex justify-between font-mono text-[10px] text-[var(--muted)]">
+                    <span>10</span>
+                    <span>1,000</span>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs text-[var(--text-primary)] mb-1">
-                    <span>Active Candidate Test Tracks</span>
-                    <span className="font-bold text-red-500">{maxTracks} Tracks</span>
+                  <div className="mb-2 flex justify-between items-end">
+                    <span className="font-head text-sm text-[var(--text-primary)]">Active candidate test tracks</span>
+                    <span className="font-mono text-xs font-bold text-[#60A5FA]">{maxTracks} tracks</span>
                   </div>
                   <input
                     type="range"
@@ -597,104 +638,81 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                     step="1"
                     value={maxTracks}
                     onChange={(e) => { setMaxTracks(Number(e.target.value)); setActivePreset("custom"); }}
-                    className="w-full cursor-pointer h-1.5 bg-[var(--border-color)] rounded-lg appearance-none"
+                    className="w-full cursor-pointer"
                   />
-                  <div className="flex justify-between text-[9px] text-[var(--text-secondary)] mt-1 font-mono">
-                    <span>1 Track</span>
-                    <span>30 Tracks</span>
+                  <div className="mt-1 flex justify-between font-mono text-[10px] text-[var(--muted)]">
+                    <span>1</span>
+                    <span>30</span>
                   </div>
                 </div>
               </div>
 
-              {/* Preset buttons */}
-              <div className="grid grid-cols-3 gap-3 pt-3 border-t border-[var(--border-color)]">
-                <button
-                  onClick={() => handlePresetSelect("starter")}
-                  className={`hover-pop border text-left p-3 rounded-xl transition-all cursor-pointer ${
-                    activePreset === "starter" 
-                      ? "border-[#be123c] bg-[#be123c]/5" 
-                      : "border-[var(--border-color)] bg-[var(--bg-card)] hover:border-gray-500"
-                  }`}
-                >
-                  <div className="text-[10px] font-bold text-[var(--text-primary)]">Starter Preset</div>
-                  <div className="text-sm font-bold text-red-500 mt-0.5">$99</div>
-                </button>
-
-                <button
-                  onClick={() => handlePresetSelect("growth")}
-                  className={`hover-pop border text-left p-3 rounded-xl transition-all cursor-pointer ${
-                    activePreset === "growth" 
-                      ? "border-[#be123c] bg-[#be123c]/5" 
-                      : "border-[var(--border-color)] bg-[var(--bg-card)] hover:border-gray-500"
-                  }`}
-                >
-                  <div className="text-[10px] font-bold text-[var(--text-primary)]">Growth Preset</div>
-                  <div className="text-sm font-bold text-red-500 mt-0.5">$299</div>
-                </button>
-
-                <button
-                  onClick={() => handlePresetSelect("enterprise")}
-                  className={`hover-pop border text-left p-3 rounded-xl transition-all cursor-pointer ${
-                    activePreset === "enterprise" 
-                      ? "border-[#be123c] bg-[#be123c]/5" 
-                      : "border-[var(--border-color)] bg-[var(--bg-card)] hover:border-gray-500"
-                  }`}
-                >
-                  <div className="text-[10px] font-bold text-[var(--text-primary)]">Enterprise Preset</div>
-                  <div className="text-sm font-bold text-red-500 mt-0.5">$899</div>
-                </button>
+              <div className="grid grid-cols-3 gap-3 border-t border-line pt-5">
+                {[
+                  { key: "starter", name: "Starter", price: "$99" },
+                  { key: "growth", name: "Growth", price: "$299" },
+                  { key: "enterprise", name: "Enterprise", price: "$899" }
+                ].map((p) => (
+                  <button
+                    key={p.key}
+                    onClick={() => handlePresetSelect(p.key)}
+                    className={`rounded-xl border p-3.5 text-left transition-all cursor-pointer ${
+                      activePreset === p.key
+                        ? "border-[#60A5FA] bg-[#60A5FA]/10 shadow-[0_0_20px_-8px_rgba(96,165,250,0.6)]"
+                        : "border-line bg-[#0D111C] hover:border-[#60A5FA]/40"
+                    }`}
+                  >
+                    <div className="font-head text-xs font-semibold uppercase tracking-wide text-[var(--text-primary)]">{p.name}</div>
+                    <div className="mt-0.5 font-mono text-lg font-bold text-[#60A5FA]">{p.price}</div>
+                  </button>
+                ))}
               </div>
-
             </div>
 
-            {/* Static tier visual details */}
-            <div className="lg:col-span-4 bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-4 shadow-sm reveal-right">
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">B2B Core Entitlements</h4>
-              <ul className="text-xs text-[var(--text-secondary)] space-y-2.5">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  POSIX Atomic Lock Protection
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  Keystroke dynamics matching
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  AI code-plagiarism scoring
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  SLA Monitoring & automated feedback
-                </li>
+            {/* Entitlements */}
+            <div className="panel p-6 space-y-4 lg:col-span-4">
+              <h4 className="font-head text-base font-semibold">What every plan includes</h4>
+              <ul className="space-y-3 text-xs text-[var(--text-secondary)]">
+                {[
+                  "One free screening report before you pay",
+                  "Compatibility score + skills match table",
+                  "JD-mapped interview questions",
+                  "Proctored SQA test matrix with anti-cheat telemetry",
+                  "Demographic anonymization on every CV",
+                  "Email dispatch for candidate outcomes"
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#4DE3FF]" />
+                    {item}
+                  </li>
+                ))}
               </ul>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="hover-pop w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer shadow"
+                className="btn-brand w-full rounded-xl bg-[#60A5FA] py-3 text-xs font-head font-semibold text-[#05060B] shadow-[0_0_30px_-10px_rgba(96,165,250,0.9)] hover:bg-[#7FB3FF] cursor-pointer"
               >
-                Acquire Corporate License
+                Start a free screening report
               </button>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* CLIENTS (TESTIMONIALS) SECTION */}
-      <section id="clients" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Satisfied Corporate Clients</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Trust Validated by Real Leaders</h3>
-            <p className="text-xs text-[var(--text-secondary)]">Read metadata comments left by verified enterprise audit handlers.</p>
+      {/* ================= CLIENTS ================= */}
+      <section id="clients" className="py-20">
+        <div className="mx-auto max-w-7xl px-5 md:px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="eyebrow text-[#8F7BFF]">Talent teams</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              Trust validated by hiring leads
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-6 rounded-2xl space-y-3 shadow-sm reveal-left">
-              <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-[var(--text-primary)]">Genesis Logistics Group</span>
-                <div className="flex text-yellow-500">
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <figure className="panel p-7 reveal-left">
+              <div className="flex items-center justify-between">
+                <span className="font-head text-sm font-semibold text-[var(--text-primary)]">Genesis Logistics Group</span>
+                <div className="flex text-[#FFC53D]">
                   <Star className="w-3.5 h-3.5 fill-current" />
                   <Star className="w-3.5 h-3.5 fill-current" />
                   <Star className="w-3.5 h-3.5 fill-current" />
@@ -702,16 +720,20 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <Star className="w-3.5 h-3.5 fill-current" />
                 </div>
               </div>
-              <p className="text-xs text-[var(--text-secondary)] italic leading-relaxed">
-                "We parsed 1,500 candidate resumes for our dispatch software team. Anonymizing names and universities removed biases entirely, and the technical merit ratings proved 100% accurate."
-              </p>
-              <div className="text-[10px] text-gray-500 font-mono">- HR Director, Genesis Group</div>
-            </div>
+              <blockquote className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)] italic">
+                "We screened 1,500 dispatch-resume CVs against a single JD. Anonymization
+                killed the bias debates and the rank order matched what our best hires looked
+                like in year one."
+              </blockquote>
+              <figcaption className="mt-5 border-t border-line pt-4 font-mono text-[11px] text-[var(--muted)]">
+                — HR Director, Genesis Group
+              </figcaption>
+            </figure>
 
-            <div className="hover-pop bg-[var(--bg-card)] border border-[var(--border-color)] p-6 rounded-2xl space-y-3 shadow-sm reveal-right">
-              <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-[var(--text-primary)]">Quantum Analytics Inc</span>
-                <div className="flex text-yellow-500">
+            <figure className="panel p-7 reveal-right">
+              <div className="flex items-center justify-between">
+                <span className="font-head text-sm font-semibold text-[var(--text-primary)]">Quantum Analytics Inc</span>
+                <div className="flex text-[#FFC53D]">
                   <Star className="w-3.5 h-3.5 fill-current" />
                   <Star className="w-3.5 h-3.5 fill-current" />
                   <Star className="w-3.5 h-3.5 fill-current" />
@@ -719,41 +741,47 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <Star className="w-3.5 h-3.5 fill-current" />
                 </div>
               </div>
-              <p className="text-xs text-[var(--text-secondary)] italic leading-relaxed">
-                "The 4-hour submission lock is a brilliant feature. It lets our engineering panel review detailed typing events and plagiarism flags before auto-releasing the candidate's grading cards."
-              </p>
-              <div className="text-[10px] text-gray-500 font-mono">- VP of Technology, Quantum Analytics</div>
-            </div>
+              <blockquote className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)] italic">
+                "The interview matrix alone changed our panel. Candidates arrive ready to
+                discuss the exact gaps RecruitAuditor flagged, and the proctored matrix gives
+                us evidence instead of impressions."
+              </blockquote>
+              <figcaption className="mt-5 border-t border-line pt-4 font-mono text-[11px] text-[var(--muted)]">
+                — VP of Technology, Quantum Analytics
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
-      {/* TEAM SECTION */}
+      {/* ================= TEAM ================= */}
       <TeamSection />
 
-      {/* JOB BOARD SECTION */}
-      <section id="jobs" className="py-24 px-6 border-t border-[var(--border-color)] relative">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Careers Board</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Open Engineering Roles</h3>
-            <p className="text-xs text-[var(--text-secondary)]">Search and apply to join our high-performance infrastructure teams.</p>
+      {/* ================= JOB BOARD ================= */}
+      <section id="jobs" className="border-t border-line py-20">
+        <div className="mx-auto max-w-5xl px-5 md:px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="eyebrow text-[#60A5FA]">Careers board</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              We screen applicants the way we sell screening
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+              Open roles at the team building RecruitAuditor.
+            </p>
           </div>
 
-          {/* Search bar */}
-          <div className="max-w-md mx-auto relative reveal-on-scroll">
-            <Search className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
+          <div className="mx-auto mt-10 max-w-md relative">
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted)]" />
             <input
               type="text"
-              placeholder="Search engineering positions..."
+              placeholder="Search open positions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl py-3 pl-11 pr-4 text-xs text-[var(--text-primary)] focus:outline-none focus:border-red-500/50 hover:bg-[var(--bg-card-hover)] transition-all"
+              className="w-full rounded-xl glass py-3 pl-11 pr-4 text-sm text-[var(--text-primary)] outline-none transition hover:bg-white/5 focus:border-[#60A5FA]/50 focus:ring-1 focus:ring-[#60A5FA]/30"
             />
           </div>
 
-          {/* Jobs List */}
-          <div className="space-y-4 max-w-4xl mx-auto">
+          <div className="mx-auto mt-8 max-w-4xl space-y-4">
             {openJobs
               .filter((job) =>
                 job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -761,25 +789,22 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                 job.reqs.some((req) => req.toLowerCase().includes(searchQuery.toLowerCase()))
               )
               .map((job) => (
-                <div
-                  key={job.id}
-                  className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-red-500/20 hover:shadow-[var(--glow-shadow)] flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
-                >
+                <div key={job.id} className="panel flex flex-col justify-between gap-6 p-6 transition-all duration-300 hover:border-[#60A5FA]/30 md:flex-row md:items-center">
                   <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="text-sm font-bold text-[var(--text-primary)]">{job.title}</h4>
-                      <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-400">{job.type}</span>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <h4 className="font-head text-base font-semibold text-[var(--text-primary)]">{job.title}</h4>
+                      <span className="rounded-full border border-line bg-white/5 px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{job.type}</span>
                     </div>
-                    <p className="text-[10px] text-[var(--text-secondary)] font-mono">{job.department} | {job.location}</p>
-                    <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-2xl">{job.desc}</p>
-                    
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {job.reqs.map((req, i) => (
-                        <span key={i} className="text-[8px] font-mono px-2 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400">{req}</span>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
+                      {job.department} | {job.location}
+                    </p>
+                    <p className="max-w-2xl text-sm leading-relaxed text-[var(--text-secondary)]">{job.desc}</p>
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {job.reqs.map((req) => (
+                        <span key={req} className="rounded border border-line bg-[#0A0D15] px-2 py-0.5 font-mono text-[10px] text-[var(--text-secondary)]">{req}</span>
                       ))}
                     </div>
                   </div>
-
                   <button
                     type="button"
                     onClick={() => {
@@ -790,9 +815,9 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                       setApplicantName("");
                       setApplicantEmail("");
                     }}
-                    className="w-full md:w-auto shrink-0 text-center px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-lg shadow-md hover:shadow-red-950/20 transition-all cursor-pointer"
+                    className="shrink-0 rounded-lg bg-[#60A5FA] px-5 py-2.5 text-xs font-head font-semibold text-[#05060B] transition hover:bg-[#7FB3FF] cursor-pointer"
                   >
-                    Quick Apply
+                    Quick apply
                   </button>
                 </div>
               ))}
@@ -801,37 +826,37 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
         {/* Quick Apply Modal */}
         {selectedJob && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div className="w-full max-w-md bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-3xl p-6 relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-600 to-blue-905" />
-              
-              <div className="flex justify-between items-start mb-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+            <div className="w-full max-w-md panel p-6">
+              <div className="mb-6 flex items-start justify-between gap-4">
                 <div>
-                  <h4 className="text-sm font-bold text-[var(--text-primary)]">Quick Apply</h4>
-                  <p className="text-[10px] text-[var(--text-secondary)] font-mono">{selectedJob.title}</p>
+                  <h4 className="font-head text-base font-semibold">Quick apply</h4>
+                  <p className="mt-0.5 font-mono text-[11px] text-[var(--muted)]">{selectedJob.title}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedJob(null)}
-                  className="text-xs text-gray-500 hover:text-[var(--text-primary)] cursor-pointer"
+                  className="rounded-lg p-2 text-[var(--muted)] hover:text-white hover:bg-white/5 transition cursor-pointer"
+                  aria-label="Close"
                 >
-                  ✕
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
               {applySuccess ? (
-                <div className="text-center py-8 space-y-4">
-                  <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 flex items-center justify-center mx-auto">
-                    <CheckCircle className="w-6 h-6" />
+                <div className="py-8 text-center space-y-4">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#4EF2BA]/10 border border-[#4EF2BA]/30 text-[#4EF2BA]">
+                    <CheckCircle2 className="h-6 w-6" />
                   </div>
-                  <h5 className="text-sm font-bold text-[var(--text-primary)]">Application Submitted</h5>
-                  <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed max-w-xs mx-auto">
-                    Your application and CV ({uploadedCVName}) were successfully logged in our systems. We will reach out to you within 48 hours.
+                  <h5 className="font-head text-sm font-semibold">Application submitted</h5>
+                  <p className="mx-auto max-w-xs text-xs leading-relaxed text-[var(--text-secondary)]">
+                    Your application and CV ({uploadedCVName}) were logged. We respond within
+                    48 hours.
                   </p>
                   <button
                     type="button"
                     onClick={() => setSelectedJob(null)}
-                    className="px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-color)] rounded-lg hover:bg-[var(--bg-card-hover)] transition-all cursor-pointer"
+                    className="btn-brand rounded-lg glass px-5 py-2 text-[11px] font-mono font-bold uppercase tracking-wider text-white"
                   >
                     Close
                   </button>
@@ -860,46 +885,46 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   className="space-y-4"
                 >
                   <div>
-                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Full Name</label>
+                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Full name</label>
                     <input
                       type="text"
                       required
                       value={applicantName}
                       onChange={(e) => setApplicantName(e.target.value)}
-                      className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
+                      className="w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Email Address</label>
+                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Email address</label>
                     <input
                       type="email"
                       required
                       value={applicantEmail}
                       onChange={(e) => setApplicantEmail(e.target.value)}
-                      className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
+                      className="w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition focus:border-[#60A5FA]/60"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Upload CV (PDF/DOCX)</label>
-                    
+                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Upload CV (PDF/DOCX)</label>
                     {cvUploadSuccess ? (
-                      <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 px-3 py-2 rounded-lg text-[10px] text-green-400 font-mono">
-                        <span>✓ {uploadedCVName}</span>
+                      <div className="flex items-center justify-between rounded-lg border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 px-3 py-2.5 font-mono text-xs text-[#4EF2BA]">
+                        <span className="truncate">{uploadedCVName}</span>
                         <button
                           type="button"
                           onClick={() => {
                             setUploadedCVName("");
                             setCvUploadSuccess(false);
                           }}
-                          className="text-red-400 hover:text-red-300"
+                          className="ml-2 rounded p-1 text-[#4EF2BA]/70 hover:text-[#4EF2BA] cursor-pointer"
+                          aria-label="Remove CV"
                         >
-                          ✕
+                          <X className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     ) : (
-                      <div className="relative border border-dashed border-[var(--border-color)] hover:border-red-500/40 rounded-lg p-6 text-center cursor-pointer transition-all">
+                      <div className="relative rounded-lg border border-dashed border-line p-6 text-center transition-all hover:border-[#60A5FA]/50 cursor-pointer">
                         <input
                           type="file"
                           accept=".pdf,.docx"
@@ -915,11 +940,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                               }, 1500);
                             }
                           }}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                         />
-                        <Upload className="w-5 h-5 text-gray-500 mx-auto mb-2" />
-                        <p className="text-[10px] text-[var(--text-secondary)] font-mono">
-                          {cvUploading ? "Uploading CV file..." : "Drag & Drop or Click to upload CV"}
+                        <Upload className="mx-auto mb-2 h-5 w-5 text-[var(--muted)]" />
+                        <p className="font-mono text-[11px] text-[var(--text-secondary)]">
+                          {cvUploading ? "Uploading CV file..." : "Drag & drop or click to upload CV"}
                         </p>
                       </div>
                     )}
@@ -928,9 +953,9 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   <button
                     type="submit"
                     disabled={!cvUploadSuccess}
-                    className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+                    className="w-full rounded-xl bg-[#60A5FA] py-3 text-xs font-head font-semibold text-[#05060B] transition hover:bg-[#7FB3FF] cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    Submit Application
+                    Submit application
                   </button>
                 </form>
               )}
@@ -939,341 +964,320 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
         )}
       </section>
 
-      {/* RESOURCE HUB SECTION */}
-      <section id="resources" className="py-24 bg-[var(--bg-card)]/50 border-t border-[var(--border-color)] px-6 relative">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2 reveal-down">
-            <h2 className="text-xs font-bold text-red-500 tracking-widest uppercase font-mono">Resource Hub</h2>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--text-primary)]">Technical Insights & Guides</h3>
-            <p className="text-xs text-[var(--text-secondary)]">Stay ahead with auditing whitepapers and proctoring best-practice frameworks.</p>
+      {/* ================= RESOURCE HUB ================= */}
+      <section id="resources" className="border-t border-line bg-[#0A0D15] py-20">
+        <div className="mx-auto max-w-5xl px-5 md:px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="eyebrow text-[#4DE3FF]">Resource hub</p>
+            <h2 className="mt-2 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              The AI hiring & telemetry guide
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+              How to structure anonymous screening, proctor practical tests, and stop
+              copy-paste leakage without breaking candidate trust.
+            </p>
           </div>
 
-          {/* Lead Magnet Card */}
-          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 md:p-10 max-w-3xl mx-auto relative overflow-hidden shadow-lg flex flex-col md:flex-row items-center gap-8 reveal-on-scroll">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 rounded-full blur-2xl pointer-events-none" />
-            
-            {/* Guide Preview Visual */}
-            <div className="w-full md:w-1/3 aspect-[3/4] bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-md relative overflow-hidden shrink-0">
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-red-500/20" />
-              <Cpu className="w-8 h-8 text-red-500" />
-              <div className="space-y-1.5">
-                <span className="text-[8px] font-mono text-red-400 tracking-wider uppercase font-bold">Whitepaper</span>
-                <h5 className="text-xs font-bold text-[var(--text-primary)] leading-snug">The Complete AI Hiring & Telemetry Guide</h5>
-                <p className="text-[8px] text-[var(--text-secondary)] font-mono">v2.4 Audit Frameworks</p>
-              </div>
-            </div>
-
-            {/* Description & form */}
-            <div className="flex-1 space-y-6 w-full">
-              <div className="space-y-2">
-                <h4 className="text-base font-bold text-[var(--text-primary)]">Download Our AI Hiring & Telemetry Guide</h4>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Learn how to structure secure coding sandboxes, analyze candidate keystroke dynamics, and prevent LLM plagiarism leakage without sacrificing candidate trust.
-                </p>
-              </div>
-
-              {hubSuccess ? (
-                <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl flex items-center gap-3 text-[10px] text-green-400 font-mono animate-fade-in">
-                  <CheckCircle className="w-4 h-4 flex-shrink-0" />
-                  <div>
-                    <span className="font-bold block">Download Registered</span>
-                    <span>Your guide is ready. <a href="/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf" download="RecruitAI_Engine_Hiring_Recruitment_Guide.pdf" className="underline font-bold text-green-300 hover:text-green-200">Click here to download (PDF)</a></span>
-                  </div>
-                </div>
-              ) : (
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    if (!hubEmail) return;
-                    try {
-                      await fetch("/api/hub-download", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email: hubEmail })
-                      });
-                      
-                      // Programmatically trigger download
-                      const link = document.createElement("a");
-                      link.href = "/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
-                      link.download = "RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    } catch (err) {
-                      console.error("Failed to register hub download:", err);
-                    }
-                    setHubSuccess(true);
-                  }}
-                  className="flex flex-col sm:flex-row gap-2.5"
-                >
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter email to receive whitepaper..."
-                    value={hubEmail}
-                    onChange={(e) => setHubEmail(e.target.value)}
-                    className="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-4 py-3 rounded-xl outline-none focus:border-red-500/50 placeholder-gray-600"
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-900 to-red-600 rounded-xl shadow-md cursor-pointer hover:opacity-95 transition-all flex items-center justify-center gap-1.5"
+          <div className="panel mx-auto mt-12 max-w-3xl p-8 md:p-10">
+            {hubSuccess ? (
+              <div className="flex items-start gap-3 rounded-xl border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 p-4 text-xs text-[#4EF2BA]">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                <div>
+                  <span className="font-bold">Download registered.</span> Your guide is ready:{" "}
+                  <a
+                    href="/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf"
+                    download="RecruitAI_Engine_Hiring_Recruitment_Guide.pdf"
+                    className="underline font-bold text-[#9BF2D8] hover:text-white"
                   >
-                    <Download className="w-3.5 h-3.5" /> Get Guide
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT US SECTION */}
-      <section id="contact" className="py-24 bg-[var(--bg-card)] border-y border-[var(--border-color)] px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          {/* Inquiry form column */}
-          <div className="lg:col-span-7 bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 rounded-2xl space-y-6 shadow-sm reveal-left">
-            <div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">Inbound Contact Request Form</h4>
-              <p className="text-[10px] text-[var(--text-secondary)]">Submit lead inquiries to generate metadata files in the local vault.</p>
-            </div>
-
-            <form onSubmit={handleContactSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    className="hover-pop w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
-                  />
+                    click here to download (PDF)
+                  </a>
                 </div>
-                <div>
-                  <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Corporate Email</label>
-                  <input
-                    type="email"
-                    required
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    className="hover-pop w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Company Name (Optional)</label>
-                <input
-                  type="text"
-                  value={contactCompany}
-                  onChange={(e) => setContactCompany(e.target.value)}
-                  className="hover-pop w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[9px] text-gray-400 font-mono uppercase mb-1">Inquiry Message</label>
-                <textarea
-                  required
-                  rows={4}
-                  value={contactMessage}
-                  onChange={(e) => setContactMessage(e.target.value)}
-                  className="hover-pop w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500 resize-none"
-                  placeholder="Specify system parameters or request a demo..."
-                />
-              </div>
-
-              {submittedInquiry && (
-                <div className="flex items-center gap-1.5 text-[10px] text-green-500 bg-green-500/10 border border-green-500/20 p-2.5 rounded-lg font-mono">
-                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                  Inquiry logged. Contact file created.
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="hover-pop w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-xl cursor-pointer"
-              >
-                Send Request
-              </button>
-            </form>
-          </div>
-
-          {/* Inquiry log column */}
-          <div className="lg:col-span-5 space-y-6 reveal-right">
-            <div>
-              <h4 className="text-sm font-bold text-[var(--text-primary)]">Lead Telemetry Log</h4>
-              <p className="text-[10px] text-[var(--text-secondary)]">Simulated B2B lead generation telemetry files stored in vault config.</p>
-            </div>
-
-            <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1">
-              {inquiries.map((iq, idx) => (
-                <div key={idx} className="bg-[var(--bg-primary)] border border-[var(--border-color)] p-4 rounded-xl space-y-1.5 font-mono text-[10px]">
-                  <div className="flex justify-between text-gray-500">
-                    <span>{iq.name} ({iq.company})</span>
-                    <span>{iq.timestamp}</span>
-                  </div>
-                  <div className="text-[var(--text-primary)] italic font-sans mt-1">"{iq.message}"</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* READY TO START CTA SECTION */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-card)] relative overflow-hidden text-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-red-600/5 rounded-full blur-[100px] pointer-events-none" />
-        
-        <div className="max-w-4xl mx-auto space-y-6 relative z-10 reveal-on-scroll">
-          <h3 className="text-2xl md:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
-            Ready to scale your technical team with absolute trust?
-          </h3>
-          <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto">
-            Deploy secure, sandboxed practical exams and keystroke telemetry auditing within 10 minutes.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => scrollToSection("contact")}
-              className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-xl shadow-lg transition-all cursor-pointer"
-            >
-              Schedule B2B Demo
-            </button>
-            <button
-              type="button"
-              onClick={() => window.location.href = "/careers"}
-              className="w-full sm:w-auto px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider bg-slate-900 border border-[var(--border-color)] hover:border-red-500/30 rounded-xl text-[var(--text-primary)] transition-all cursor-pointer"
-            >
-              Explore Careers
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ENHANCED FOOTER */}
-      <footer className="border-t border-[var(--border-color)] bg-[var(--bg-card)] pt-16 pb-10 px-6 relative z-10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 border-b border-[var(--border-color)] pb-12 mb-8">
-          
-          {/* Logo & Description */}
-          <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => scrollToSection("home")}>
-              <div className="bg-gradient-to-br from-blue-900 to-red-600 p-2 rounded-xl text-white">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <span className="font-extrabold text-sm tracking-widest text-[var(--text-primary)]">
-                RECRUITAI <span className="text-red-500 font-normal">ENGINE</span>
-              </span>
-            </div>
-            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed max-w-sm">
-              The high-performance proctoring and plagiarism auditing platform for tech recruiting. Protected under POSIX atomic lock protocols.
-            </p>
-            <div className="flex items-center gap-3 pt-2">
-              <a 
-                href="#home" 
-                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
-                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-blue-400 hover:border-blue-500/40 transition-all"
-              >
-                <Linkedin className="w-3.5 h-3.5" />
-              </a>
-              <a 
-                href="#home" 
-                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
-                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-white hover:border-white/40 transition-all"
-              >
-                <Github className="w-3.5 h-3.5" />
-              </a>
-              <a 
-                href="#home" 
-                onClick={(e) => { e.preventDefault(); scrollToSection("home"); }} 
-                className="p-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-gray-500 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
-              >
-                <Twitter className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Office Locations */}
-          <div className="md:col-span-4 space-y-4">
-            <h5 className="text-xs font-bold font-mono text-[var(--text-primary)] uppercase tracking-wider">Office Locations</h5>
-            <div className="space-y-3 font-mono text-[10px] text-[var(--text-secondary)]">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-bold text-[var(--text-primary)] block">Huddersfield, UK Office</span>
-                  <span>Thornton Hills<br />Huddersfield, United Kingdom</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-bold text-[var(--text-primary)] block">Islamabad, PK Office</span>
-                  <span>Sector I-8<br />Islamabad, Pakistan</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Newsletter Sign Up */}
-          <div className="md:col-span-3 space-y-4">
-            <h5 className="text-xs font-bold font-mono text-[var(--text-primary)] uppercase tracking-wider">Audit Newsletter</h5>
-            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-              Subscribe to stay updated with sandbox virtualization releases and security whitepapers.
-            </p>
-            
-            {newsletterSuccess ? (
-              <div className="bg-green-500/10 border border-green-500/20 px-3 py-2 rounded-xl text-[10px] text-green-400 font-mono">
-                ✓ Registered successfully.
               </div>
             ) : (
               <form
                 onSubmit={async (e) => {
                   e.preventDefault();
-                  if (!newsletterEmail) return;
+                  if (!hubEmail) return;
                   try {
-                    await fetch("/api/newsletter", {
+                    await fetch("/api/hub-download", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ email: newsletterEmail })
+                      body: JSON.stringify({ email: hubEmail })
                     });
+                    const link = document.createElement("a");
+                    link.href = "/RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
+                    link.download = "RecruitAI_Engine_Hiring_Recruitment_Guide.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                   } catch (err) {
-                    console.error("Failed to register newsletter subscription:", err);
+                    console.error("Failed to register hub download:", err);
                   }
-                  setNewsletterSuccess(true);
+                  setHubSuccess(true);
                 }}
-                className="space-y-2"
+                className="flex flex-col gap-2.5 sm:flex-row"
               >
                 <input
                   type="email"
                   required
-                  placeholder="Enter email address..."
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] text-[10px] text-[var(--text-primary)] px-3 py-2.5 rounded-xl outline-none focus:border-red-500/50 placeholder-gray-600"
+                  placeholder="Enter email to receive the guide..."
+                  value={hubEmail}
+                  onChange={(e) => setHubEmail(e.target.value)}
+                  className="flex-1 rounded-xl glass px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition placeholder:text-[var(--muted)] hover:bg-white/5 focus:border-[#60A5FA]/50"
                 />
                 <button
                   type="submit"
-                  className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-900 to-red-600 rounded-xl cursor-pointer hover:opacity-95 transition-all text-center"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#60A5FA] px-6 py-3 text-xs font-head font-semibold text-[#05060B] transition hover:bg-[#7FB3FF] cursor-pointer"
                 >
-                  Subscribe
+                  <Download className="h-3.5 w-3.5" /> Get guide
                 </button>
               </form>
             )}
           </div>
-
         </div>
+      </section>
 
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[10px] text-[var(--text-secondary)]">
-          <p>© {new Date().getFullYear()} RecruitAI Corp. Protected under POSIX atomic lock protocols. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="/careers" className="hover:text-[var(--text-primary)] transition-colors">Careers Page</a>
-            <a href="/login" className="hover:text-[var(--text-primary)] transition-colors">Client Console</a>
+      {/* ================= CONTACT ================= */}
+      <section id="contact" className="border-t border-line py-20">
+        <div className="mx-auto max-w-7xl px-5 md:px-6">
+          <div className="grid gap-12 lg:grid-cols-12">
+            {/* Inquiry form */}
+            <div className="panel p-6 space-y-6 lg:col-span-7">
+              <div>
+                <h4 className="font-head text-base font-semibold">Request a free screening report</h4>
+                <p className="mt-1 text-xs text-[var(--text-secondary)]">
+                  Tell us about your pipeline and we will screen a real resume for free.
+                </p>
+              </div>
+
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Full name</label>
+                    <input
+                      type="text"
+                      required
+                      value={contactName}
+                      onChange={(e) => setContactName(e.target.value)}
+                      className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Corporate email</label>
+                    <input
+                      type="email"
+                      required
+                      value={contactEmail}
+                      onChange={(e) => setContactEmail(e.target.value)}
+                      className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Company (optional)</label>
+                  <input
+                    type="text"
+                    value={contactCompany}
+                    onChange={(e) => setContactCompany(e.target.value)}
+                    className="hover-pop w-full rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">Inquiry message</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
+                    placeholder="Role you hire for, monthly candidate volume, or a specific screening problem..."
+                    className="hover-pop w-full resize-none rounded-lg border border-line bg-[#0D111C] px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none focus:border-[#60A5FA]/60"
+                  />
+                </div>
+
+                {submittedInquiry && (
+                  <div className="flex items-center gap-2 rounded-lg border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 p-2.5 font-mono text-xs text-[#4EF2BA]">
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                    Inquiry logged. Your free report is queued.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full rounded-xl bg-[#60A5FA] py-3 text-xs font-head font-semibold text-[#05060B] transition hover:bg-[#7FB3FF] cursor-pointer"
+                >
+                  Request free screening report
+                </button>
+              </form>
+            </div>
+
+            {/* Inquiry log */}
+            <div className="space-y-6 lg:col-span-5">
+              <div>
+                <h4 className="font-head text-base font-semibold">Recent requests</h4>
+                <p className="text-xs text-[var(--text-secondary)]">Log of screening inquiries from talent teams.</p>
+              </div>
+              <div className="max-h-[380px] space-y-3 overflow-y-auto pr-1">
+                {inquiries.map((iq, idx) => (
+                  <div key={idx} className="panel p-4 font-mono text-[11px]">
+                    <div className="flex justify-between text-[var(--muted)]">
+                      <span>{iq.name} ({iq.company})</span>
+                      <span>{iq.timestamp}</span>
+                    </div>
+                    <div className="mt-1.5 text-[var(--text-primary)] italic">"{iq.message}"</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= READY CTA ================= */}
+      <section className="relative overflow-hidden py-20">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 hud-grid" />
+          <div className="aurora left-1/4 top-0 h-72 w-72 bg-[#60A5FA]/14" />
+          <div className="aurora right-[8%] bottom-0 h-72 w-72 bg-[#4DE3FF]/10" />
+        </div>
+        <div className="relative mx-auto max-w-4xl px-5 text-center md:px-6">
+          <p className="eyebrow text-[#60A5FA]">Go operational</p>
+          <h2 className="mt-3 font-display text-3xl uppercase tracking-tight md:text-5xl">
+            Screen a real resume tonight.
+            <br />
+            <span className="text-glow-audit text-[#60A5FA]">Free, on us.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)] md:text-base">
+            One free report on the job you are hiring for today. Compatibility score, match
+            table, interview questions and a proctored SQA matrix — no credit card.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => scrollToSection("plans")}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#60A5FA] px-8 py-3.5 text-sm font-head font-semibold text-[#05060B] shadow-[0_0_44px_-10px_rgba(96,165,250,0.9)] transition hover:bg-[#7FB3FF] cursor-pointer"
+            >
+              Try RecruitAuditor free <ArrowRight className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => window.location.href = "/careers"}
+              className="inline-flex items-center gap-2 rounded-xl glass px-8 py-3.5 text-sm font-head font-semibold text-white transition hover:bg-white/5 cursor-pointer"
+            >
+              Explore careers
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+      <footer className="relative border-t border-line bg-[#0A0D15] pb-10 pt-16">
+        <div className="mx-auto max-w-7xl px-5 md:px-6">
+          <div className="grid grid-cols-1 gap-10 border-b border-line pb-12 md:grid-cols-12">
+            {/* Logo & description */}
+            <div className="md:col-span-5 space-y-4">
+              <button onClick={() => scrollToSection("home")} className="cursor-pointer">
+                <RecruitAuditorWordmark size={30} light />
+              </button>
+              <p className="max-w-sm text-sm leading-relaxed text-[var(--text-secondary)]">
+                The AI CV screening and interview matrix engine for talent teams — compatibility
+                scores, match tables and proctored SQA test matrices on every shortlist.
+              </p>
+              <div className="flex items-center gap-3 pt-1">
+                {[
+                  { icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
+                  { icon: <Github className="h-4 w-4" />, label: "GitHub" },
+                  { icon: <Mail className="h-4 w-4" />, label: "Email" }
+                ].map((s) => (
+                  <a
+                    key={s.label}
+                    href="#home"
+                    onClick={(e) => { e.preventDefault(); scrollToSection("home"); }}
+                    className="rounded-lg glass p-2.5 text-[var(--text-secondary)] transition hover:border-[#60A5FA]/40 hover:text-[#60A5FA]"
+                    aria-label={s.label}
+                  >
+                    {s.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Offices */}
+            <div className="md:col-span-4 space-y-4">
+              <h5 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Offices</h5>
+              <div className="space-y-4 font-mono text-xs text-[var(--text-secondary)]">
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#60A5FA]" />
+                  <div>
+                    <span className="block font-bold text-[var(--text-primary)]">Huddersfield, UK</span>
+                    <span>Thornton Hills, United Kingdom</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#4DE3FF]" />
+                  <div>
+                    <span className="block font-bold text-[var(--text-primary)]">Islamabad, PK</span>
+                    <span>Sector I-8, Pakistan</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            <div className="md:col-span-3 space-y-4">
+              <h5 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">Audit newsletter</h5>
+              <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                Screening frameworks and proctoring updates, monthly.
+              </p>
+              {newsletterSuccess ? (
+                <div className="rounded-xl border border-[#4EF2BA]/30 bg-[#4EF2BA]/10 px-3 py-2.5 font-mono text-xs text-[#4EF2BA]">
+                  Registered successfully.
+                </div>
+              ) : (
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!newsletterEmail) return;
+                    try {
+                      await fetch("/api/newsletter", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: newsletterEmail })
+                      });
+                    } catch (err) {
+                      console.error("Failed to register newsletter subscription:", err);
+                    }
+                    setNewsletterSuccess(true);
+                  }}
+                  className="space-y-2"
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter email address..."
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    className="w-full rounded-xl glass px-3 py-2.5 text-sm text-[var(--text-primary)] outline-none transition placeholder:text-[var(--muted)] hover:bg-white/5 focus:border-[#60A5FA]/50"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-[#60A5FA] py-2.5 text-xs font-head font-semibold text-[#05060B] transition hover:bg-[#7FB3FF] cursor-pointer"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-between gap-4 pt-8 font-mono text-[11px] text-[var(--muted)] sm:flex-row">
+            <p>© {new Date().getFullYear()} RecruitAuditor. Bias-free screening, proctored evidence. All rights reserved.</p>
+            <div className="flex gap-4">
+              <a href="/careers" className="transition-colors hover:text-white">Careers</a>
+              <a href="/login" className="transition-colors hover:text-white">Client console</a>
+            </div>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }

@@ -423,12 +423,12 @@ export default function CandidateForm({ scenario, onChange }: CandidateFormProps
                       onChange={(e) => setNewEvent({ ...newEvent, event_type: e.target.value as any })}
                       className="mt-1 w-full bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1.5 text-xs text-[var(--text-primary)] font-sans"
                     >
-                      <option value="tab_switch">Tab Switch ⚠️</option>
-                      <option value="paste">Instant Paste 📋</option>
-                      <option value="compile">Compile Run ⚡</option>
-                      <option value="keystroke_burst">Typing Burst ✍️</option>
-                      <option value="gaze_drift">Gaze Drift 👁️</option>
-                      <option value="idle">Idle Time 💤</option>
+                      <option value="tab_switch">Tab Switch</option>
+                      <option value="paste">Instant Paste</option>
+                      <option value="compile">Compile Run</option>
+                      <option value="keystroke_burst">Typing Burst</option>
+                      <option value="gaze_drift">Gaze Drift</option>
+                      <option value="idle">Idle Time</option>
                     </select>
                   </div>
                   <div>

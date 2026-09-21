@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, Plus, Edit2, Trash2, X, Users, CheckCircle2, XCircle, Clock, AlertTriangle, Send, Cpu, FileText, Eye, BarChart3, Loader2 } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Users, CheckCircle2, XCircle, Clock, AlertTriangle, Send, Cpu, FileText, Eye, BarChart3, Loader2 } from "lucide-react";
+import { RecruitAuditorWordmark } from "./Logo";
 
 interface Client {
   id: string;
@@ -286,12 +287,10 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-col">
       <header className="border-b border-[var(--border-color)] bg-[var(--bg-card)] px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="bg-[var(--bg-primary)] border border-red-500/40 p-2 rounded-lg text-red-500 shadow-md">
-            <ShieldCheck className="w-5 h-5 animate-pulse" />
-          </div>
+          <RecruitAuditorWordmark size={34} light />
           <div>
-            <h1 className="text-base font-bold tracking-tight text-[var(--text-primary)]">ADMIN DASHBOARD</h1>
-            <p className="text-xs text-[var(--text-secondary)]">Full system control center</p>
+            <h1 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-[var(--text-primary)]">Admin Dashboard</h1>
+            <p className="text-xs font-mono text-[var(--muted)]">Full system control center</p>
           </div>
         </div>
         <button onClick={onLogout} className="bg-[var(--bg-card-hover)] border border-[var(--border-color)] hover:border-gray-500 text-[var(--text-primary)] px-3 py-1.5 rounded-lg cursor-pointer text-xs font-semibold">
@@ -341,7 +340,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-bold flex items-center gap-2"><Users className="w-5 h-5 text-red-500" /> Registered Clients</h2>
-              <button onClick={() => { setEditingId(null); setClientForm({ name: "", email: "", company: "", plan: "Starter", category: "Business", password: "", expiresAt: "" }); setShowClientForm(true); }} className="flex items-center gap-1.5 bg-gradient-to-r from-blue-900 to-red-600 text-white hover:opacity-90 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer shadow-md">
+              <button onClick={() => { setEditingId(null); setClientForm({ name: "", email: "", company: "", plan: "Starter", category: "Business", password: "", expiresAt: "" }); setShowClientForm(true); }} className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white hover:opacity-90 text-xs font-semibold py-2 px-4 rounded-lg cursor-pointer shadow-md">
                 <Plus className="w-4 h-4" /> New Client
               </button>
             </div>
@@ -437,7 +436,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <input type="datetime-local" value={clientForm.expiresAt} onChange={(e) => setClientForm({ ...clientForm, expiresAt: e.target.value })} className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] px-3 py-2 rounded-lg outline-none focus:border-red-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <button type="submit" className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90">
+                    <button type="submit" className="w-full bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90">
                       {editingId ? "Update Client" : "Register Client"}
                     </button>
                   </div>
@@ -562,7 +561,7 @@ export default function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 ))}
               </div>
 
-              <button type="submit" disabled={testCreating} className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-900 to-red-600 text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90 disabled:opacity-50">
+              <button type="submit" disabled={testCreating} className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-white text-xs font-bold py-2.5 rounded-lg cursor-pointer hover:opacity-90 disabled:opacity-50">
                 {testCreating ? <><Loader2 className="w-4 h-4 animate-spin" /> Creating Test...</> : <><Send className="w-4 h-4" /> Create Test & Send Invitation</>}
               </button>
             </form>
