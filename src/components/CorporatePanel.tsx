@@ -195,7 +195,7 @@ export default function CorporatePanel() {
         </div>
         <button
           onClick={handleSaveConfig}
-          className="flex items-center gap-1.5 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink hover:opacity-90 text-[var(--text-primary)] text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
+          className="flex items-center gap-1.5 bg-audit text-white hover:opacity-90 text-white text-xs font-semibold py-2.5 px-4 rounded-lg transition-all shadow-lg shadow-purple-900/20 cursor-pointer"
         >
           <Save className="w-3.5 h-3.5" />
           Save Changes to config.json

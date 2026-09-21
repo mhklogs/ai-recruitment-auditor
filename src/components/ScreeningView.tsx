@@ -95,7 +95,7 @@ export default function ScreeningView({ scenario, loading, onRunScreening }: Scr
               <button
                 type="button"
                 onClick={onRunScreening}
-                className="flex items-center gap-2 bg-gradient-to-r from-[#60A5FA] to-[#2F6FEB] text-ink hover:opacity-90 text-[var(--text-primary)] font-semibold text-xs py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-purple-500/10 cursor-pointer"
+                className="flex items-center gap-2 bg-audit text-white hover:opacity-90 text-white font-semibold text-xs py-3 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-purple-500/10 cursor-pointer"
               >
                 <Sparkles className="w-4 h-4" />
                 Screen Candidate Resume

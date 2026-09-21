@@ -327,7 +327,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
 
               <h1 className="mt-7 font-display text-[2rem]  leading-[1.05] leading-tight sm:text-5xl lg:text-[3.4rem]">
                 Every resume scored against{" "}
-                <span className="text-glow-audit text-[#60A5FA]">the job you actually posted.</span>
+                <span className="text-audit">the job you actually posted.</span>
               </h1>
 
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] md:text-lg">
@@ -451,7 +451,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
                   { v: "100%", l: "proctored, on-record" }
                 ].map((s) => (
                   <div key={s.l} className="text-center">
-                    <p className="font-display text-xl text-glow-white md:text-2xl">{s.v}</p>
+                    <p className="font-display md:text-2xl">{s.v}</p>
                     <p className="mt-1 text-[10px]  tracking-[0.18em] text-[var(--muted)]">{s.l}</p>
                   </div>
                 ))}
@@ -469,8 +469,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="why-us" className="border-y border-line bg-paper py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="max-w-2xl">
-            <p className="eyebrow text-[#60A5FA]">Why RecruitAuditor</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Why RecruitAuditor</p>
+            <h2 className="mt-2 font-display">
               The screening pass that fills roles, not inboxes
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)] md:text-base">
@@ -517,8 +517,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="results" className="py-20">
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center">
-            <p className="eyebrow text-[#4DE3FF]">Verified results</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Verified results</p>
+            <h2 className="mt-2 font-display">
               Measurable outcomes for talent teams
             </h2>
           </div>
@@ -527,7 +527,7 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
             <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:items-stretch">
               <div className={`rounded-2xl ${successStories[storyIndex].color} p-8 flex flex-col justify-center text-[#05060B] relative overflow-hidden`}>
                 <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-white/20 blur-2xl" />
-                <span className="font-mono text-xs font-bold  tracking-[0.2em] opacity-80">
+                <span className="font-mono text-xs font-bold opacity-80">
                   {successStories[storyIndex].logo}
                 </span>
                 <span className="mt-2 font-display text-2xl font-bold leading-tight leading-tight">
@@ -582,8 +582,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="plans" className="border-y border-line bg-paper py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="eyebrow text-[#60A5FA]">Pricing</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Pricing</p>
+            <h2 className="mt-2 font-display">
               Start free on a real resume
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -702,8 +702,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="clients" className="py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="eyebrow text-[#8F7BFF]">Talent teams</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Talent teams</p>
+            <h2 className="mt-2 font-display">
               Trust validated by hiring leads
             </h2>
           </div>
@@ -761,8 +761,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="jobs" className="border-t border-line py-20">
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="eyebrow text-[#60A5FA]">Careers board</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Careers board</p>
+            <h2 className="mt-2 font-display">
               We screen applicants the way we sell screening
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -968,8 +968,8 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
       <section id="resources" className="border-t border-line bg-paper py-20">
         <div className="mx-auto max-w-5xl px-5 md:px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="eyebrow text-[#4DE3FF]">Resource hub</p>
-            <h2 className="mt-2 font-display text-3xl  leading-tight md:text-4xl">
+            <p className="badge-label text-muted">Resource hub</p>
+            <h2 className="mt-2 font-display">
               The AI hiring & telemetry guide
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -1142,11 +1142,11 @@ export default function CorporateLanding({ onLoginRequested }: CorporateLandingP
           <div className="aurora right-[8%] bottom-0 h-72 w-72 bg-[#4DE3FF]/10" />
         </div>
         <div className="relative mx-auto max-w-4xl px-5 text-center md:px-6">
-          <p className="eyebrow text-[#60A5FA]">Go operational</p>
-          <h2 className="mt-3 font-display text-3xl  leading-tight md:text-5xl">
+          <p className="badge-label text-muted">Go operational</p>
+          <h2 className="mt-3 font-display">
             Screen a real resume tonight.
             <br />
-            <span className="text-glow-audit text-[#60A5FA]">Free, on us.</span>
+            <span className="text-audit">Free, on us.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)] md:text-base">
             One free report on the job you are hiring for today. Compatibility score, match

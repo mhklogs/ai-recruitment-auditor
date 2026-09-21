@@ -141,7 +141,7 @@ export default function AuditDashboard({ report, loading, onRunAudit, scenario }
               {loadingPhases[loadingPhase]}
             </p>
             <div className="w-48 h-1 bg-[var(--bg-card-hover)] rounded-full mx-auto overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 w-1/2 rounded-full animate-[loading-bar_1.5s_infinite_linear]"></div>
+              <div className="h-full bg from-blue-500 via-indigo-500 to-purple-500 w-1/2 rounded-full animate-[loading-bar_1.5s_infinite_linear]"></div>
             </div>
           </div>
         </div>

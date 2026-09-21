@@ -143,7 +143,7 @@ export default function CareersLanding() {
 
         <h1 className="text-4xl md:text-6xl font-display  leading-tight leading-[1.08] max-w-4xl mx-auto">
           Help build the integrity layer of{" "}
-          <span className="text-glow-audit text-[#60A5FA]">autonomous recruiting</span>
+          <span className="text-audit">autonomous recruiting</span>
         </h1>
 
         <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
@@ -184,8 +184,8 @@ export default function CareersLanding() {
       <section id="culture" className="py-24 px-6 border-t border-line bg-paper/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <p className="eyebrow text-[#60A5FA]">Culture &amp; Philosophy</p>
-            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Our core operating values</h2>
+            <p className="badge-label text-muted">Culture &amp; Philosophy</p>
+            <h2 className=" font-display  leading-tight">Our core operating values</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               We replace process overhead with absolute clarity and engineering autonomy.
             </p>
@@ -230,8 +230,8 @@ export default function CareersLanding() {
       <section id="hiring" className="py-24 px-6 border-t border-line relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <p className="eyebrow text-[#4DE3FF]">The recruitment path</p>
-            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Built on candidate trust</h2>
+            <p className="badge-label text-muted">The recruitment path</p>
+            <h2 className=" font-display  leading-tight">Built on candidate trust</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               We respect your time. The cycle is streamlined, transparent, and engineer-first.
             </p>
@@ -265,7 +265,7 @@ export default function CareersLanding() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#60A5FA]/40 bg-[#60A5FA]/10 font-mono text-xs font-bold text-[#60A5FA]">
                     {step.num}
                   </div>
-                  <div className="h-[2px] flex-1 bg-gradient-to-r from-[#60A5FA]/60 to-transparent hidden lg:block" />
+                  <div className="h-[2px] flex-1 bg-line hidden lg:block" />
                 </div>
                 <h3 className="text-sm font-bold font-mono  tracking-wider text-[var(--text-primary)]">{step.title}</h3>
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{step.text}</p>
@@ -284,8 +284,8 @@ export default function CareersLanding() {
       <section id="tech" className="py-24 px-6 border-t border-line bg-paper/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <p className="eyebrow text-[#60A5FA]">Engineering stack</p>
-            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Our production environment</h2>
+            <p className="badge-label text-muted">Engineering stack</p>
+            <h2 className=" font-display  leading-tight">Our production environment</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               Modern, fast, and secure tooling for stable software shipped rapidly.
             </p>
@@ -312,8 +312,8 @@ export default function CareersLanding() {
       <section id="apply" className="py-24 px-6 border-t border-line relative">
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="text-center space-y-4">
-            <p className="eyebrow text-[#60A5FA]">Join the mission</p>
-            <h2 className="text-3xl md:text-4xl font-display  leading-tight">Launch your application</h2>
+            <p className="badge-label text-muted">Join the mission</p>
+            <h2 className=" font-display  leading-tight">Launch your application</h2>
             <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
               No formal cover letter needed. Let your work speak for itself.
             </p>

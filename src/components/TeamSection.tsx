@@ -181,7 +181,7 @@ export default function TeamSection() {
             <span className="pulse-dot flex h-2 w-2 rounded-full bg-[#60A5FA]" />
             Our team
           </div>
-          <h3 className="text-3xl md:text-4xl font-display  leading-tight text-[var(--text-primary)]">
+          <h3 className=" font-display  leading-tight text-[var(--text-primary)]">
             The minds behind the audit engine
           </h3>
           <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed max-w-lg mx-auto">
@@ -194,7 +194,7 @@ export default function TeamSection() {
           <div className="accent-edge" />
           {stats.map((stat, idx) => (
             <div key={idx} className="text-center space-y-2 py-4 flex flex-col justify-center items-center">
-              <span className="text-3xl md:text-5xl font-display font-bold leading-tighter bg-gradient-to-r from-[#60A5FA] to-[#4DE3FF] text-transparent bg-clip-text">
+              <span className=" font-display font-bold leading-tighter bg-audit">
                 <AnimatedCounter value={stat.value} decimals={stat.decimals} suffix={stat.suffix} />
               </span>
               <span className="text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-secondary)]  font-bold">
